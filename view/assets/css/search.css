@@ -1,0 +1,196 @@
+/* -------------------------------------------------------------------- */
+/* ============================ MENU SEARCH =========================== */
+/* -------------------------------------------------------------------- */
+/* Contenedor principal */
+.div_search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 10px 15px;
+    width: 100%;
+    max-width: 640px;
+    min-width: 640px;
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    position: relative; /* Necesario para el autocompletado */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    flex-shrink: 0;
+  }
+  
+  /* Selectores desplegables */
+  .search_tipo_consola, .search_modelo_consola {
+    flex: 1 1 0%;
+    padding: 8px 35px 8px 12px;
+    border: none;
+    background: #ffffff;
+    border-radius: 12px;
+    font-size: 13px;
+    appearance: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23545454' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    cursor: pointer;
+    min-width: 120px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Campo de texto */
+  #search_ubicacion {
+    flex: 2 1 0%;
+    padding: 8px 15px;
+    border: none;
+    background: #ffffff;
+    border-radius: 12px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    min-width: 180px;
+    position: relative;
+  }
+  
+  /* Autocompletado */
+  #search_autocomplete {
+    position: absolute;
+    top: calc(100% + 5px); /* 5px debajo del input */
+    left: 15px; /* Mismo padding que el contenedor */
+    width: calc(100% - 30px); /* Ancho del input */
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 2000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  /* Elementos del autocompletado */
+  .searchElement {
+    padding: 12px 15px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  .searchElement:hover {
+    background: #fff3f1;
+    color: #e96b56;
+  }
+  
+  .searchElement:last-child {
+    border-bottom: none;
+    border-radius: 0 0 12px 12px;
+  }
+  
+  /* Efecto focus para el input */
+  #search_ubicacion:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(233, 107, 86, 0.3);
+  }
+  
+  /* Botón de búsqueda */
+  #search_btn {
+    flex-shrink: 0;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    background: #e96b56;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-size: 13px;
+    width: auto;
+  }
+  
+  /* Efecto hover botón */
+  #search_btn:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 3px 8px rgba(233, 107, 86, 0.4);
+    background: #e6533a;
+  }
+  
+  /* Resto de estilos (selects, opciones, etc) */
+  .search_tipo_consola option, .search_modelo_consola option {
+    padding: 10px 15px;
+    background: #ffffff;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  
+  .search_tipo_consola option:checked, 
+  .search_modelo_consola option:checked {
+    background: #fff3f1;
+    color: #e96b56;
+    font-weight: 500;
+    border-radius: 6px;
+    margin: 2px;
+  }
+  
+  .search_tipo_consola option[selected], 
+  .search_modelo_consola option[selected] {
+    background: #ffffff;
+    color: #333;
+  }
+  
+  .search_tipo_consola option[disabled][selected], 
+  .search_modelo_consola option[disabled][selected] {
+    color: #999;
+    font-style: italic;
+    background: #ffffff;
+  }
+  
+  .search_tipo_consola option:hover, 
+  .search_modelo_consola option:hover {
+    background: #f8f8f8 !important;
+  }
+  
+  .search_tipo_consola option[disabled], 
+  .search_modelo_consola option[disabled] {
+    color: #aaa;
+    background: #ffffff;
+  }
+  
+  /* Efectos hover generales */
+  .search_tipo_consola:hover, .search_modelo_consola:hover,
+  #search_ubicacion:hover, #search_btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Efectos focus */
+  .search_tipo_consola:focus, .search_modelo_consola:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(233, 107, 86, 0.3);
+  }
+  
+  /* Placeholder */
+  #search_ubicacion::placeholder {
+    color: #7a7a7a;
+    opacity: 1;
+  }
+  
+  /* Efecto activo botón */
+  #search_btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }

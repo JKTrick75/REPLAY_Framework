@@ -1,0 +1,101 @@
+<div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+		<div class="login-form">
+
+			<form id="login_form" method="post">
+				<div class="sign-in-htm">
+					<div class="group">
+						<label for="user" class="label">Username or Email</label>
+						<input id="username" name="username" type="text" class="input" required>
+						<font color="red">
+							<span id="error_username" class="error"></span>
+						</font>
+					</div>
+					<div class="group">
+						<label for="pass" class="label">Password</label>
+						<input id="pass" name="password" type="password" class="input" data-type="password" required>
+						<font color="red">
+							<span id="error_password" class="error"></span>
+						</font>
+					</div>
+					<div class="hr"></div>
+					<div class="group">
+						<input type="button" class="button" id="button_login" value="Sign In">
+					</div>
+					<div class="social_login">
+						<div class="google_login" id="google">
+							<img class="google_img"/>
+							<h4 class="google_title">Google</h4>
+						</div>
+						<div class="github_login" id="github">
+							<img class="github_img"/>
+							<h4 class="github_title">Git Hub</h4>
+						</div>
+					</div>
+					<div class="hr"></div>
+					<div class="foot-lnk">
+						<label id="forget_pass">Forgot Password?</label>
+					</div>
+				</div>
+			</form>
+
+			<form id="register_form" method="post">
+				<div class="sign-up-htm" id="sign-up-htm">
+					<div class="group">
+						<label for="username_reg" class="label">Username</label>
+						<input id="username_reg" name="username_reg" type="text" class="input">
+						<font color="red">
+							<span id="error_username_reg" class="error"></span>
+						</font>
+					</div>
+					<div class="group">
+						<label for="pass_reg" class="label">Password</label>
+						<input id="pass_reg" name="pass_reg" type="password" class="input" data-type="password">
+						<font color="red">
+							<span id="error_password_reg" class="error"></span>
+						</font>
+					</div>
+					<div class="group">
+						<label for="pass_reg_2" class="label">Repeat Password</label>
+						<input id="pass_reg_2" type="password" class="input" data-type="password">
+						<font color="red">
+							<span id="error_password_reg_2" class="error"></span>
+						</font>
+					</div>
+					<div class="group">
+						<label for="email_reg" class="label">Email Address</label>
+						<input id="email_reg" name="email_reg" type="text" class="input">
+						<font color="red">
+							<span id="error_email_reg" class="error"></span>
+						</font>
+					</div>
+					<div class="group">
+						<input type="button" class="button" id="button_register" value="Sign Up">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="forget_html">
+	<form id="recover_email_form" method="post">
+		<h1>Recover Password</h1>
+		<div class="forget">
+			<div class="email_recover">
+				<label for="email_forg" class="label">Email Address: </label>
+				<br>
+				<input id="email_forg" name="email_forg" type="text" class="input" placeholder="example@gmail.com">
+				<font color="red">
+					<br>
+					<span id="error_email_forg" class="error"></span>
+				</font>
+			</div>
+			<div class="button_forget">
+				<input type="button" class="button" id="button_recover" value="Send email">
+			</div>
+		</div>
+	</form>
+</div>
