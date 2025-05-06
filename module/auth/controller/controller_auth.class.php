@@ -1,8 +1,8 @@
 <?php
-    class controller_login {
+    class controller_auth {
 
         function view() {
-            echo json_encode('Hola controller_login view :D');
+            echo json_encode('Hola controller_auth view :D');
             exit;
             // common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
         }

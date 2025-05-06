@@ -1,12 +1,14 @@
 <?php
     class controller_home {
         function view() {
-            echo json_encode('Hola controller_home view :D');
-            exit;
-            common::load_view('top_page_home.html', VIEW_PATH_HOME . 'home.html');
+            // echo json_encode('Hola controller_home view :D');
+            // exit;
+            common::load_view('top_page.html', VIEW_PATH_HOME . 'home.html');
         }
 
         function carrusel() {
+            echo json_encode('Hola controller_home carrusel :D');
+            exit;
             echo json_encode(common::load_model('home_model', 'get_carrusel'));
         }
 

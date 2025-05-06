@@ -1,0 +1,76 @@
+<main class="main">
+    <!-- LOGIN SECTION -->
+    <section id="login_section" class="login_section">
+        <div class="container__shop section-title" data-aos="fade-up">
+
+            <!-- LOGIN -->
+            <div class="login_auth">
+                <h2>Inicio sesión</h2>
+                <form id="login__form" method="POST">
+                    <div class="sign-in-htm">
+                        <!-- Username/email -->
+                        <div class="group">
+                            <input id="user_log" type="text" class="input" name="user_log" placeholder="Usuario o email">
+                            <span id="error_user_log" class="error"></span>
+                        </div>
+                        <!-- Contraseña -->
+                        <div class="group">
+                            <input id="passwd_log" type="password" class="input" name="passwd_log" placeholder="Contraseña">
+                            <span id="error_passwd_log" class="error"></span>
+                        </div>
+                        <!-- Enviar login -->
+                        <div class="group">
+                            <input type="submit" id="login" class="button" value="Entrar">
+                        </div>
+                        <!-- Toggle register -->
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <span>¿No tienes una cuenta?</span>
+                            <a href="#" class="toggle_auth_login">Regístrate</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- REGISTER -->
+            <div class="register_auth">
+                <h2>Regístrate</h2>
+                <form id="register__form" method="post">
+                    <div class="sign-up-htm">
+                        <!-- Username -->
+                        <div class="group">
+                            <input id="username_reg" type="text" class="input" name="username_reg" placeholder="Nombre de usuario">
+                            <span id="error_username_reg" class="error"></span>
+                        </div>
+                        <!-- Email -->
+                        <div class="group">
+                            <input id="email_reg" type="email" class="input" name="email_reg" placeholder="Email">
+                            <span id="error_email_reg" class="error"></span>
+                        </div>
+                        <!-- Contraseña 1 -->
+                        <div class="group">
+                            <input id="passwd1_reg" type="password" class="input" name="passwd1_reg" placeholder="Contraseña">
+                            <span id="error_passwd1_reg" class="error"></span>
+                        </div>
+                        <!-- Contraseña 2 -->
+                        <div class="group">
+                            <input id="passwd2_reg" type="password" class="input" name="passwd2_reg" placeholder="Repite la contraseña">
+                            <span id="error_passwd2_reg" class="error"></span>
+                        </div>
+                        <!-- Enviar registro -->
+                        <div class="group">
+                            <input type="submit" id="register" class="button" value="Registrarse">
+                        </div>
+                        <!-- Toggle login -->
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <span>¿Ya tienes una cuenta?</span>
+                            <a href="#" class="toggle_auth_register">Iniciar sesión</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+</main>

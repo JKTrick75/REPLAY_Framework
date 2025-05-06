@@ -1,14 +1,17 @@
 <?php
 
-    require 'autoload.php';
+    // require 'autoload.php';
     
-    // $path = $_SERVER['DOCUMENT_ROOT'] . '/Ejercicios/Framework_PHP_OO_MVC/';
-    // include($path . "utils/common.inc.php");
-    // include($path . "utils/mail.inc.php");
-    // include($path . "paths.php");
+    $path = $_SERVER['DOCUMENT_ROOT'] . '/REPLAY_Framework/';
+    include($path . "utils/common.inc.php");
+    //include($path . "utils/mail.inc.php");
+    include($path . "paths.php");
 
-    ob_start();
-    session_start();
+    include($path . "module/home/model/BLL/home_bll.class.singleton.php");
+    include($path . "module/home/model/DAO/home_dao.class.singleton.php");
+
+    // ob_start();
+    // session_start();
 
     class router {
         private $uriModule;
@@ -34,6 +37,9 @@
             }else{
                 $this -> uriFunction = 'view';
             }
+            // echo json_encode($_GET['module']);
+            // echo json_encode($_GET['op']);
+            // exit;
         }
     
         function routingStart() {
@@ -50,11 +56,21 @@
                 foreach ($modules as $row) {
                     if (in_array($this -> uriModule, (Array) $row -> uri)) {
                         $path = MODULES_PATH . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.php';
+
+                        // echo json_encode($path);
+                        // exit;
+
                         if (file_exists($path)) {
                             require_once($path);
                             $controllerName = 'controller_' . (String) $row -> name;
                             $this -> nameModule = (String) $row -> name;
+
+                            // echo json_encode($this -> nameModule);
+                            // exit;
+
                             return new $controllerName;
+
+                            
                         }
                     }
                 }
