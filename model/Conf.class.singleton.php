@@ -8,10 +8,10 @@
 
         private function __construct() {
             $cnfg = parse_ini_file(UTILS."db.ini");
-            $this->_userdb = $cnfg['user'];
-            $this->_passdb = $cnfg['pass'];
-            $this->_hostdb = $cnfg['host'];
-            $this->_db = $cnfg['db'];
+            $this->_userdb = $cnfg['DB_USER'];
+            $this->_passdb = $cnfg['DB_PASSWORD'];
+            $this->_hostdb = $cnfg['DB_HOST'];
+            $this->_db = $cnfg['DB'];
         }
 
         private function __clone() {

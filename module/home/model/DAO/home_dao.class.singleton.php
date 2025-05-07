@@ -12,6 +12,29 @@
             return self::$_instance;
         }
 
+        // public function select_get_categories() {
+        //     return 'hola select_get_categories HOME';
+        //     $sql = "SELECT * FROM categoria";
+
+        //     $stmt = $db -> ejecutar($sql);
+        //     return $db -> listar($stmt);
+        // }
+
+        public function select_get_categories($db) {
+            // return 'hola select_get_categories HOME';
+            $sql = "SELECT * FROM categoria";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar($stmt);
+        }
+
+
+
+
+
+
+
+
         public function select_data_carrusel($db) {
 
             $sql = "SELECT * FROM brand LIMIT 6";

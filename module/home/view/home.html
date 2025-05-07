@@ -1,31 +1,157 @@
-Hola
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <!-- START Carousel -->
+      <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-item active">
+          <img src="view/assets/img/hero-carousel/halo-5.webp" alt="" />
+          <div class="carousel-container">
+            <h2>Bienvenido a <span>Replay</span></h2><br><br>
+            <a href="index.php?page=aboutus" class="btn-get-started">Sobre nosotros</a>
+          </div>
+        </div>
+        <!-- End Carousel Item 1 -->
+  
+        <div class="carousel-item">
+          <img src="view/assets/img/hero-carousel/hero-carrousel2.jpg" alt="" />
+          <div class="carousel-container">
+            <h2>Mira nuestro catálogo</h2><br><br>
+            <a href="index.php?page=controller_shop&op=list" class="btn-get-started">Nuestra tienda</a>
+          </div>
+        </div>
+        <!-- End Carousel Item 2 -->
+  
+        <div class="carousel-item">
+          <img src="view/assets/img/hero-carousel/hero-carrousel3.jpg" alt="" />
+          <div class="carousel-container">
+            <h2>Puedes vender tus consolas!</h2><br><br>
+            <a href="index.php?page=aboutus" class="btn-get-started">Vender</a>
+          </div>
+        </div>
+        <!-- End Carousel Item 3 -->
+  
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+  
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+      </div>
+      <!-- END Carousel -->
+  
+      <div class="featured container">
+        <div class="row gy-4">
+          <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="featured-item position-relative">
+              <div class="icon">
+                <i class="bi bi-controller icon"></i>
+              </div>
+  
+              <h4><a href="index.php?page=controller_shop&op=list" class="stretched-link">Explora las ofertas</a></h4>
+              <p>
+                Cada día nuevas publicaciones de consolas y videojuegos a precios que no podrás resistir.
+              </p>
+            </div>
+          </div>
+          <!-- End Featured Item -->
+  
+          <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="featured-item position-relative">
+              <div class="icon">
+                <i class="bi bi-stars icon"></i>
+              </div>
+              <h4><a href="index.php?page=controller_shop&op=list" class="stretched-link">Exclusivas</a></h4>
+              <p>
+                Productos de calidad y en perfecto estado para los más exigentes.
+              </p>
+            </div>
+          </div>
+          <!-- End Featured Item -->
+  
+          <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
+            <div class="featured-item position-relative">
+              <div class="icon"><i class="bi bi-joystick icon"></i></div>
+              <h4><a href="index.php?page=controller_shop&op=list" class="stretched-link">Últimas publicaciones</a></h4>
+              <p>
+                No te pierdas las últimas publicaciones de consolas y videojuegos.
+              </p>
+            </div>
+          </div>
+          <!-- End Featured Item -->
+        </div>
+      </div>
+    </section>
+    <!-- /Hero Section -->
+  
+    <!-- CARDS SECTION -->
+    <section id="cards_products" class="cards_products">
+      <!-- CATEGORY CARDS -->
+      <div id="cards_categories" class="cards_categories">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Busca lo que te interesa</h2>
+          <div class="row" id="categories"></div> <!-- Aquí se insertan las categorías -->
+        </div>
+      </div>
+      <!-- ÚLTIMAS NOVEDADES! -->
+      <div id="carousel__productos_new" class="carousel__container">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Últimos productos añadidos</h2>
+          <div class="carousel__new__productos"></div> <!-- Aquí se insertan los productos -->
+        </div>
+      </div>
+      <!-- MARCAS CARDS -->
+      <div id="cards_marcas" class="cards_marcas">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Nuestras marcas más importantes</h2>
+          <div class="row" id="marcas"></div> <!-- Aquí se insertan las marcas -->
+        </div>
+      </div>
+      <!-- TIPO_CONSOLAS CARDS -->
+      <div id="cards_consola" class="cards_consola">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Consolas más vendidas</h2>
+          <div class="row" id="tipo_consola"></div> <!-- Aquí se insertan las consolas -->
+        </div>
+      </div>
+      <!-- Más populares -->
+      <div id="carousel__productos_popular" class="carousel__container">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Nuestros productos más populares</h2>
+          <div class="carousel__popular__productos"></div> <!-- Aquí se insertan los productos -->
+        </div>
+      </div>
+      <!-- CARRUSEL CIUDAD -->
+      <div id="carousel__ciudades" class="carousel__container">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Ubicación</h2>
+          <div class="carousel__list__ciudades" style="text-align: center;"></div> <!-- Aquí se insertan las ciudades -->
+  
+          <button class="carousel__prev prev_ciudades">
+            <i class='bx bx-chevron-left'></i>
+          </button>
+  
+          <button class="carousel__next next_ciudades">
+            <i class='bx bx-chevron-right'></i>
+          </button>
+        </div>
+        <div role="tablist" class="carousel__dots__ciudad"></div>
+      </div>
+      <!-- ESTADOS CARDS -->
+      <div id="cards_estado" class="cards_estado">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>¿Que es lo que buscas?</h2>
+          <div class="row" id="estado"></div> <!-- Aquí se insertan los estados -->
+        </div>
+      </div>
+      <!-- TIPO_VENTA CARDS -->
+      <div id="cards_tipo_venta" class="cards_tipo_venta">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>¿Como quieres recibirlo?</h2>
+          <div class="row" id="tipo_venta"></div>  <!-- Aquí se insertan los tipos de venta -->
+        </div>
+      </div>
+  
+    </section>
+    <!-- /CARDS SECTION -->
+  </main>

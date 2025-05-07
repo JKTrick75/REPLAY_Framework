@@ -5,6 +5,10 @@
         <uri>view</uri>
     </function>
     <function>
+        <name>get_categories</name>
+        <uri>get_categories</uri>
+    </function>
+    <function>
         <name>carrusel</name>
         <uri>carrusel</uri>
     </function>

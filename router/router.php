@@ -9,6 +9,7 @@
 
     include($path . "module/home/model/BLL/home_bll.class.singleton.php");
     include($path . "module/home/model/DAO/home_dao.class.singleton.php");
+    include($path . "model/db.class.singleton.php");
 
     // ob_start();
     // session_start();
@@ -69,8 +70,6 @@
                             // exit;
 
                             return new $controllerName;
-
-                            
                         }
                     }
                 }
