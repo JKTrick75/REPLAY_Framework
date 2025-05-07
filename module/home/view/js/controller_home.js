@@ -1,6 +1,6 @@
 //Tarjetas categorias
 function loadCategories() {
-    ajaxPromise('?module=home&op=get_categories', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=get_categories', 'GET', 'JSON')
         .then(function (data) {
             console.log(data);
             var categories = "";
@@ -28,7 +28,7 @@ function loadCategories() {
 
 //Carrousel productos nuevos
 function carrousel_Productos_New() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=Carrousel_Productos_New', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=Carrousel_Productos_New', 'GET', 'JSON')
         .then(function (data) {
             for (row in data) {
                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_producto).appendTo(".carousel__new__productos")
@@ -57,7 +57,7 @@ function carrousel_Productos_New() {
 
 //Tarjetas marcas
 function loadMarcas() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=get_marcas', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=get_marcas', 'GET', 'JSON')
         .then(function (data) {
             var marcas = "";
 
@@ -84,7 +84,7 @@ function loadMarcas() {
 
 //Tarjetas tipo_consola
 function loadTipoConsola() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=get_tipo_consola', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=get_tipo_consola', 'GET', 'JSON')
         .then(function (data) {
             var tipo_consola = "";
 
@@ -111,7 +111,7 @@ function loadTipoConsola() {
 
 //Carrousel productos más populares
 function carrousel_Productos_Populares() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=Carrousel_Populares', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=Carrousel_Populares', 'GET', 'JSON')
         .then(function (data) {
             // console.log(data);
             for (row in data) {
@@ -141,7 +141,7 @@ function carrousel_Productos_Populares() {
 
 //Carrousel ciudades
 function carrousel_Ciudades() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=Carrousel_Ciudades', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=Carrousel_Ciudades', 'GET', 'JSON')
         .then(function (data) {
             for (row in data) {
                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_ciudad).appendTo(".carousel__list__ciudades")
@@ -173,7 +173,7 @@ function carrousel_Ciudades() {
 
 //Tarjetas estado
 function loadEstado() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=get_estado', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=get_estado', 'GET', 'JSON')
         .then(function (data) {
             var estado = "";
 
@@ -200,7 +200,7 @@ function loadEstado() {
 
 //Tarjetas tipo_venta
 function loadTipoVenta() {
-    ajaxPromise('module/home/controller/controller_homepage.php?op=get_tipo_venta', 'GET', 'JSON')
+    ajaxPromise('index.php?module=home&op=get_tipo_venta', 'GET', 'JSON')
         .then(function (data) {
             var tipo_venta = "";
 
@@ -343,13 +343,13 @@ function clicks(){
 
 $(document).ready(function () {
     loadCategories();
-    // carrousel_Productos_New();
-    // loadMarcas();
-    // loadTipoConsola();
-    // carrousel_Productos_Populares();
-    // carrousel_Ciudades();
-    // loadEstado();
-    // loadTipoVenta();
+    carrousel_Productos_New();
+    loadMarcas();
+    loadTipoConsola();
+    carrousel_Productos_Populares();
+    carrousel_Ciudades();
+    loadEstado();
+    loadTipoVenta();
     // clicks();
     console.log("Bienvenido al Home!");
 });

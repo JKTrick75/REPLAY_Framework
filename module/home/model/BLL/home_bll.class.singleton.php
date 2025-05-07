@@ -26,6 +26,35 @@
 			// return $this -> dao -> select_get_categories();
 		}
 
+		public function Carrousel_Productos_New_BLL() {
+			// return 'hola Carrousel_Productos_New HOME';
+			return $this -> dao -> select_Carrousel_Productos_New($this -> db);
+		}
+
+		public function get_marcas_BLL() {
+			return $this -> dao -> select_get_marcas($this -> db);
+		}
+
+		public function get_tipo_consola_BLL() {
+			return $this -> dao -> select_get_tipo_consola($this -> db);
+		}
+
+		public function Carrousel_Populares_BLL() {
+			return $this -> dao -> select_Carrousel_Populares($this -> db);
+		}
+
+		public function Carrousel_Ciudades_BLL() {
+			return $this -> dao -> select_Carrousel_Ciudades($this -> db);
+		}
+
+		public function get_estado_BLL() {
+			return $this -> dao -> select_get_estado($this -> db);
+		}
+
+		public function get_tipo_venta_BLL() {
+			return $this -> dao -> select_get_tipo_venta($this -> db);
+		}
+
 
 
 

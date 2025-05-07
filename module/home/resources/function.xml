@@ -9,6 +9,34 @@
         <uri>get_categories</uri>
     </function>
     <function>
+        <name>Carrousel_Productos_New</name>
+        <uri>Carrousel_Productos_New</uri>
+    </function>
+    <function>
+        <name>get_marcas</name>
+        <uri>get_marcas</uri>
+    </function>
+    <function>
+        <name>get_tipo_consola</name>
+        <uri>get_tipo_consola</uri>
+    </function>
+    <function>
+        <name>Carrousel_Populares</name>
+        <uri>Carrousel_Populares</uri>
+    </function>
+    <function>
+        <name>Carrousel_Ciudades</name>
+        <uri>Carrousel_Ciudades</uri>
+    </function>
+    <function>
+        <name>get_estado</name>
+        <uri>get_estado</uri>
+    </function>
+    <function>
+        <name>get_tipo_venta</name>
+        <uri>get_tipo_venta</uri>
+    </function>
+    <function>
         <name>carrusel</name>
         <uri>carrusel</uri>
     </function>
