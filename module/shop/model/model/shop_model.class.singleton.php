@@ -21,6 +21,14 @@
             return $this -> bll -> get_all_products_BLL($args);
         }
 
+        public function count_popularity($args) {
+            return $this -> bll -> count_popularity_BLL($args);
+        }
+
+        public function get_details($args) {
+            return $this -> bll -> get_details_BLL($args);
+        }
+
 
 
 

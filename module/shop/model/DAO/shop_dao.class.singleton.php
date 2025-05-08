@@ -51,6 +51,111 @@
             return $result;
         }
 
+        public function select_count_popularity($db, $id) {
+
+            $sql = "UPDATE producto
+					SET popularidad = popularidad + 1
+					WHERE id_producto = '$id'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+
+        //DETAILS
+        function select_details($db, $id){
+
+            $sql = "SELECT
+                        p.id_producto,
+                        p.nom_producto, 
+                        p.precio, 
+                        p.color, 
+                        p.fecha_publicacion, 
+                        p.fecha_ult_mod,
+                        p.capacidad, 
+                        p.incluye_mando, 
+                        p.incluye_cargador, 
+                        p.incluye_juegos,
+                        p.observaciones,
+                        m.nom_marca, 
+                        e.nom_estado, 
+                        ci.nom_ciudad, 
+                        mc.nom_modelo_consola,
+                        tc.nom_tipo_consola, 
+                        tm.nom_tipo_merchandising, 
+                        ta.nom_tipo_accesorio,
+                        p.lat,
+                        p.long,
+                        p.marca,
+                        p.tipo_consola,
+                        p.modelo_consola,
+                        p.ciudad,
+                        p.count_likes
+                    FROM producto p
+                    INNER JOIN marca m ON p.marca = m.id_marca
+                    INNER JOIN estado e ON p.estado = e.id_estado
+                    INNER JOIN ciudad ci ON p.ciudad = ci.id_ciudad
+                    LEFT JOIN tipo_consola tc ON p.tipo_consola = tc.id_tipo_consola
+                    LEFT JOIN modelo_consola mc ON p.modelo_consola = mc.id_modelo_consola
+                    LEFT JOIN tipo_merchandising tm ON p.tipo_merchandising = tm.id_tipo_merchandising
+                    LEFT JOIN tipo_accesorio ta ON p.tipo_accesorio = ta.id_tipo_accesorio
+                    WHERE p.id_producto = '$id';";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        function select_images($db, $id){
+
+            $sql = "SELECT *
+                    FROM img_producto
+                    WHERE id_producto = '$id';";
+
+            $stmt = $db->ejecutar($sql);
+
+            $imgArray = array();
+			if (mysqli_num_rows($stmt) > 0) {
+				foreach ($stmt as $row) {
+					array_push($imgArray, $row);
+				}
+			}
+			return $imgArray;
+        }
+
+        function select_sales($db, $id){
+
+            $sql = "SELECT tv.nom_tipo_venta, tv.img_tipo_venta
+                    FROM tipo_venta_producto tp INNER JOIN tipo_venta tv
+                    ON tp.id_tipo_venta = tv.id_tipo_venta
+                    WHERE id_producto = '$id';";
+
+            $stmt = $db->ejecutar($sql);
+
+            $imgArray = array();
+			if (mysqli_num_rows($stmt) > 0) {
+				foreach ($stmt as $row) {
+					array_push($imgArray, $row);
+				}
+			}
+			return $imgArray;
+        }
+
+        public function select_get_details($db, $id){
+
+            $details = self::select_details($db, $id);
+            $images = self::select_images($db, $id);
+            $sales = self::select_sales($db, $id);
+
+            $rdo = array();
+            $rdo[0] = $details;
+            $rdo[1][] = $images;
+            $rdo[2][] = $sales;
+
+            return $rdo;
+            // return $db->listar($array);
+            // return $db->listar($rdo);
+        }
+
 
 
 
@@ -71,7 +176,7 @@
             return $db->listar($stmt);
         }
 
-        function select_details($db, $id){
+        function select_details_backup($db, $id){
 
             $sql = "SELECT c.*, b.*, t.*, ct.* FROM cars c INNER JOIN brand b INNER JOIN type t INNER JOIN category ct ON c.brand = b.cod_brand "
             . "AND c.type = t.cod_type AND c.category = ct.cod_category WHERE c.id = '$id'";

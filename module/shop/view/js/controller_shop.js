@@ -893,7 +893,7 @@ function load_map_details(data) {
     $('#container_map_details').empty();
 
     //Recogemos datos
-    var position = [parseFloat(data[0].lat),  parseFloat(data[0].long)];
+    var position = [parseFloat(data[0][0].lat),  parseFloat(data[0][0].long)];
 
     //Inicializamos mapa
     map_details = L.map('container_map_details').setView(position, 16);
@@ -965,7 +965,7 @@ function load_markers(data) {
 
 //Cargamos marcador details
 function load_markers_details(data) {
-    var position = [parseFloat(data[0].lat),  parseFloat(data[0].long)];
+    var position = [parseFloat(data[0][0].lat),  parseFloat(data[0][0].long)];
     // console.log(data);
 
     //Creamos los iconos del marcador
@@ -977,7 +977,7 @@ function load_markers_details(data) {
         popupAnchor: [0, -70]    // Posición del popup
     });
 
-    L.marker(position, {icon: marker_icon}).addTo(map_details).bindPopup(data[0].nom_producto);
+    L.marker(position, {icon: marker_icon}).addTo(map_details).bindPopup(data[0][0].nom_producto);
 }
 
 /* ============================================================================================ */
@@ -986,9 +986,9 @@ function load_markers_details(data) {
 
 //Cargamos detalles del producto
 function loadDetails(id_producto) {
-    ajaxPromise('module/shop/controller/controller_shop.php?op=get_details&id=' + id_producto, 'GET', 'JSON')
+    ajaxPromise('index.php?module=shop&op=get_details', 'POST', 'JSON', { 'id_producto': id_producto })
         .then(function (data) {
-            // console.log(data);
+            console.log(data);
             window.scrollTo(0, 0); //Mover la pantalla arriba del todo
 
             $('.list_product_shop').empty();
@@ -1009,55 +1009,55 @@ function loadDetails(id_producto) {
             }
 
             //Apartado detalles producto
-            $('<div></div>').attr({ 'id': data[0].id_producto, class: 'detalles_producto_dentro' }).appendTo('.detalles_producto')
+            $('<div></div>').attr({ 'id': data[0][0].id_producto, class: 'detalles_producto_dentro' }).appendTo('.detalles_producto')
             .html(
             "<div class='list_product_details'>" +
                 "<div class='product-info_details'>" +
                 "<div class='product-content_details'>" +
                     "<div class='header-details'>" +
-                        "<h1><b>" + data[0].nom_producto + "</b></h1>" +
+                        "<h1><b>" + data[0][0].nom_producto + "</b></h1>" +
                         //Botón like
-                        "<p class='count_likes'><a class='details__heart' id='" + data[0].id_producto + "'>" +
-                            "<i id='" + data[0].id_producto + "' class='fa-solid fa-heart fa-lg'></i>" +
+                        "<p class='count_likes'><a class='details__heart' id='" + data[0][0].id_producto + "'>" +
+                            "<i id='" + data[0][0].id_producto + "' class='fa-solid fa-heart fa-lg'></i>" +
                         "</a>"+
-                        "("+data[0].count_likes+")</p>" +
+                        "("+data[0][0].count_likes+")</p>" +
                     "</div>" +
                     "<hr class='hr-shop'>" +
                     "<h3>Especificaciones generales:</h3>" +
                     "<table id='table-shop'>" +
                         "<tr>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-sack-dollar fa-2xl'></i> &nbsp; Precio inicial: " + data[0].precio + "€</td>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-palette fa-2xl'></i> &nbsp; Color: " + data[0].color + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-sack-dollar fa-2xl'></i> &nbsp; Precio inicial: " + data[0][0].precio + "€</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-palette fa-2xl'></i> &nbsp; Color: " + data[0][0].color + "</td>" +
                         "</tr>" +
                         "<tr>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-box fa-2xl'></i> &nbsp; Capacidad: " + (data[0].capacidad ? data[0].capacidad : "N/A") + "</td>" +
-                            "<td> <i id='col-ico' class='fa-brands fa-bandcamp fa-2xl'></i> &nbsp; Marca: " + data[0].nom_marca + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-box fa-2xl'></i> &nbsp; Capacidad: " + (data[0][0].capacidad ? data[0][0].capacidad : "N/A") + "</td>" +
+                            "<td> <i id='col-ico' class='fa-brands fa-bandcamp fa-2xl'></i> &nbsp; Marca: " + data[0][0].nom_marca + "</td>" +
                         "</tr>" +
                         "<tr>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-certificate fa-2xl'></i> &nbsp; Estado: " + data[0].nom_estado + "</td>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-map-location-dot fa-2xl'></i> &nbsp; Ciudad: " + data[0].nom_ciudad + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-certificate fa-2xl'></i> &nbsp; Estado: " + data[0][0].nom_estado + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-map-location-dot fa-2xl'></i> &nbsp; Ciudad: " + data[0][0].nom_ciudad + "</td>" +
                         "</tr>" +
                     "</table>" +
                         "<hr class='hr-shop'>" +
                         "<h3>Fechas:</h3>" +
                         "<table id='table-shop'>" +
                         "<tr>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-calendar-days fa-2xl'></i> &nbsp; Fecha publicación: " + data[0].fecha_publicacion + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-calendar-days fa-2xl'></i> &nbsp; Fecha publicación: " + data[0][0].fecha_publicacion + "</td>" +
                         "</tr>" +
                         "<tr>" +
-                            "<td> <i id='col-ico' class='fa-solid fa-calendar-days fa-2xl'></i> &nbsp; Última modificación: " + data[0].fecha_ult_mod + "</td>" +
+                            "<td> <i id='col-ico' class='fa-solid fa-calendar-days fa-2xl'></i> &nbsp; Última modificación: " + data[0][0].fecha_ult_mod + "</td>" +
                         "</tr>" +
                     "</table>" +
                     "<hr class='hr-shop'>" +
                     "<h3>Observaciones:</h3>" +
-                    "<p>"+data[0].observaciones+"</p>" +
+                    "<p>"+data[0][0].observaciones+"</p>" +
                 "</div>" +
                 "</div>" +
             "</div>"
             );
 
             //Apartado detalles extra
-            $('<div></div>').attr({ 'id': data[0].id_producto, class: 'detalles_producto_dentro' }).appendTo('.detalles_extra')
+            $('<div></div>').attr({ 'id': data[0][0].id_producto, class: 'detalles_producto_dentro' }).appendTo('.detalles_extra')
             .html(
                 "<div class='list_product_details'>" +
                     "<div class='product-info_details'>" +
@@ -1066,18 +1066,18 @@ function loadDetails(id_producto) {
                             "<hr class=hr-shop>" +
                             "<table id='table-shop'>"+
                                 "<tr>" +
-                                    "<td> <i class='bi bi-controller' style='font-size: 2rem'></i> &nbsp; Incluye mando: " + (data[0].incluye_mando === 'true' ? "Sí" : "No") + "</td>" +
-                                    "<td> <i class='bi bi-dpad' style='font-size: 2rem'></i> &nbsp; Tipo consola: " + (data[0].nom_tipo_consola ? data[0].nom_tipo_consola : "N/A") + "</td>" +
-                                    "<td> <i class='bi bi-dpad' style='font-size: 2rem'></i> &nbsp; Modelo consola: " + (data[0].nom_modelo_consola ? data[0].nom_modelo_consola : "N/A") + "</td>" +    
+                                    "<td> <i class='bi bi-controller' style='font-size: 2rem'></i> &nbsp; Incluye mando: " + (data[0][0].incluye_mando === 'true' ? "Sí" : "No") + "</td>" +
+                                    "<td> <i class='bi bi-dpad' style='font-size: 2rem'></i> &nbsp; Tipo consola: " + (data[0][0].nom_tipo_consola ? data[0][0].nom_tipo_consola : "N/A") + "</td>" +
+                                    "<td> <i class='bi bi-dpad' style='font-size: 2rem'></i> &nbsp; Modelo consola: " + (data[0][0].nom_modelo_consola ? data[0][0].nom_modelo_consola : "N/A") + "</td>" +    
                                 "</tr>" +
                                 "<tr>" +
-                                    "<td> <i class='bi bi-plug' style='font-size: 2rem'></i> &nbsp; Incluye cargador: " + (data[0].incluye_cargador === 'true' ? "Sí" : "No") + "</td>" +
-                                    "<td> <i class='bi bi-plus-square' style='font-size: 2rem'></i></i> &nbsp; Tipo accesorio: " + (data[0].nom_tipo_accesorio ? data[0].nom_tipo_accesorio : "N/A") + "</td>" +
+                                    "<td> <i class='bi bi-plug' style='font-size: 2rem'></i> &nbsp; Incluye cargador: " + (data[0][0].incluye_cargador === 'true' ? "Sí" : "No") + "</td>" +
+                                    "<td> <i class='bi bi-plus-square' style='font-size: 2rem'></i></i> &nbsp; Tipo accesorio: " + (data[0][0].nom_tipo_accesorio ? data[0][0].nom_tipo_accesorio : "N/A") + "</td>" +
                                     "<td> </td>"+                                                
                                 "</tr>" +
                                 "<tr>" +
-                                    "<td> <i class='bi bi-joystick' style='font-size: 2rem'></i> &nbsp; Incluye juegos: " + (data[0].incluye_juegos === 'true' ? "Sí" : "No") + "</td>" + 
-                                    "<td> <i class='bi bi-boxes' style='font-size: 2rem'></i> &nbsp; Tipo merchandising: " + (data[0].nom_tipo_merchandising ? data[0].nom_tipo_merchandising : "N/A") + "</td>" +
+                                    "<td> <i class='bi bi-joystick' style='font-size: 2rem'></i> &nbsp; Incluye juegos: " + (data[0][0].incluye_juegos === 'true' ? "Sí" : "No") + "</td>" + 
+                                    "<td> <i class='bi bi-boxes' style='font-size: 2rem'></i> &nbsp; Tipo merchandising: " + (data[0][0].nom_tipo_merchandising ? data[0][0].nom_tipo_merchandising : "N/A") + "</td>" +
                                     "<td> </td>"+
                                 "</tr>" +
                             "</table>" +
@@ -1091,9 +1091,9 @@ function loadDetails(id_producto) {
             );
 
             //Apartado compra
-            $('<div></div>').attr({ 'id': data[0].id_producto, class: 'compra_producto_dentro' }).appendTo('.compra_producto')
+            $('<div></div>').attr({ 'id': data[0][0].id_producto, class: 'compra_producto_dentro' }).appendTo('.compra_producto')
             .html(
-                "<h2>" + data[0].precio + "€</h2>" +
+                "<h2>" + data[0][0].precio + "€</h2>" +
                 "<div class='buttons_details'>" +
                     "<a class='button add' href='#'>Añadir a cesta</a>" +
                     "<a class='button buy' href='#'>Comprar</a>" +
@@ -1129,15 +1129,15 @@ function loadDetails(id_producto) {
             load_map_details(data);
             load_markers_details(data);
 
-            //Apartado productos relacionados
-            related_products(data[0].id_producto,
-                            data[0].marca,
-                            data[0].tipo_consola,
-                            data[0].modelo_consola,
-                            data[0].ciudad);
+            // //Apartado productos relacionados
+            // related_products(data[0].id_producto,
+            //                 data[0].marca,
+            //                 data[0].tipo_consola,
+            //                 data[0].modelo_consola,
+            //                 data[0].ciudad);
 
-            //Cargamos los likes
-            highlight_likes_user();
+            // //Cargamos los likes
+            // highlight_likes_user();
 
         }).catch(function (data) {
             console.log('Error en el ajaxPromise de detalles producto');
@@ -1200,7 +1200,7 @@ function related_products(id, marca, tipo_consola, modelo_consola, ciudad) {
 }
 
 function countPopularity(id_producto){
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_popularity', 'POST', 'JSON', { 'id_producto': id_producto })
+    ajaxPromise('index.php?module=shop&op=count_popularity', 'POST', 'JSON', { 'id_producto': id_producto })
         .then(function(data) {}).catch(function() {});
 }
 
@@ -1305,32 +1305,32 @@ function clicks() {
         loadDetails(id_producto);
     });
 
-    $(document).on("click", ".back_list", function () {
-        // console.log("Volvemos al list");
-        window.location.href = "index.php?page=controller_shop&op=list";
-    });
+    // $(document).on("click", ".back_list", function () {
+    //     // console.log("Volvemos al list");
+    //     window.location.href = "index.php?page=controller_shop&op=list";
+    // });
 
-    $(document).on('click', '.filter_button', function () {
-        filter_click();
-    });
+    // $(document).on('click', '.filter_button', function () {
+    //     filter_click();
+    // });
 
-    $(document).on('click', '.filter_remove', function() {
-        filter_remove();
-    });
+    // $(document).on('click', '.filter_remove', function() {
+    //     filter_remove();
+    // });
 
-    $(document).on('click', '.order_button', function () {
-        order_click();
-    });
+    // $(document).on('click', '.order_button', function () {
+    //     order_click();
+    // });
 
-    $(document).on("click", ".list__heart", function() {
-        var id_producto = this.getAttribute('id');
-        click_like(id_producto, "list_all");
-    });
+    // $(document).on("click", ".list__heart", function() {
+    //     var id_producto = this.getAttribute('id');
+    //     click_like(id_producto, "list_all");
+    // });
 
-    $(document).on("click", ".details__heart", function() {
-        var id_producto = this.getAttribute('id');
-        click_like(id_producto, "details");
-    });
+    // $(document).on("click", ".details__heart", function() {
+    //     var id_producto = this.getAttribute('id');
+    //     click_like(id_producto, "details");
+    // });
 }
 
 //Ocultamos elementos
@@ -1341,7 +1341,7 @@ function ocultar_elementos() {
 $(document).ready(function () {
     load_map_shop();
     loadProducts();
-    // clicks();
+    clicks();
     // load_filters().then(function() {
     //     modal_filters();
     //     highlight_filters();

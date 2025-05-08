@@ -14,6 +14,14 @@
             echo json_encode(common::load_model('shop_model', 'get_all_products', [$_POST['total_prod'], $_POST['items_page'], $_POST['orderby'] ]));
         }
 
+        function count_popularity() {
+            echo json_encode(common::load_model('shop_model', 'count_popularity', $_POST['id_producto']));
+        }
+
+        function get_details() {
+            echo json_encode(common::load_model('shop_model', 'get_details', $_POST['id_producto']));
+        }
+
 
 
 

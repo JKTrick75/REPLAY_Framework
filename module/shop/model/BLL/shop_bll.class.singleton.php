@@ -20,6 +20,14 @@
 			return $this -> dao -> select_get_all_products($this->db, $args[0], $args[1], $args[2]);
 		}
 
+		public function count_popularity_BLL($args) {
+			return $this -> dao -> select_count_popularity($this->db, $args);
+		}
+
+		public function get_details_BLL($args) {
+			return $this -> dao -> select_get_details($this->db, $args);
+		}
+
 
 
 

@@ -9,6 +9,17 @@
         <uri>get_all_products</uri>
     </function>
     <function>
+        <name>count_popularity</name>
+        <uri>count_popularity</uri>
+    </function>
+    <function>
+        <name>get_details</name>
+        <uri>get_details</uri>
+    </function>
+
+
+
+    <function>
         <name>list</name>
         <uri>list</uri>
     </function>
