@@ -4,10 +4,12 @@
         <name>view</name>
         <uri>view</uri>
     </function>
+    <!-- SHOP-LIST -->
     <function>
         <name>get_all_products</name>
         <uri>get_all_products</uri>
     </function>
+    <!-- DETAILS -->
     <function>
         <name>count_popularity</name>
         <uri>count_popularity</uri>
@@ -24,6 +26,28 @@
         <name>load_related</name>
         <uri>load_related</uri>
     </function>
+    <!-- PAGINATION -->
+    <function>
+        <name>pagination_search</name>
+        <uri>pagination_search</uri>
+    </function>
+    <function>
+        <name>pagination_home</name>
+        <uri>pagination_home</uri>
+    </function>
+    <function>
+        <name>pagination_shop</name>
+        <uri>pagination_shop</uri>
+    </function>
+    <function>
+        <name>pagination_all_products</name>
+        <uri>pagination_all_products</uri>
+    </function>
+    <function>
+        <name>count_products</name>
+        <uri>count_products</uri>
+    </function>
+
 
 
 

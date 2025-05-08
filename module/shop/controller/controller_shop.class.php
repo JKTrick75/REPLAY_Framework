@@ -7,6 +7,7 @@
             common::load_view('top_page_shop.html', VIEW_PATH_SHOP . 'shop.html');
         }
 
+        //SHOP-LIST
         function get_all_products() {
             // echo json_encode($_POST['filter']);
             // exit;
@@ -14,6 +15,7 @@
             echo json_encode(common::load_model('shop_model', 'get_all_products', [$_POST['total_prod'], $_POST['items_page'], $_POST['orderby'] ]));
         }
 
+        //DETAILS
         function count_popularity() {
             echo json_encode(common::load_model('shop_model', 'count_popularity', $_POST['id_producto']));
         }
@@ -28,6 +30,29 @@
 
         function load_related() {
             echo json_encode(common::load_model('shop_model', 'load_related', [$_POST['offset'], $_POST['limit'], $_POST['id'], $_POST['marca'], $_POST['tipo_consola'], $_POST['modelo_consola'], $_POST['ciudad'] ]));
+        }
+
+        //PAGINATION
+        function pagination_search() {
+            echo json_encode(common::load_model('shop_model', 'pagination_search', $_POST['filter']));
+        }
+
+        function pagination_home() {
+            echo json_encode(common::load_model('shop_model', 'pagination_home', $_POST['filter']));
+        }
+
+        function pagination_shop() {
+            echo json_encode(common::load_model('shop_model', 'pagination_shop', $_POST['filter']));
+        }
+
+        function pagination_all_products() {
+            // echo json_encode($_POST['filter']);
+            // exit;
+            echo json_encode(common::load_model('shop_model', 'pagination_all_products', $_POST['filter']));
+        }
+
+        function count_products() {
+            echo json_encode(common::load_model('shop_model', 'count_products', $_POST['filter']));
         }
 
 

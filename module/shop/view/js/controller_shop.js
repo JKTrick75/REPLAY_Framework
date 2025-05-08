@@ -107,13 +107,16 @@ function loadProducts(total_prod = 0, items_page = 4) {
     window.scrollTo(0, 0); //Mover la pantalla arriba del todo
 
     // if(redirect_like != false){
-    //     redirect_login_like();
+        // redirect_login_like();
     // }else if(filter_search){
     //     ajaxForSearch('module/shop/controller/controller_shop.php?op=filter_search', total_prod, items_page, filter_search, orderby);
     // }else if(filter_home){
     //     ajaxForSearch('module/shop/controller/controller_shop.php?op=filter_home', total_prod, items_page, filter_home, orderby);
-    // }else if (filter_shop) {
-    //     ajaxForSearch('module/shop/controller/controller_shop.php?op=filter_shop', total_prod, items_page, filter_shop, orderby);
+    // }else 
+
+
+    // if (filter_shop) {
+        // ajaxForSearch('index.php?module=shop&op=filter_shop', total_prod, items_page, filter_shop, orderby);
     // }else {
         ajaxForSearch('index.php?module=shop&op=get_all_products', total_prod, items_page, undefined, orderby);
     // }
@@ -534,7 +537,7 @@ function modal_filters() {
 function count_products(){
     var filters = JSON.parse(localStorage.getItem('filter_shop_update')) || false;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_products', 'POST', 'JSON', { 'filter': filters })
+    ajaxPromise('index.php?module=shop&op=count_products', 'POST', 'JSON', { 'filter': filters })
         .then(function(data) {
             // console.log(data);
             //Mostrando X resultados
@@ -771,20 +774,20 @@ function start_pagination() {
     var filter_shop = JSON.parse(localStorage.getItem('filter_shop')) || false;
     var filter_home = JSON.parse(localStorage.getItem('filter_home')) || false;
     var filter_search = JSON.parse(localStorage.getItem('filter_search')) || false;
-    var filter;
+    var filter = false;
     var url;
 
     if(filter_search){
-        url = 'module/shop/controller/controller_shop.php?op=pagination_search';
+        url = 'index.php?module=shop&op=pagination_search';
         filter = filter_search;
     }else if(filter_home){
-        url = 'module/shop/controller/controller_shop.php?op=pagination_home';
+        url = 'index.php?module=shop&op=pagination_home';
         filter = filter_home;
     }else if (filter_shop) {
-        url = 'module/shop/controller/controller_shop.php?op=pagination_shop';
+        url = 'index.php?module=shop&op=pagination_shop';
         filter = filter_shop;
     } else {
-        url = 'module/shop/controller/controller_shop.php?op=pagination_all_products';
+        url = 'index.php?module=shop&op=pagination_all_products';
     }
 
     ajaxPromise(url, 'POST', 'JSON', { 'filter': filter })
@@ -1305,10 +1308,10 @@ function clicks() {
         loadDetails(id_producto);
     });
 
-    // $(document).on("click", ".back_list", function () {
-    //     // console.log("Volvemos al list");
-    //     window.location.href = "index.php?page=controller_shop&op=list";
-    // });
+    $(document).on("click", ".back_list", function () {
+        // console.log("Volvemos al list");
+        window.location.href = "index.php?module=shop&op=view";
+    });
 
     // $(document).on('click', '.filter_button', function () {
     //     filter_click();
@@ -1318,9 +1321,9 @@ function clicks() {
     //     filter_remove();
     // });
 
-    // $(document).on('click', '.order_button', function () {
-    //     order_click();
-    // });
+    $(document).on('click', '.order_button', function () {
+        order_click();
+    });
 
     // $(document).on("click", ".list__heart", function() {
     //     var id_producto = this.getAttribute('id');
@@ -1348,10 +1351,10 @@ $(document).ready(function () {
     //     highlight_search();
     //     highlight_orderby();
     //     update_count_products();
-    //     count_products();
+        count_products();
     //     radar_filter_update();
     //     ocultar_elementos();
-    //     start_pagination();
+        start_pagination();
     // }).catch(function(error) {
     //     console.error("Error:", error);
     // });

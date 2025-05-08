@@ -16,10 +16,12 @@
 			return self::$_instance;
 		}
 
+		//SHOP-LIST
 		public function get_all_products_BLL($args) {
 			return $this -> dao -> select_get_all_products($this->db, $args[0], $args[1], $args[2]);
 		}
 
+		//DETAILS
 		public function count_popularity_BLL($args) {
 			return $this -> dao -> select_count_popularity($this->db, $args);
 		}
@@ -36,6 +38,26 @@
 			return $this -> dao -> select_load_related($this->db, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
 		}
 
+		//PAGINATION
+		public function pagination_search_BLL($args) {
+			return $this -> dao -> select_pagination_search($this->db, $args);
+		}
+
+		public function pagination_home_BLL($args) {
+			return $this -> dao -> select_pagination_home($this->db, $args);
+		}
+
+		public function pagination_shop_BLL($args) {
+			return $this -> dao -> select_pagination_shop($this->db, $args);
+		}
+
+		public function pagination_all_products_BLL($args) {
+			return $this -> dao -> select_pagination_all_products($this->db, $args);
+		}
+
+		public function count_products_BLL($args) {
+			return $this -> dao -> select_count_products($this->db, $args);
+		}
 
 
 

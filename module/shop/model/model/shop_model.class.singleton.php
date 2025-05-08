@@ -16,11 +16,13 @@
             return self::$_instance;
         }
 
+        //SHOP-LIST
         public function get_all_products($args) {
             // return 'hola get_all_products SHOP';
             return $this -> bll -> get_all_products_BLL($args);
         }
 
+        //DETAILS
         public function count_popularity($args) {
             return $this -> bll -> count_popularity_BLL($args);
         }
@@ -35,6 +37,28 @@
 
         public function load_related($args) {
             return $this -> bll -> load_related_BLL($args);
+        }
+
+        //PAGINATION
+        public function pagination_search($args) {
+            return $this -> bll -> pagination_search_BLL($args);
+        }
+
+        public function pagination_home($args) {
+            return $this -> bll -> pagination_home_BLL($args);
+        }
+
+        public function pagination_shop($args) {
+            return $this -> bll -> pagination_shop_BLL($args);
+        }
+
+        public function pagination_all_products($args) {
+            // return 'hola pagination_all_products SHOP';
+            return $this -> bll -> pagination_all_products_BLL($args);
+        }
+
+        public function count_products($args) {
+            return $this -> bll -> count_products_BLL($args);
         }
 
 

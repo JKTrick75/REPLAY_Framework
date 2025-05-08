@@ -198,8 +198,209 @@
             return $result;
         }
 
+        //PAGINATION
+        public function select_pagination_search($db, $filter) {
 
+            $tipo_consola = $filter[0]['tipo_consola'];
+			$modelo_consola = $filter[1]['modelo_consola'];
+			$ciudad = $filter[2]['ciudad'];
 
+			//Montamos query dinámica
+			$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					WHERE 1=1";
+
+			if ($tipo_consola != '*') {
+				$sql .= " AND p.tipo_consola = '$tipo_consola[0]'";
+			}
+			if ($modelo_consola != '*'){
+				$sql .= " AND p.modelo_consola = '$modelo_consola[0]'";
+			}
+			if ($ciudad != '*'){
+				$sql .= " AND p.ciudad = '$ciudad[0]'";
+			}
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_pagination_home($db, $filter) {
+
+            $filter_field = $filter[0][0];
+			$filter_value = $filter[0][1];
+
+			//Montamos query dinámica
+			$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					INNER JOIN producto_categoria pc ON p.id_producto = pc.id_producto
+					INNER JOIN tipo_venta_producto tvp ON p.id_producto = tvp.id_producto
+					WHERE 1=1";
+
+			if ($filter_field == 'categoria') {
+				$sql .= " AND pc.id_categoria = '$filter_value'";
+			}
+			if ($filter_field == 'id_producto') {
+				$sql .= " AND p.id_producto = '$filter_value'";
+			}
+			if ($filter_field == 'marca') {
+				$sql .= " AND p.marca = '$filter_value'";
+			}
+			if ($filter_field == 'tipo_consola') {
+				$sql .= " AND p.tipo_consola = '$filter_value'";
+			}
+			if ($filter_field == 'ciudad') {
+				$sql .= " AND p.ciudad = '$filter_value'";
+			}
+			if ($filter_field == 'estado') {
+				$sql .= " AND p.estado = '$filter_value'";
+			}
+			if ($filter_field == 'tipo_venta') {
+				$sql .= " AND tvp.id_tipo_venta = '$filter_value'";
+			}
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_pagination_shop($db, $filter) {
+
+            $categoria = $filter[0]['categoria'];
+			$ciudad = $filter[1]['ciudad'];
+			$estado = $filter[2]['estado'];
+			$marca = $filter[3]['marca'];
+			$tipo_consola = $filter[4]['tipo_consola'];
+			$modelo_consola = $filter[5]['modelo_consola'];
+			$tipo_accesorio = $filter[6]['tipo_accesorio'];
+			$tipo_merchandising = $filter[7]['tipo_merchandising'];
+			$tipo_venta = $filter[8]['tipo_venta'];
+			$precioMin = $filter[9]['precio_min'];
+			$precioMax = $filter[10]['precio_max'];
+
+			//Montamos query dinámica
+			$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					INNER JOIN producto_categoria pc ON p.id_producto = pc.id_producto
+					INNER JOIN tipo_venta_producto tvp ON p.id_producto = tvp.id_producto
+					WHERE 1=1";
+
+			if ($categoria != '*') {
+				$categoria_sql = implode(", ", $categoria);
+				$sql .= " AND pc.id_categoria IN ($categoria_sql)";
+			}
+			if ($ciudad != '*'){
+				$sql .= " AND p.ciudad = '$ciudad[0]'";
+			}
+			if ($estado != '*'){
+				$sql .= " AND p.estado = '$estado[0]'";
+			}
+			if ($marca != '*'){
+				$sql .= " AND p.marca = '$marca[0]'";
+			}
+			if ($tipo_consola != '*'){
+				$sql .= " AND p.tipo_consola = '$tipo_consola[0]'";
+			}
+			if ($modelo_consola != '*'){
+				$sql .= " AND p.modelo_consola = '$modelo_consola[0]'";
+			}
+			if ($tipo_accesorio != '*'){
+				$sql .= " AND p.tipo_accesorio = '$tipo_accesorio[0]'";
+			}
+			if ($tipo_merchandising != '*'){
+				$sql .= " AND p.tipo_merchandising = '$tipo_merchandising[0]'";
+			}
+			if ($tipo_venta != '*') {
+				$tipo_venta_sql = implode(", ", $tipo_venta);
+				$sql .= " AND tvp.id_tipo_venta IN ($tipo_venta_sql)";
+			}
+			if (isset($precioMin) && isset($precioMax)) {
+				$sql .= " AND p.precio BETWEEN $precioMin[0] AND $precioMax[0]";
+			}
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_pagination_all_products($db, $filter) {
+
+            $sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+					FROM producto p 
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_count_products($db, $filter) {
+
+            if ($filter == "false"){
+				$sql = "SELECT COUNT(*) as cantidad
+						FROM producto";
+			}else{
+				$categoria = $filter[0]['categoria'];
+				$ciudad = $filter[1]['ciudad'];
+				$estado = $filter[2]['estado'];
+				$marca = $filter[3]['marca'];
+				$tipo_consola = $filter[4]['tipo_consola'];
+				$modelo_consola = $filter[5]['modelo_consola'];
+				$tipo_accesorio = $filter[6]['tipo_accesorio'];
+				$tipo_merchandising = $filter[7]['tipo_merchandising'];
+				$tipo_venta = $filter[8]['tipo_venta'];
+				$precioMin = $filter[9]['precio_min'];
+				$precioMax = $filter[10]['precio_max'];
+
+				$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+						FROM producto p
+						INNER JOIN producto_categoria pc ON p.id_producto = pc.id_producto
+						INNER JOIN tipo_venta_producto tvp ON p.id_producto = tvp.id_producto
+						WHERE 1=1";
+
+				if ($categoria != '*') {
+					$categoria_sql = implode(", ", $categoria);
+					$sql .= " AND pc.id_categoria IN ($categoria_sql)";
+				}
+				if ($ciudad != '*'){
+					$sql .= " AND p.ciudad = '$ciudad[0]'";
+				}
+				if ($estado != '*'){
+					$sql .= " AND p.estado = '$estado[0]'";
+				}
+				if ($marca != '*'){
+					$sql .= " AND p.marca = '$marca[0]'";
+				}
+				if ($tipo_consola != '*'){
+					$sql .= " AND p.tipo_consola = '$tipo_consola[0]'";
+				}
+				if ($modelo_consola != '*'){
+					$sql .= " AND p.modelo_consola = '$modelo_consola[0]'";
+				}
+				if ($tipo_accesorio != '*'){
+					$sql .= " AND p.tipo_accesorio = '$tipo_accesorio[0]'";
+				}
+				if ($tipo_merchandising != '*'){
+					$sql .= " AND p.tipo_merchandising = '$tipo_merchandising[0]'";
+				}
+				if ($tipo_venta != '*') {
+					$tipo_venta_sql = implode(", ", $tipo_venta);
+					$sql .= " AND tvp.id_tipo_venta IN ($tipo_venta_sql)";
+				}
+				if (isset($precioMin) && isset($precioMax)) {
+					$sql .= " AND p.precio BETWEEN $precioMin[0] AND $precioMax[0]";
+				}
+			}
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
 
 
 
