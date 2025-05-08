@@ -22,6 +22,14 @@
             echo json_encode(common::load_model('shop_model', 'get_details', $_POST['id_producto']));
         }
 
+        function count_related() {
+            echo json_encode(common::load_model('shop_model', 'count_related', [$_POST['id'], $_POST['marca'], $_POST['tipo_consola'], $_POST['modelo_consola'], $_POST['ciudad'] ]));
+        }
+
+        function load_related() {
+            echo json_encode(common::load_model('shop_model', 'load_related', [$_POST['offset'], $_POST['limit'], $_POST['id'], $_POST['marca'], $_POST['tipo_consola'], $_POST['modelo_consola'], $_POST['ciudad'] ]));
+        }
+
 
 
 

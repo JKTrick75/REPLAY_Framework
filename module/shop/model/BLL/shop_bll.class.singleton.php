@@ -28,6 +28,14 @@
 			return $this -> dao -> select_get_details($this->db, $args);
 		}
 
+		public function count_related_BLL($args) {
+			return $this -> dao -> select_count_related($this->db, $args[0], $args[1], $args[2], $args[3], $args[4]);
+		}
+
+		public function load_related_BLL($args) {
+			return $this -> dao -> select_load_related($this->db, $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
+		}
+
 
 
 

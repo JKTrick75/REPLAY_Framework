@@ -156,6 +156,48 @@
             // return $db->listar($rdo);
         }
 
+        public function select_count_related($db, $id, $marca, $tipo_consola, $modelo_consola, $ciudad) {
+
+			$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
+					FROM producto p 
+					WHERE ((p.marca = '$marca') 
+						OR (p.tipo_consola = '$tipo_consola') 
+						OR (p.modelo_consola = '$modelo_consola') 
+						OR (p.ciudad = '$ciudad'))
+					AND p.id_producto != '$id'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_load_related($db, $offset, $limit, $id, $marca, $tipo_consola, $modelo_consola, $ciudad) {
+
+            $sql= "SELECT p.id_producto, p.nom_producto, p.precio, p.color, e.nom_estado, c.nom_ciudad, p.lat, p.long,
+						  GROUP_CONCAT(i.img_producto SEPARATOR ':') AS img_producto
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					WHERE ((p.marca = '$marca') 
+						OR (p.tipo_consola = '$tipo_consola') 
+						OR (p.modelo_consola = '$modelo_consola') 
+						OR (p.ciudad = '$ciudad'))
+					AND p.id_producto != '$id'
+					GROUP BY p.id_producto
+					LIMIT $offset, $limit";
+
+            $stmt = $db->ejecutar($sql);
+            $rows = $db->listar($stmt);
+
+            $result = [];
+            foreach ($rows as $row) {
+                $row['img_producto'] = explode(':', $row['img_producto']);
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
 
 
 

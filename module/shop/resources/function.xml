@@ -16,6 +16,14 @@
         <name>get_details</name>
         <uri>get_details</uri>
     </function>
+    <function>
+        <name>count_related</name>
+        <uri>count_related</uri>
+    </function>
+    <function>
+        <name>load_related</name>
+        <uri>load_related</uri>
+    </function>
 
 
 

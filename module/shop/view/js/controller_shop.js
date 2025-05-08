@@ -1129,12 +1129,12 @@ function loadDetails(id_producto) {
             load_map_details(data);
             load_markers_details(data);
 
-            // //Apartado productos relacionados
-            // related_products(data[0].id_producto,
-            //                 data[0].marca,
-            //                 data[0].tipo_consola,
-            //                 data[0].modelo_consola,
-            //                 data[0].ciudad);
+            //Apartado productos relacionados
+            related_products(data[0][0].id_producto,
+                            data[0][0].marca,
+                            data[0][0].tipo_consola,
+                            data[0][0].modelo_consola,
+                            data[0][0].ciudad);
 
             // //Cargamos los likes
             // highlight_likes_user();
@@ -1147,7 +1147,7 @@ function loadDetails(id_producto) {
 function load_related_products(offset, total_products, id, marca, tipo_consola, modelo_consola, ciudad) {
     let limit = 3;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=load_related', 'POST', 'JSON', 
+    ajaxPromise('index.php?module=shop&op=load_related', 'POST', 'JSON', 
         { 'offset': offset, 'limit': limit, 'id': id, 'marca': marca, 'tipo_consola': tipo_consola, 'modelo_consola': modelo_consola, 'ciudad': ciudad })
         .then(function(data) {
             for (row in data) {
@@ -1182,7 +1182,7 @@ function load_related_products(offset, total_products, id, marca, tipo_consola, 
 
 function related_products(id, marca, tipo_consola, modelo_consola, ciudad) {
     var offset = 0;
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_related', 'POST', 'JSON', 
+    ajaxPromise('index.php?module=shop&op=count_related', 'POST', 'JSON', 
                 { 'id': id, 'marca': marca, 'tipo_consola': tipo_consola, 'modelo_consola': modelo_consola, 'ciudad': ciudad })
         .then(function(data) {
             var total_products = data[0].cantidad;

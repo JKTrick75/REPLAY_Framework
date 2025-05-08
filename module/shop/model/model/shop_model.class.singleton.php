@@ -29,6 +29,14 @@
             return $this -> bll -> get_details_BLL($args);
         }
 
+        public function count_related($args) {
+            return $this -> bll -> count_related_BLL($args);
+        }
+
+        public function load_related($args) {
+            return $this -> bll -> load_related_BLL($args);
+        }
+
 
 
 
