@@ -11,6 +11,56 @@
             }
             return self::$_instance;
         }
+
+        public function select_get_all_products($db, $total_prod, $items_page, $orderby) {
+            //Recogemos orderby
+			$orderby = isset($_POST['orderby'][0]['orderby']) ? $_POST['orderby'][0]['orderby'] : false;
+			//Recogemos limit y offset
+			$offset = $_POST['total_prod'];
+			$limit = $_POST['items_page'];
+
+			$sql= "SELECT p.id_producto, p.nom_producto, p.precio, p.color, e.nom_estado, c.nom_ciudad, p.lat, p.long, p.count_likes,
+						  GROUP_CONCAT(i.img_producto SEPARATOR ':') AS img_producto
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					GROUP BY p.id_producto";
+			
+			if($orderby == 'priceASC'){
+				$sql .= " ORDER BY p.precio ASC";
+			}else if($orderby == 'priceDESC'){
+				$sql .= " ORDER BY p.precio DESC";
+			}else if($orderby == 'popularidad'){
+				$sql .= " ORDER BY p.popularidad DESC";
+			}else{ //Order por defecto, los más relevantes primero
+				$sql .= " ORDER BY p.popularidad DESC";
+			}
+
+			$sql .= " LIMIT $offset, $limit";
+
+            $stmt = $db->ejecutar($sql);
+            $rows = $db->listar($stmt);
+
+            $result = [];
+            foreach ($rows as $row) {
+                $row['img_producto'] = explode(':', $row['img_producto']);
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
+
+
+
+
+
+
+
+
+
+
         
         public function select_all_cars($db, $orderby, $total_prod, $items_page) {
 

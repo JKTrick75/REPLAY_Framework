@@ -5,6 +5,10 @@
         <uri>view</uri>
     </function>
     <function>
+        <name>get_all_products</name>
+        <uri>get_all_products</uri>
+    </function>
+    <function>
         <name>list</name>
         <uri>list</uri>
     </function>

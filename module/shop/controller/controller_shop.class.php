@@ -2,10 +2,21 @@
     class controller_shop {
 
         function view() {
-            echo json_encode('Hola controller_shop view :D');
-            exit;
-            // common::load_view('top_page_shop.html', VIEW_PATH_SHOP . 'shop.html');
+            // echo json_encode('Hola controller_shop view :D');
+            // exit;
+            common::load_view('top_page_shop.html', VIEW_PATH_SHOP . 'shop.html');
         }
+
+        function get_all_products() {
+            // echo json_encode($_POST['filter']);
+            // exit;
+            // echo json_encode(common::load_model('shop_model', 'get_all_products'));
+            echo json_encode(common::load_model('shop_model', 'get_all_products', [$_POST['total_prod'], $_POST['items_page'], $_POST['orderby'] ]));
+        }
+
+
+
+
 
         function list() {
             echo json_encode(common::load_model('shop_model', 'get_list', [$_POST['orderby'], $_POST['total_prod'], $_POST['items_page']]));

@@ -16,6 +16,18 @@
 			return self::$_instance;
 		}
 
+		public function get_all_products_BLL($args) {
+			return $this -> dao -> select_get_all_products($this->db, $args[0], $args[1], $args[2]);
+		}
+
+
+
+
+
+
+
+
+
         public function get_list_BLL($args) {
 			return $this -> dao -> select_all_cars($this->db, $args[0], $args[1], $args[2]);
 		}

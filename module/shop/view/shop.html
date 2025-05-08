@@ -1,34 +1,66 @@
-<div class="shop_container">
-    <div class="list_view" id="list_view">
-        <div class="filters_container">
-            <form autocomplete="on" method="post" name="filter" id="filter" >
-                <div class="filters_content"></div>
-            </form> 
-        </div>
-        <div class="list_content" id="list_cars">
-            <div class="orderby">
-                <select id="orderby_select">
-                    <option value="0">Order by...</option>
-                    <option value="1">From highest to lowest price</option>
-                    <option value="2">From lowest to highest price</option>
-                </select>
-                <input type="button" value="Apply" id="orderby_button"/>
+<main class="main">
+    <!-- SHOP SECTION -->
+    <section id="shop_section" class="shop_section">
+  
+      <div class="container__shop section-title" data-aos="fade-up">
+        <h2>Explora nuestra tienda</h2>
+  
+        <!-- LISTA DE PRODUCTOS -->
+        <div class="list_product_shop">
+          <button id="filterToggle" class="filter-toggle">&nbsp;Filtros</button>
+  
+          <!-- FILTROS -->
+          <div class="filters_shop"></div>
+          
+          <!-- CONTENEDOR PRODUCTOS + PAGINACION-->
+          <div class="content_shop">
+            <!-- PRODUCTOS -->
+            <div id="container_shop" class="content_shop_products"></div>
+            <!-- PAGINACIÓN -->
+            <div id="pagination" class="pagination">
+              <button class="pagination_arrow prev">&lt;</button>
+                <ul class="pagination_list"></ul>
+              <button class="pagination_arrow next">&gt;</button>
             </div>
-            <div class="list_content_2"></div>
+          </div>
+  
+          <!-- Contenedor para Google Maps -->
+          <div id="container_map"></div>
+  
         </div>
-        <div class="maps_content" id="maps"></div>
-    </div>
-    <div class="shop_details">
-        <div class="shop_details_content"></div>
-        <div id="features-wrapper_2">
-            <h1 data-tr="Cars related"></h2>
-            <div class="container" id="features-wrapper-container_2">
-                <div class="row" id="cat"></div>
-                <div class="load_more">
-                    <button class="load_more_button" id="load_more_button">Load More</button>
-                </div>
-            </div>
+        
+        <!-- details-products -->
+        <div id="details_product_shop">
+          <!-- Primera fila: Carrusel de imágenes y detalles generales -->
+          <div class="top-section">
+            <div class="imagen_producto" id="container-date-img"></div>
+            <div class="detalles_producto" id="container-date-product"></div>
+            <div class="compra_producto" id="container-date-purchase"></div>
+          </div>
+          
+          <!-- Segunda fila: Detalles extra del producto -->
+          <div class="detalles_extra"></div>
+  
+          <!-- Tercera fila: Ubicación -->
+          <div class="ubicacion">
+            <h3>Ubicación</h3>
+            <div id="container_map_details"></div>
+          </div>
+  
+          <!-- Cuarta fila: Valoraciones -->
+          <div class="valoraciones">
+            <h3>Valoraciones</h3>
+            <p>Sección para las valoraciones del producto</p>
+            <div class="container_valoraciones"></div>
+          </div>
+  
+          <!-- Quinta fila: Productos relacionados -->
+          <div class="productos_relacionados">
+            <h3>Productos relacionados</h3>
+            <ul class="lista_relacionados"></ul>
+          </div>
         </div>
-    </div>
-    <div id="pagination"></div> 
-</div>
+  
+      </div>
+    </section>
+  </main>

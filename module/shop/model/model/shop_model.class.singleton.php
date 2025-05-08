@@ -4,15 +4,34 @@
         static $_instance;
 
         function __construct() {
+            // return 'hola __construct SHOP';
             $this -> bll = shop_bll::getInstance();
         }
 
         public static function getInstance() {
+            // return 'hola getInstance SHOP';
             if (!(self::$_instance instanceof self)) {
                 self::$_instance = new self();
             }
             return self::$_instance;
         }
+
+        public function get_all_products($args) {
+            // return 'hola get_all_products SHOP';
+            return $this -> bll -> get_all_products_BLL($args);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         public function get_list($args) {
             return $this -> bll -> get_list_BLL($args);
