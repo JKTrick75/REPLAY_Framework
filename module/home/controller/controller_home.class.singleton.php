@@ -1,5 +1,19 @@
 <?php
     class controller_home {
+
+        static $_instance;
+        
+        function __construct() {
+
+        }
+
+        public static function getInstance() {
+            if (!(self::$_instance instanceof self)) {
+                self::$_instance = new self();
+            }
+            return self::$_instance;
+        }
+        
         function view() {
             // echo json_encode('Hola controller_home view :D');
             // exit;

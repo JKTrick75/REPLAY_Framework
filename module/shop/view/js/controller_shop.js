@@ -109,16 +109,16 @@ function loadProducts(total_prod = 0, items_page = 4) {
     // if(redirect_like != false){
         // redirect_login_like();
     // }else if(filter_search){
-    //     ajaxForSearch('module/shop/controller/controller_shop.php?op=filter_search', total_prod, items_page, filter_search, orderby);
+    //     ajaxForSearch(friendlyURL('?module=shop&op==filter_search'), total_prod, items_page, filter_search, orderby);
     // }else if(filter_home){
-    //     ajaxForSearch('module/shop/controller/controller_shop.php?op=filter_home', total_prod, items_page, filter_home, orderby);
+    //     ajaxForSearch(friendlyURL('?module=shop&op=filter_home'), total_prod, items_page, filter_home, orderby);
     // }else 
 
 
     // if (filter_shop) {
-        // ajaxForSearch('index.php?module=shop&op=filter_shop', total_prod, items_page, filter_shop, orderby);
+        // ajaxForSearch(friendlyURL('?module=shop&op=filter_shop'), total_prod, items_page, filter_shop, orderby);
     // }else {
-        ajaxForSearch('index.php?module=shop&op=get_all_products', total_prod, items_page, undefined, orderby);
+        ajaxForSearch(friendlyURL('?module=shop&op=get_all_products'), total_prod, items_page, undefined, orderby);
     // }
 }
 
@@ -197,7 +197,7 @@ function load_filters() {
         );
 
         //FILTROS DINAMICOS
-        return ajaxPromise('module/shop/controller/controller_shop.php?op=get_filters', 'GET', 'JSON') //Ponemos return para controlar abajo en el $document.ready que se ejecute antes que algunas funciones
+        return ajaxPromise(friendlyURL('?module=shop&op=get_filters'), 'GET', 'JSON') //Ponemos return para controlar abajo en el $document.ready que se ejecute antes que algunas funciones
             .then(function (data) {
 
                 // console.log(data); //Mostrar filtros recogidos
@@ -537,7 +537,7 @@ function modal_filters() {
 function count_products(){
     var filters = JSON.parse(localStorage.getItem('filter_shop_update')) || false;
 
-    ajaxPromise('index.php?module=shop&op=count_products', 'POST', 'JSON', { 'filter': filters })
+    ajaxPromise(friendlyURL('?module=shop&op=count_products'), 'POST', 'JSON', { 'filter': filters })
         .then(function(data) {
             // console.log(data);
             //Mostrando X resultados
@@ -554,7 +554,7 @@ function update_count_products(){
 
     var filters = JSON.parse(localStorage.getItem('filter_shop_update')) || false;
 
-    ajaxPromise('module/shop/controller/controller_shop.php?op=count_products', 'POST', 'JSON', { 'filter': filters })
+    ajaxPromise(friendlyURL('?module=shop&op=count_products'), 'POST', 'JSON', { 'filter': filters })
         .then(function(data) {
             // console.log(data);
             $('.div-filters .results').remove();
@@ -778,19 +778,19 @@ function start_pagination() {
     var url;
 
     if(filter_search){
-        url = 'index.php?module=shop&op=pagination_search';
+        url = '?module=shop&op=pagination_search';
         filter = filter_search;
     }else if(filter_home){
-        url = 'index.php?module=shop&op=pagination_home';
+        url = '?module=shop&op=pagination_home';
         filter = filter_home;
     }else if (filter_shop) {
-        url = 'index.php?module=shop&op=pagination_shop';
+        url = '?module=shop&op=pagination_shop';
         filter = filter_shop;
     } else {
-        url = 'index.php?module=shop&op=pagination_all_products';
+        url = '?module=shop&op=pagination_all_products';
     }
 
-    ajaxPromise(url, 'POST', 'JSON', { 'filter': filter })
+    ajaxPromise(friendlyURL(url), 'POST', 'JSON', { 'filter': filter })
         .then(function(data) {
             // console.log(data[0]["cantidad"]);
             localStorage.setItem('total_products', data[0]["cantidad"]);
@@ -989,7 +989,7 @@ function load_markers_details(data) {
 
 //Cargamos detalles del producto
 function loadDetails(id_producto) {
-    ajaxPromise('index.php?module=shop&op=get_details', 'POST', 'JSON', { 'id_producto': id_producto })
+    ajaxPromise(friendlyURL('?module=shop&op=get_details'), 'POST', 'JSON', { 'id_producto': id_producto })
         .then(function (data) {
             console.log(data);
             window.scrollTo(0, 0); //Mover la pantalla arriba del todo
@@ -1150,7 +1150,7 @@ function loadDetails(id_producto) {
 function load_related_products(offset, total_products, id, marca, tipo_consola, modelo_consola, ciudad) {
     let limit = 3;
 
-    ajaxPromise('index.php?module=shop&op=load_related', 'POST', 'JSON', 
+    ajaxPromise(friendlyURL('?module=shop&op=load_related'), 'POST', 'JSON', 
         { 'offset': offset, 'limit': limit, 'id': id, 'marca': marca, 'tipo_consola': tipo_consola, 'modelo_consola': modelo_consola, 'ciudad': ciudad })
         .then(function(data) {
             for (row in data) {
@@ -1185,7 +1185,7 @@ function load_related_products(offset, total_products, id, marca, tipo_consola, 
 
 function related_products(id, marca, tipo_consola, modelo_consola, ciudad) {
     var offset = 0;
-    ajaxPromise('index.php?module=shop&op=count_related', 'POST', 'JSON', 
+    ajaxPromise(friendlyURL('?module=shop&op=count_related'), 'POST', 'JSON', 
                 { 'id': id, 'marca': marca, 'tipo_consola': tipo_consola, 'modelo_consola': modelo_consola, 'ciudad': ciudad })
         .then(function(data) {
             var total_products = data[0].cantidad;
@@ -1203,7 +1203,7 @@ function related_products(id, marca, tipo_consola, modelo_consola, ciudad) {
 }
 
 function countPopularity(id_producto){
-    ajaxPromise('index.php?module=shop&op=count_popularity', 'POST', 'JSON', { 'id_producto': id_producto })
+    ajaxPromise(friendlyURL('?module=shop&op=count_popularity'), 'POST', 'JSON', { 'id_producto': id_producto })
         .then(function(data) {}).catch(function() {});
 }
 
@@ -1214,7 +1214,7 @@ function countPopularity(id_producto){
 function click_like(id_producto, lugar) {
     var token = localStorage.getItem('access_token');
     if (token) { //Si está logeado -> Añadir/Quitar like
-        ajaxPromise("module/shop/controller/controller_shop.php?op=controller_likes", 'POST', 'JSON', { 'id_producto': id_producto, 'token': token })
+        ajaxPromise(friendlyURL('?module=shop&op=controller_likes'), 'POST', 'JSON', { 'id_producto': id_producto, 'token': token })
             .then(function(data) {
                 console.log(data);
                 $("#" + id_producto + ".fa-heart").toggleClass('like_red');
@@ -1239,7 +1239,7 @@ function click_like(id_producto, lugar) {
 function highlight_likes_user() {
     var token = localStorage.getItem('access_token');
     if (token) { //Si hay login
-        ajaxPromise("module/shop/controller/controller_shop.php?op=highlight_likes_user", 'POST', 'JSON', { 'token': token })
+        ajaxPromise(friendlyURL('?module=shop&op=highlight_likes_user'), 'POST', 'JSON', { 'token': token })
             .then(function(data) {
                 // console.log(data);
                 for (row in data) {
@@ -1256,7 +1256,7 @@ function redirect_login_like() {
     var token = localStorage.getItem('access_token');
     var id_producto = localStorage.getItem('id_producto');
 
-    ajaxPromise("module/shop/controller/controller_shop.php?op=controller_likes", 'POST', 'JSON', { 'id_producto': id_producto, 'token': token, 'redirect': true })
+    ajaxPromise(friendlyURL('?module=shop&op=controller_likes'), 'POST', 'JSON', { 'id_producto': id_producto, 'token': token, 'redirect': true })
     .then(function(data) {  })
     .catch(function() {
         console.log("Error redirect like");
@@ -1313,27 +1313,27 @@ function clicks() {
         window.location.href = "index.php?module=shop&op=view";
     });
 
-    // $(document).on('click', '.filter_button', function () {
-    //     filter_click();
-    // });
+    $(document).on('click', '.filter_button', function () {
+        filter_click();
+    });
 
-    // $(document).on('click', '.filter_remove', function() {
-    //     filter_remove();
-    // });
+    $(document).on('click', '.filter_remove', function() {
+        filter_remove();
+    });
 
     $(document).on('click', '.order_button', function () {
         order_click();
     });
 
-    // $(document).on("click", ".list__heart", function() {
-    //     var id_producto = this.getAttribute('id');
-    //     click_like(id_producto, "list_all");
-    // });
+    $(document).on("click", ".list__heart", function() {
+        var id_producto = this.getAttribute('id');
+        click_like(id_producto, "list_all");
+    });
 
-    // $(document).on("click", ".details__heart", function() {
-    //     var id_producto = this.getAttribute('id');
-    //     click_like(id_producto, "details");
-    // });
+    $(document).on("click", ".details__heart", function() {
+        var id_producto = this.getAttribute('id');
+        click_like(id_producto, "details");
+    });
 }
 
 //Ocultamos elementos

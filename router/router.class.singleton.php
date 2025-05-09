@@ -61,7 +61,7 @@
                 $modules = simplexml_load_file('resources/modules.xml');
                 foreach ($modules as $row) {
                     if (in_array($this -> uriModule, (Array) $row -> uri)) {
-                        $path = MODULES_PATH . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.php';
+                        $path = MODULES_PATH . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.singleton.php'; //EN OBRAS
 
                         // echo json_encode($path);
                         // exit;
@@ -74,7 +74,7 @@
                             // echo json_encode($this -> nameModule);
                             // exit;
 
-                            return new $controllerName;
+                            return $controllerName::getInstance(); //EN OBRAS, CAMBIAR A ::GETINSTANCE return $controllerName::getInstance();
                         }
                     }
                 }

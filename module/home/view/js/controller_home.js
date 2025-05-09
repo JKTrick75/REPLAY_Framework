@@ -1,8 +1,9 @@
 //Tarjetas categorias
 function loadCategories() {
-    ajaxPromise('index.php?module=home&op=get_categories', 'GET', 'JSON')
+    // ajaxPromise('?module=home&op=get_categories', 'GET', 'JSON')friendlyURL('?module=home&op=get_categories')
+    ajaxPromise(friendlyURL('?module=home&op=get_categories'), 'GET', 'JSON')
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             var categories = "";
 
             for (var i = 0; i < data.length; i++) {
@@ -28,7 +29,7 @@ function loadCategories() {
 
 //Carrousel productos nuevos
 function carrousel_Productos_New() {
-    ajaxPromise('index.php?module=home&op=Carrousel_Productos_New', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=Carrousel_Productos_New'), 'GET', 'JSON')
         .then(function (data) {
             for (row in data) {
                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_producto).appendTo(".carousel__new__productos")
@@ -57,7 +58,7 @@ function carrousel_Productos_New() {
 
 //Tarjetas marcas
 function loadMarcas() {
-    ajaxPromise('index.php?module=home&op=get_marcas', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=get_marcas'), 'GET', 'JSON')
         .then(function (data) {
             var marcas = "";
 
@@ -84,7 +85,7 @@ function loadMarcas() {
 
 //Tarjetas tipo_consola
 function loadTipoConsola() {
-    ajaxPromise('index.php?module=home&op=get_tipo_consola', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=get_tipo_consola'), 'GET', 'JSON')
         .then(function (data) {
             var tipo_consola = "";
 
@@ -111,7 +112,7 @@ function loadTipoConsola() {
 
 //Carrousel productos más populares
 function carrousel_Productos_Populares() {
-    ajaxPromise('index.php?module=home&op=Carrousel_Populares', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=Carrousel_Populares'), 'GET', 'JSON')
         .then(function (data) {
             // console.log(data);
             for (row in data) {
@@ -141,7 +142,7 @@ function carrousel_Productos_Populares() {
 
 //Carrousel ciudades
 function carrousel_Ciudades() {
-    ajaxPromise('index.php?module=home&op=Carrousel_Ciudades', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=Carrousel_Ciudades'), 'GET', 'JSON')
         .then(function (data) {
             for (row in data) {
                 $('<div></div>').attr('class', "carousel__elements").attr('id', data[row].nom_ciudad).appendTo(".carousel__list__ciudades")
@@ -173,7 +174,7 @@ function carrousel_Ciudades() {
 
 //Tarjetas estado
 function loadEstado() {
-    ajaxPromise('index.php?module=home&op=get_estado', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=get_estado'), 'GET', 'JSON')
         .then(function (data) {
             var estado = "";
 
@@ -200,7 +201,7 @@ function loadEstado() {
 
 //Tarjetas tipo_venta
 function loadTipoVenta() {
-    ajaxPromise('index.php?module=home&op=get_tipo_venta', 'GET', 'JSON')
+    ajaxPromise(friendlyURL('?module=home&op=get_tipo_venta'), 'GET', 'JSON')
         .then(function (data) {
             var tipo_venta = "";
 
@@ -240,7 +241,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     }); 
 
@@ -256,7 +258,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     });
     
@@ -272,7 +275,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     });   
 
@@ -288,7 +292,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     }); 
 
@@ -304,7 +309,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     });
 
@@ -320,7 +326,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     }); 
 
@@ -336,7 +343,8 @@ function clicks(){
         //Añadimos el que nos interesa filtrar ahora
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
-            window.location.href = 'index.php?page=controller_shop&op=list';
+            // window.location.href = friendlyURL('?module=shop&op=view');
+            window.location.href = "?module=shop&op=view";
         }, 200);  
     });
 }
@@ -350,6 +358,6 @@ $(document).ready(function () {
     carrousel_Ciudades();
     loadEstado();
     loadTipoVenta();
-    // clicks();
+    clicks();
     console.log("Bienvenido al Home!");
 });

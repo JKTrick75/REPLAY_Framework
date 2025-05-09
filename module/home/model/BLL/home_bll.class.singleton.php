@@ -23,7 +23,6 @@
 		public function get_categories_BLL() {
 			// return 'hola get_categories HOME';
 			return $this -> dao -> select_get_categories($this -> db);
-			// return $this -> dao -> select_get_categories();
 		}
 
 		public function Carrousel_Productos_New_BLL() {

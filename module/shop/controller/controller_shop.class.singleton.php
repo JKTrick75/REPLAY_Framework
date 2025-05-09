@@ -1,5 +1,18 @@
 <?php
     class controller_shop {
+        static $_instance;
+
+        function __construct() {
+            
+        }
+
+        public static function getInstance() {
+            // return 'hola getInstance SHOP';
+            if (!(self::$_instance instanceof self)) {
+                self::$_instance = new self();
+            }
+            return self::$_instance;
+        }
 
         function view() {
             // echo json_encode('Hola controller_shop view :D');

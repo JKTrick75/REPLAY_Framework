@@ -232,6 +232,13 @@
             $filter_field = $filter[0][0];
 			$filter_value = $filter[0][1];
 
+            // error_log("=========================================================");
+            // error_log($filter_field);
+            // error_log($filter_value);
+            // error_log($filter[0]);
+            // error_log($filter[1]);
+            // error_log($filter[0][2]);
+
 			//Montamos query dinámica
 			$sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
 					FROM producto p 
@@ -263,6 +270,8 @@
 			if ($filter_field == 'tipo_venta') {
 				$sql .= " AND tvp.id_tipo_venta = '$filter_value'";
 			}
+
+            // error_log($sql);
 
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
