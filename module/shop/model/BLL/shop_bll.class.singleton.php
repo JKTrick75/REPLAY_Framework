@@ -21,6 +21,18 @@
 			return $this -> dao -> select_get_all_products($this->db, $args[0], $args[1], $args[2]);
 		}
 
+		public function filter_shop_BLL($args) {
+			return $this -> dao -> select_filter_shop($this->db, $args[0], $args[1], $args[2], $args[3]);
+		}
+
+		public function filter_home_BLL($args) {
+			return $this -> dao -> select_filter_home($this->db, $args[0], $args[1], $args[2], $args[3]);
+		}
+
+		public function filter_search_BLL($args) {
+			return $this -> dao -> select_filter_search($this->db, $args[0], $args[1], $args[2], $args[3]);
+		}
+
 		//DETAILS
 		public function count_popularity_BLL($args) {
 			return $this -> dao -> select_count_popularity($this->db, $args);

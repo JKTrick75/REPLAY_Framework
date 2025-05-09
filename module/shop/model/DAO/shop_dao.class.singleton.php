@@ -52,6 +52,236 @@
             return $result;
         }
 
+        public function select_filter_shop($db, $total_prod, $items_page, $filter, $orderby_r) {
+            //Recogemos valores filtro_shop
+			$categoria = $filter[0]['categoria'];
+			$ciudad = $filter[1]['ciudad'];
+			$estado = $filter[2]['estado'];
+			$marca = $filter[3]['marca'];
+			$tipo_consola = $filter[4]['tipo_consola'];
+			$modelo_consola = $filter[5]['modelo_consola'];
+			$tipo_accesorio = $filter[6]['tipo_accesorio'];
+			$tipo_merchandising = $filter[7]['tipo_merchandising'];
+			$tipo_venta = $filter[8]['tipo_venta'];
+			$precioMin = $filter[9]['precio_min'];
+			$precioMax = $filter[10]['precio_max'];
+			//Recogemos orderby
+			$orderby = isset($orderby_r[0]['orderby']) ? $orderby_r[0]['orderby'] : false;
+			//Recogemos limit y offset
+			$offset = $total_prod;
+			$limit = $items_page;
+
+			//Montamos query dinámica
+			$sql= "SELECT p.id_producto, p.nom_producto, p.precio, p.color, e.nom_estado, c.nom_ciudad, p.lat, p.long, p.count_likes,
+						  GROUP_CONCAT(i.img_producto SEPARATOR ':') AS img_producto
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					INNER JOIN producto_categoria pc ON p.id_producto = pc.id_producto
+					INNER JOIN tipo_venta_producto tvp ON p.id_producto = tvp.id_producto
+					WHERE 1=1";
+
+			if ($categoria != '*') {
+				$categoria_sql = implode(", ", $categoria);
+				$sql .= " AND pc.id_categoria IN ($categoria_sql)";
+			}
+			if ($ciudad != '*'){
+				$sql .= " AND p.ciudad = '$ciudad[0]'";
+			}
+			if ($estado != '*'){
+				$sql .= " AND p.estado = '$estado[0]'";
+			}
+			if ($marca != '*'){
+				$sql .= " AND p.marca = '$marca[0]'";
+			}
+			if ($tipo_consola != '*'){
+				$sql .= " AND p.tipo_consola = '$tipo_consola[0]'";
+			}
+			if ($modelo_consola != '*'){
+				$sql .= " AND p.modelo_consola = '$modelo_consola[0]'";
+			}
+			if ($tipo_accesorio != '*'){
+				$sql .= " AND p.tipo_accesorio = '$tipo_accesorio[0]'";
+			}
+			if ($tipo_merchandising != '*'){
+				$sql .= " AND p.tipo_merchandising = '$tipo_merchandising[0]'";
+			}
+			if ($tipo_venta != '*') {
+				$tipo_venta_sql = implode(", ", $tipo_venta);
+				$sql .= " AND tvp.id_tipo_venta IN ($tipo_venta_sql)";
+			}
+			if (isset($precioMin) && isset($precioMax)) {
+				$sql .= " AND p.precio BETWEEN $precioMin[0] AND $precioMax[0]";
+			}
+
+			$sql.= " GROUP BY p.id_producto";
+
+			if($orderby == 'priceASC'){
+				$sql .= " ORDER BY p.precio ASC";
+			}else if($orderby == 'priceDESC'){
+				$sql .= " ORDER BY p.precio DESC";
+			}else if($orderby == 'popularidad'){
+				$sql .= " ORDER BY p.popularidad DESC";
+			}else{ //Order por defecto, los más relevantes primero
+				$sql .= " ORDER BY p.popularidad DESC";
+			}
+
+			$sql .= " LIMIT $offset, $limit";
+
+            $stmt = $db->ejecutar($sql);
+            $rows = $db->listar($stmt);
+
+            $result = [];
+            foreach ($rows as $row) {
+                $row['img_producto'] = explode(':', $row['img_producto']);
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
+        public function select_filter_home($db, $total_prod, $items_page, $filter, $orderby_r) {
+            //Recogemos valores filtro_home
+			$filter_field = $filter[0][0];
+			$filter_value = $filter[0][1];
+			//Recogemos orderby
+			$orderby = isset($orderby_r[0]['orderby']) ? $orderby_r[0]['orderby'] : false;
+			//Recogemos limit y offset
+			$offset = $total_prod;
+			$limit = $items_page;
+
+			//Montamos query dinámica
+			$sql= "SELECT p.id_producto, p.nom_producto, p.precio, p.color, e.nom_estado, c.nom_ciudad, p.lat, p.long, p.count_likes,
+						  GROUP_CONCAT(i.img_producto SEPARATOR ':') AS img_producto
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					INNER JOIN producto_categoria pc ON p.id_producto = pc.id_producto
+					INNER JOIN tipo_venta_producto tvp ON p.id_producto = tvp.id_producto
+					WHERE 1=1";
+
+			if ($filter_field == 'categoria') {
+				$sql .= " AND pc.id_categoria = '$filter_value'";
+			}
+			if ($filter_field == 'id_producto') {
+				$sql .= " AND p.id_producto = '$filter_value'";
+			}
+			if ($filter_field == 'marca') {
+				$sql .= " AND p.marca = '$filter_value'";
+			}
+			if ($filter_field == 'tipo_consola') {
+				$sql .= " AND p.tipo_consola = '$filter_value'";
+			}
+			if ($filter_field == 'ciudad') {
+				$sql .= " AND p.ciudad = '$filter_value'";
+			}
+			if ($filter_field == 'estado') {
+				$sql .= " AND p.estado = '$filter_value'";
+			}
+			if ($filter_field == 'tipo_venta') {
+				$sql .= " AND tvp.id_tipo_venta = '$filter_value'";
+			}
+
+			$sql.= " GROUP BY p.id_producto";
+
+			if($orderby == 'priceASC'){
+				$sql .= " ORDER BY p.precio ASC";
+			}else if($orderby == 'priceDESC'){
+				$sql .= " ORDER BY p.precio DESC";
+			}else if($orderby == 'popularidad'){
+				$sql .= " ORDER BY p.popularidad DESC";
+			}else{ //Order por defecto, los más relevantes primero
+				$sql .= " ORDER BY p.popularidad DESC";
+			}
+
+			$sql .= " LIMIT $offset, $limit";
+
+            $stmt = $db->ejecutar($sql);
+            $rows = $db->listar($stmt);
+
+            $result = [];
+            foreach ($rows as $row) {
+                $row['img_producto'] = explode(':', $row['img_producto']);
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
+        public function select_filter_search($db, $total_prod, $items_page, $filter, $orderby_r) {
+            //Recogemos valores filter_search
+			$tipo_consola = $filter[0]['tipo_consola'];
+			$modelo_consola = $filter[1]['modelo_consola'];
+			$ciudad = $filter[2]['ciudad'];
+			//Recogemos orderby
+			$orderby = isset($orderby_r[0]['orderby']) ? $orderby_r[0]['orderby'] : false;
+			//Recogemos limit y offset
+			$offset = $total_prod;
+			$limit = $items_page;
+
+			//Montamos query dinámica
+			$sql= "SELECT p.id_producto, p.nom_producto, p.precio, p.color, e.nom_estado, c.nom_ciudad, p.lat, p.long, p.count_likes,
+						  GROUP_CONCAT(i.img_producto SEPARATOR ':') AS img_producto
+					FROM producto p 
+					INNER JOIN img_producto i ON p.id_producto = i.id_producto
+					INNER JOIN estado e ON p.estado = e.id_estado
+					INNER JOIN ciudad c ON p.ciudad = c.id_ciudad
+					WHERE 1=1";
+
+			if ($tipo_consola != '*') {
+				$sql .= " AND p.tipo_consola = '$tipo_consola[0]'";
+			}
+			if ($modelo_consola != '*'){
+				$sql .= " AND p.modelo_consola = '$modelo_consola[0]'";
+			}
+			if ($ciudad != '*'){
+				$sql .= " AND p.ciudad = '$ciudad[0]'";
+			}
+
+			$sql.= " GROUP BY p.id_producto";
+
+			if($orderby == 'priceASC'){
+				$sql .= " ORDER BY p.precio ASC";
+			}else if($orderby == 'priceDESC'){
+				$sql .= " ORDER BY p.precio DESC";
+			}else if($orderby == 'popularidad'){
+				$sql .= " ORDER BY p.popularidad DESC";
+			}else{ //Order por defecto, los más relevantes primero
+				$sql .= " ORDER BY p.popularidad DESC";
+			}
+
+			$sql .= " LIMIT $offset, $limit";
+
+            $stmt = $db->ejecutar($sql);
+            $rows = $db->listar($stmt);
+
+            $result = [];
+            foreach ($rows as $row) {
+                $row['img_producto'] = explode(':', $row['img_producto']);
+                $result[] = $row;
+            }
+
+            return $result;
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public function select_count_popularity($db, $id) {
 
             $sql = "UPDATE producto
@@ -431,7 +661,7 @@
 
             $result = [];
 
-            foreach ($filters as $key => $info) {
+            foreach ($filters as $row => $info) {
                 // Montamos la consulta genérica
                 $column = $info['column'];
                 $table  = $info['table'];
@@ -441,10 +671,10 @@
                 // error_log($sql);
 
                 //Ejecutamos query y guardamos el resultado en el array
-                $rows = $db->ejecutar($sql);
-                $result_row = $db->listar($rows);
+                $stmt = $db->ejecutar($sql);
+                $result_row = $db->listar($stmt);
 
-                $result[$key] = $result_row;
+                $result[$row] = $result_row;
             }
 
             return $result;

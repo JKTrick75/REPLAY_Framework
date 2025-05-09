@@ -28,6 +28,20 @@
             echo json_encode(common::load_model('shop_model', 'get_all_products', [$_POST['total_prod'], $_POST['items_page'], $_POST['orderby'] ]));
         }
 
+        function filter_shop() {
+            // echo json_encode("Hola filter shop :)");
+            // exit;
+            echo json_encode(common::load_model('shop_model', 'filter_shop', [$_POST['total_prod'], $_POST['items_page'], $_POST['filter'], $_POST['orderby'] ]));
+        }
+
+        function filter_home() {
+            echo json_encode(common::load_model('shop_model', 'filter_home', [$_POST['total_prod'], $_POST['items_page'], $_POST['filter'], $_POST['orderby'] ]));
+        }
+
+        function filter_search() {
+            echo json_encode(common::load_model('shop_model', 'filter_search', [$_POST['total_prod'], $_POST['items_page'], $_POST['filter'], $_POST['orderby'] ]));
+        }
+
         //DETAILS
         function count_popularity() {
             echo json_encode(common::load_model('shop_model', 'count_popularity', $_POST['id_producto']));

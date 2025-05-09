@@ -22,6 +22,18 @@
             return $this -> bll -> get_all_products_BLL($args);
         }
 
+        public function filter_shop($args) {
+            return $this -> bll -> filter_shop_BLL($args);
+        }
+
+        public function filter_home($args) {
+            return $this -> bll -> filter_home_BLL($args);
+        }
+
+        public function filter_search($args) {
+            return $this -> bll -> filter_search_BLL($args);
+        }
+
         //DETAILS
         public function count_popularity($args) {
             return $this -> bll -> count_popularity_BLL($args);

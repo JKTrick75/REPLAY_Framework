@@ -107,19 +107,17 @@ function loadProducts(total_prod = 0, items_page = 4) {
     window.scrollTo(0, 0); //Mover la pantalla arriba del todo
 
     // if(redirect_like != false){
-        // redirect_login_like();
-    // }else if(filter_search){
-    //     ajaxForSearch(friendlyURL('?module=shop&op==filter_search'), total_prod, items_page, filter_search, orderby);
-    // }else if(filter_home){
-    //     ajaxForSearch(friendlyURL('?module=shop&op=filter_home'), total_prod, items_page, filter_home, orderby);
+    //     redirect_login_like();
     // }else 
-
-
-    // if (filter_shop) {
-        // ajaxForSearch(friendlyURL('?module=shop&op=filter_shop'), total_prod, items_page, filter_shop, orderby);
-    // }else {
+    if(filter_search){
+        ajaxForSearch(friendlyURL('?module=shop&op==filter_search'), total_prod, items_page, filter_search, orderby);
+    }else if(filter_home){
+        ajaxForSearch(friendlyURL('?module=shop&op=filter_home'), total_prod, items_page, filter_home, orderby);
+    }else if (filter_shop) {
+        ajaxForSearch(friendlyURL('?module=shop&op=filter_shop'), total_prod, items_page, filter_shop, orderby);
+    }else {
         ajaxForSearch(friendlyURL('?module=shop&op=get_all_products'), total_prod, items_page, undefined, orderby);
-    // }
+    }
 }
 
 //Cargamos filtros dinámicos
@@ -516,6 +514,7 @@ function highlight_search() {
 function highlight_orderby(){
     var order = JSON.parse(localStorage.getItem('orderby')) || false;
     if (order) {
+        // console.log(order[0].orderby);
         document.getElementById('orderby').value = order[0].orderby;
     }
 }

@@ -9,6 +9,18 @@
         <name>get_all_products</name>
         <uri>get_all_products</uri>
     </function>
+    <function>
+        <name>filter_shop</name>
+        <uri>filter_shop</uri>
+    </function>
+    <function>
+        <name>filter_home</name>
+        <uri>filter_home</uri>
+    </function>
+    <function>
+        <name>filter_search</name>
+        <uri>filter_search</uri>
+    </function>
     <!-- DETAILS -->
     <function>
         <name>count_popularity</name>
@@ -47,6 +59,7 @@
         <name>count_products</name>
         <uri>count_products</uri>
     </function>
+    <!-- FILTERS -->
     <function>
         <name>get_filters</name>
         <uri>get_filters</uri>
