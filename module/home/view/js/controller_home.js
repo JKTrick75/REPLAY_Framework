@@ -359,5 +359,5 @@ $(document).ready(function () {
     loadEstado();
     loadTipoVenta();
     clicks();
-    console.log("Bienvenido al Home!");
+    // console.log("Bienvenido al Home!");
 });

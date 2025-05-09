@@ -5,7 +5,7 @@
 function ajaxForSearch(url, total_prod, items_page, filter = undefined, orderby) {
     ajaxPromise(url, 'POST', 'JSON', { 'total_prod': total_prod, 'items_page': items_page, 'filter': filter, 'orderby': orderby })
         .then(function (data) {
-            console.log(data); //Mostrar productos listados
+            // console.log(data); //Mostrar productos listados
 
             //Vaciamos contenido del list-shop, details y marcadores, antes de volver a llenar con los productos buscados
             $('.content_shop_products').empty();
@@ -110,7 +110,7 @@ function loadProducts(total_prod = 0, items_page = 4) {
     //     redirect_login_like();
     // }else 
     if(filter_search){
-        ajaxForSearch(friendlyURL('?module=shop&op==filter_search'), total_prod, items_page, filter_search, orderby);
+        ajaxForSearch(friendlyURL('?module=shop&op=filter_search'), total_prod, items_page, filter_search, orderby);
     }else if(filter_home){
         ajaxForSearch(friendlyURL('?module=shop&op=filter_home'), total_prod, items_page, filter_home, orderby);
     }else if (filter_shop) {
@@ -198,7 +198,7 @@ function load_filters() {
         return ajaxPromise(friendlyURL('?module=shop&op=get_filters'), 'GET', 'JSON') //Ponemos return para controlar abajo en el $document.ready que se ejecute antes que algunas funciones
             .then(function (data) {
 
-                console.log(data); //Mostrar filtros recogidos
+                // console.log(data); //Mostrar filtros recogidos
 
                 // Rellenar filtros categoria
                 for (row in data["categoria"]) {
@@ -1356,5 +1356,5 @@ $(document).ready(function () {
     }).catch(function(error) {
         console.error("Error:", error);
     });
-    console.log("Bienvenido al Catálogo");
+    // console.log("Bienvenido al Catálogo");
 });

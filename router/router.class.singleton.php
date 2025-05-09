@@ -14,6 +14,9 @@
     //Shop
     include($path . "module/shop/model/BLL/shop_bll.class.singleton.php");
     include($path . "module/shop/model/DAO/shop_dao.class.singleton.php");
+    //Search
+    include($path . "module/search/model/BLL/search_bll.class.singleton.php");
+    include($path . "module/search/model/DAO/search_dao.class.singleton.php");
     
 
     // ob_start();

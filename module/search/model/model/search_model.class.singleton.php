@@ -14,32 +14,20 @@
             return self::$_instance;
         }
 
-        public function get_car_type() {
-            return $this -> bll -> get_car_type_BLL();
+        public function select_tipo_consola() {
+            return $this -> bll -> select_tipo_consola_BLL();
         }
 
-        public function get_car_brand() {
-            return $this -> bll -> get_car_brand_BLL();
+        public function select_modelo_consola_null() {
+            return $this -> bll -> select_modelo_consola_null_BLL();
         }
 
-        public function get_car_type_brand($args) {
-            return $this -> bll -> get_car_type_brand_BLL($args);
+        public function select_modelo_consola($args) {
+            return $this -> bll -> select_modelo_consola_BLL($args);
         }
 
-        public function get_auto_car_type($args) {
-            return $this -> bll -> get_auto_car_type_BLL($args);
-        }
-
-        public function get_auto_car_brand($args) {
-            return $this -> bll -> get_auto_car_brand_BLL($args);
-        }
-
-        public function get_auto_car_type_brand($args) {
-            return $this -> bll -> get_auto_car_type_brand_BLL($args);
-        }
-
-        public function get_auto($args) {
-            return $this -> bll -> get_auto_BLL($args);
+        public function autocomplete($args) {
+            return $this -> bll -> autocomplete_BLL($args);
         }
 
     }

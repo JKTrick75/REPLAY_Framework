@@ -1,122 +1,163 @@
-function load_car_type(){
-    ajaxPromise(friendlyURL('?module=search&op=car_type'), 'POST', 'JSON')
-    .then(function(data) {
-        // console.log(data);
-        for (row in data) {
-            let content = data[row].type_name.replace(/_/g, " ");
-            $('#type_select').append('<option value = "' + data[row].type_name + '">' + content + '</option>');
-        }
-    }).catch(function() {
-        console.log('Error: load car type');
-    });
-}
-
-function load_car_brand(data = undefined){
-    ajaxPromise(friendlyURL('?module=search&op=car_brand'), 'POST', 'JSON', data)
-    .then(function(data) {
-        // console.log(data);
-        $('#brand_select').empty();
-        $('#brand_select').append('<option value = "0">Car brand...</option>');
-        for (row in data) {
-            let content = data[row].brand_name.replace(/_/g, " ");
-            $('#brand_select').append('<option value = "' + data[row].brand_name + '">' + content + '</option>');
-        }
-    }).catch(function() {
-        console.log('Error: load car brand');
-    }); 
-}
-
-function launch_search() {
-    load_car_type();
-    load_car_brand();
-    $('#type_select').on('change', function(){
-        let type_name = $(this).val();
-        if (type_name === 0) {
-            load_car_brand();
-        }else {
-            load_car_brand({car_type: type_name});
-        }
-    });
-}
-
-function autocomplete(){
-
-    $("#autocom").on("keyup", function () {
-        $('#search_auto').css('display', 'block');
-        let auto_complete_data = {complete: $(this).val()};
-        if (($('#type_select').val() != 0)){
-            auto_complete_data.car_type = $('#type_select').val();
-            if(($('#type_select').val() != 0) && ($('#brand_select').val() != 0)){
-                auto_complete_data.car_brand = $('#brand_select').val();
-             }
-        }
-        if(($('#type_select').val() == 0) && ($('#brand_select').val() != 0)){ 
-            auto_complete_data.car_brand = $('#brand_select').val();
-        }
+//Cargamos select tipo_consola
+function load_tipo_consola() {
+    ajaxPromise(friendlyURL('?module=search&op=select_tipo_consola'), 'GET', 'JSON')
+        .then(function (data) {
+            // console.log(data);
+            $('<option>Tipo consola</option>').attr('selected', true).attr('disabled', true).appendTo('.search_tipo_consola');
             
-        ajaxPromise(friendlyURL('?module=search&op=autocomplete'), 'POST', 'JSON', auto_complete_data)
-        .then(function(data) {
-            $('#search_auto').empty();
-            $('#search_auto').fadeIn(10000000);
-            console.log(data);
-                for (row in data) {
-                    $('<div></div>').appendTo('#search_auto').html(data[row].city).attr({'class': 'search_element', 'id': data[row].city});
-                }
-            $(document).on('click', '.search_element', function() {
-                $('#autocom').val(this.getAttribute('id'));
-                $('#search_auto').fadeOut(1000);
-            });
-            $(document).on('click scroll', function(event) {
-                if (event.target.id !== 'autocom') {
-                    $('#search_auto').fadeOut(1000);
-                }
-            });
-        }).catch(function() {
-            $('#search_auto').fadeOut(500);
+            for (row in data) {
+                $('<option value="' + data[row].id_tipo_consola + '">' + data[row].nom_tipo_consola + '</option>').appendTo('.search_tipo_consola')
+            }
+            // Establecer el tooltip inicial
+            $('.search_tipo_consola').attr('title', $('.search_tipo_consola option:selected').text());
+        }).catch(function () {
+            console.error("Error cargando el select tipo_consola search");
         });
+}
+
+//Cargamos select modelo_consola, dinámico si se selecciona un tipo_consola
+function load_modelo_consola(tipo_consola) {
+    $('.search_modelo_consola').empty();
+
+    //Por defecto, si no tiene nada seleccionado, selecciona todos los modelo_consola
+    if (tipo_consola == undefined) {
+        ajaxPromise(friendlyURL('?module=search&op=select_modelo_consola_null'), 'GET', 'JSON')
+            .then(function (data) {
+                $('<option>Modelo</option>').attr('selected', true).attr('disabled', true).appendTo('.search_modelo_consola');
+                
+                for (row in data) {
+                    $('<option value="' + data[row].id_modelo_consola + '">' + data[row].nom_modelo_consola + '</option>').appendTo('.search_modelo_consola')
+                }
+                // Establecer el tooltip inicial
+                $('.search_modelo_consola').attr('title', $('.search_modelo_consola option:selected').text());
+            }).catch(function () {
+                console.error("Error cargando el select modelo_consola_null search");
+            });
+    } //Si se selecciona un tipo_consola, cargamos los modelos de ese tipo
+    else {
+        ajaxPromise(friendlyURL('?module=search&op=select_modelo_consola'), 'POST', 'JSON', {'tipo_consola': tipo_consola})
+            .then(function (data) {
+                $('<option>Modelo</option>').attr('selected', true).attr('disabled', true).appendTo('.search_modelo_consola');
+                for (row in data) {
+                    $('<option value="' + data[row].id_modelo_consola + '">' + data[row].nom_modelo_consola + '</option>').appendTo('.search_modelo_consola')
+                }
+                // Establecer el tooltip inicial
+                $('.search_modelo_consola').attr('title', $('.search_modelo_consola option:selected').text());
+            }).catch(function () {
+                console.error("Error cargando el select modelo_consola search");
+            });
+    }
+}
+
+//CONTROLADOR SELECTS, cargamos los selects primero, y actualiza el select del modelo_consola si se selecciona algun tipo_consola
+function load_search() {
+    load_tipo_consola();
+    load_modelo_consola();
+    $(document).on('change', '.search_tipo_consola', function () { //Si detecta cambio
+        let tipo_consola = $(this).val();
+        if (tipo_consola === 0) {
+            load_modelo_consola();
+        } else {
+            load_modelo_consola(tipo_consola);
+        }
+        //Actualizar el valor visual cuando cambia la selección (el "tooltip")
+        $(this).attr('title', $(this).find('option:selected').text());
+    });
+    //Actualizar el valor visual cuando cambia la selección en el segundo select (el "tooltip")
+    $(document).on('change', '.search_modelo_consola', function () {
+        $(this).attr('title', $(this).find('option:selected').text());
     });
 }
 
-function search_button() {
-    $('#search_button').on('click', function() {
-           
-        var search = [];
+//Cuadro autocomplete, se actualiza cada vez que se escribe en el input
+function autocomplete() {
+    $("#search_ubicacion").on("keyup", function () {
+        let sdata = $(this).val();
+        ajaxPromise(friendlyURL('?module=search&op=autocomplete'), 'POST', 'JSON', {'autocomplete': sdata})
+            .then(function (data) {
+                // console.log(data);
+                $('#search_autocomplete').empty();
 
-        if(($('#type_select').val() == 0) && ($('#brand_select').val() == 0)){
-            if($('#autocom').val() != ""){
-                search.push({"city":[$('#autocom').val()]});
-            }
-        }else if(($('#type_select').val() != 0) && ($('#brand_select').val() == 0)){
-            if($('#autocom').val() != ""){
-                search.push({"city":[$('#autocom').val()]});
-            }
-            search.push({"type_name":[$('#type_select').val()]});
-        }else if(($('#type_select').val() == 0) && ($('#brand_select').val() != 0)){
-            if($('#autocom').val() != ""){
-                search.push({"city":[$('#autocom').val()]});
-            }
-            search.push({"brand_name":[$('#brand_select').val()]});
-        }else{
-            if($('#autocom').val() != ""){
-                search.push({"city":[$('#autocom').val()]});
-            }
-            search.push({"type_name":[$('#type_select').val()]});
-            search.push({"brand_name":[$('#brand_select').val()]});
-        }
-        
-        localStorage.removeItem('filters');
-        localStorage.setItem('currentPage', 'shop-list');
+                if(data.length > 0) {
+                    for (row in data) {
+                        $('<div></div>').attr({ 'class': 'searchElement', 'id': data[row].id_ciudad , 'value': data[row].nom_ciudad }).html(data[row].nom_ciudad).appendTo('#search_autocomplete');
+                    }
+                    //Añadimos campo hidden para guardar la id del autocompletado
+                    $('<input type="hidden" id="hidden_ciudad_id"></input>').appendTo('#search_autocomplete');
+                    
+                    $('#search_autocomplete').css({
+                        'left': $('#search_ubicacion').offset().left - $('.div_search').offset().left,
+                        'width': $('#search_ubicacion').outerWidth(),
+                        'top': $('#search_ubicacion').offset().top + 30
+                    }).fadeIn(300);
+                } else {
+                    $('#search_autocomplete').fadeOut(300);
+                }
+            }).catch(function () {
+                $('#search_autocomplete').fadeOut(300);
+            });
+    });
 
-        if(search.length != 0){
-            localStorage.setItem('filters', JSON.stringify(search));
+    //Cerrar autocompletado al hacer click fuera
+    $(document).on('click', function(e) {
+        if(!$(e.target).closest('#search_autocomplete').length && !$(e.target).is('#search_ubicacion')) {
+            $('#search_autocomplete').fadeOut(300);
         }
-        window.location.href = friendlyURL('index.php?module=shop&op=view');
+    });
+
+    //Guardamos datos al seleccionar un elemento
+    $(document).on('click', '.searchElement', function () {
+        $('#search_ubicacion').val(this.getAttribute('value')); //Guardar nombre
+        $('#hidden_ciudad_id').val(this.getAttribute('id')); //Guardar id
+        $('#search_autocomplete').fadeOut(300);
+    });
+}
+
+//Click search, guardamos en localStorage los valores del search, y saltamos al shop
+function click_search() {
+    $('#search_btn').on('click', function () {
+        var filter = [];
+
+        // Filtro tipo_consola
+        if ($('#search_tipo_consola').val() != undefined) {
+            filter.push({ "tipo_consola": [$('#search_tipo_consola').val()] });
+        } else {
+            filter.push({ "tipo_consola": "*" });
+        }
+
+        // Filtro modelo_consola
+        if ($('#search_modelo_consola').val() != undefined) {
+            filter.push({ "modelo_consola": [$('#search_modelo_consola').val()] });
+        } else {
+            filter.push({ "modelo_consola": "*" });
+        }
+
+        // Filtro ciudad
+        if (($('#hidden_ciudad_id').val() != undefined) && ($('#hidden_ciudad_id').val().length > 0)) {
+            filter.push({ "ciudad": [$('#hidden_ciudad_id').val(),$('#search_ubicacion').val()] });
+        } else {
+            filter.push({ "ciudad": "*" });
+        }
+
+        //Borramos posibles filtros
+        localStorage.removeItem('filter_shop');
+        localStorage.removeItem('filter_home');
+        localStorage.removeItem('filter_search');
+        localStorage.removeItem('orderby');
+
+        // Guardamos en localStorage los filtros
+        if (filter.length != 0) {
+            localStorage.setItem('filter_search', JSON.stringify(filter));
+        }
+
+        window.location.href = '?module=shop&op=view';
 
     });
 }
 
-$(document).ready(function() {
-    launch_search();
+$(document).ready(function () {
+    load_search();
     autocomplete();
-    search_button();
+    click_search();
+    // console.log("Bienvenido al Search!");
 });

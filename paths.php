@@ -50,15 +50,19 @@
     define('JS_VIEW_SHOP', SITE_PATH . 'module/shop/view/js/');
     define ('VIEW_PATH_SHOP', SITE_ROOT . 'module/shop/view/');
 
-
-    
-
     //MODEL_SEARCH
     define('DAO_SEARCH', SITE_ROOT . 'module/search/model/DAO/');
     define('BLL_SEARCH', SITE_ROOT . 'module/search/model/BLL/');
     define('MODEL_SEARCH', SITE_ROOT . 'module/search/model/model/');
     define('JS_VIEW_SEARCH', SITE_PATH . 'module/search/view/js/');
 
+
+
+
+
+
+
+    
 
     
     // //MODEL_CONTACT

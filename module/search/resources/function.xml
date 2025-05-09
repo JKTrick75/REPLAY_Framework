@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <functions>
     <function>
-        <name>car_type</name>
-        <uri>car_type</uri>
+        <name>select_tipo_consola</name>
+        <uri>select_tipo_consola</uri>
     </function>
     <function>
-        <name>car_brand</name>
-        <uri>car_brand</uri>
+        <name>select_modelo_consola_null</name>
+        <uri>select_modelo_consola_null</uri>
+    </function>
+    <function>
+        <name>select_modelo_consola</name>
+        <uri>select_modelo_consola</uri>
     </function>
     <function>
         <name>autocomplete</name>

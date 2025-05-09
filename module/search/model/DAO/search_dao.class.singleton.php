@@ -12,59 +12,37 @@
             return self::$_instance;
         }
         
-        function select_car_type($db){
+        function select_tipo_consola($db){
 
-			$sql = "SELECT DISTINCT type_name FROM type";
-
-			$stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
-
-        function select_car_brand($db){
-
-            $sql = "SELECT DISTINCT brand_name FROM brand";
+			$sql= "SELECT * FROM tipo_consola";
 
 			$stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
 
-        function select_car_type_brand($db, $car_type){
+        function select_modelo_consola_null($db){
 
-            $sql = "SELECT DISTINCT b.brand_name FROM cars c INNER JOIN type t INNER JOIN brand b ON c.brand = b.cod_brand AND c.type = t.cod_type WHERE t.type_name='$car_type'";
+			$sql= "SELECT * FROM modelo_consola";
+
+			$stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        function select_modelo_consola($db, $tipo_consola){
+
+            $sql= "SELECT * FROM modelo_consola m
+                   WHERE m.id_tipo_consola = '$tipo_consola'";
 			
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
 
-        function select_auto_car_type($db, $car_type, $auto){
+        function select_autocomplete($db, $autocomplete){
 
-            $sql = "SELECT DISTINCT c.city FROM cars c INNER JOIN type t ON c.type = t.cod_type WHERE t.type_name='$car_type' AND c.city LIKE '$auto%'";
-
-			$stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
-
-        function select_auto_car_brand($db, $car_brand, $auto){
-
-            $sql = "SELECT DISTINCT c.city FROM cars c INNER JOIN brand b ON c.brand = b.cod_brand WHERE b.brand_name='$car_brand' AND c.city LIKE '$auto%'";
-
-			$stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
-
-        function select_auto_car_type_brand($db, $car_type, $car_brand, $auto){
-
-            $sql = "SELECT DISTINCT c.city FROM cars c INNER JOIN type t INNER JOIN brand b ON c.brand = b.cod_brand AND c.type = t.cod_type WHERE t.type_name='$car_type' AND b.brand_name='$car_brand' AND c.city LIKE '$auto%'";
+            $sql= "SELECT * FROM ciudad c
+                    WHERE c.nom_ciudad LIKE '%$autocomplete%'";
 			
             $stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
-
-        function select_auto($db, $auto){
-
-            $sql = "SELECT DISTINCT city FROM cars WHERE city LIKE '$auto%'";
-
-			$stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
         
