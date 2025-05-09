@@ -51,12 +51,17 @@
 			return $this -> dao -> select_pagination_shop($this->db, $args);
 		}
 
-		public function pagination_all_products_BLL($args) {
-			return $this -> dao -> select_pagination_all_products($this->db, $args);
+		public function pagination_all_products_BLL() {
+			return $this -> dao -> select_pagination_all_products($this->db);
 		}
 
 		public function count_products_BLL($args) {
 			return $this -> dao -> select_count_products($this->db, $args);
+		}
+
+		//FILTERS
+		public function get_filters_BLL() {
+			return $this -> dao -> select_get_filters($this->db);
 		}
 
 
@@ -74,9 +79,9 @@
 			return $this -> dao -> select_details_images($this->db, $args);
 		}
 
-		public function get_filters_BLL() {
-			return $this -> dao -> select_filters($this->db);
-		}
+		// public function get_filters_BLL() {
+		// 	return $this -> dao -> select_filters($this->db);
+		// }
 
 		public function get_filters_search_BLL($args) {
 			return $this -> dao -> filters($this->db, $args[0], $args[1], $args[2], json_decode($args[3]));

@@ -52,13 +52,18 @@
             return $this -> bll -> pagination_shop_BLL($args);
         }
 
-        public function pagination_all_products($args) {
+        public function pagination_all_products() {
             // return 'hola pagination_all_products SHOP';
-            return $this -> bll -> pagination_all_products_BLL($args);
+            return $this -> bll -> pagination_all_products_BLL();
         }
 
         public function count_products($args) {
             return $this -> bll -> count_products_BLL($args);
+        }
+
+        //FILTERS
+        public function get_filters() {
+            return $this -> bll -> get_filters_BLL();
         }
 
 
@@ -81,9 +86,9 @@
             return $this -> bll -> get_details_carousel_BLL($args);
         }
 
-        public function get_filters() {
-            return $this -> bll -> get_filters_BLL();
-        }
+        // public function get_filters() {
+        //     return $this -> bll -> get_filters_BLL();
+        // }
         
         public function get_filters_search($args) {
             return $this -> bll -> get_filters_search_BLL($args);

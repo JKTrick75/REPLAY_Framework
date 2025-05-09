@@ -200,53 +200,52 @@ function load_filters() {
         return ajaxPromise(friendlyURL('?module=shop&op=get_filters'), 'GET', 'JSON') //Ponemos return para controlar abajo en el $document.ready que se ejecute antes que algunas funciones
             .then(function (data) {
 
-                // console.log(data); //Mostrar filtros recogidos
-                // console.log("categoria"+data[0][0][0].id_categoria);
+                console.log(data); //Mostrar filtros recogidos
 
                 // Rellenar filtros categoria
-                for (categoria in data[0][0]) {
-                    $('.categoria').append(`<input type="checkbox" value="${data[0][0][categoria].id_categoria}" id="categoria${data[0][0][categoria].id_categoria}" class="filter_categoria"> ${data[0][0][categoria].nom_categoria}</br>`);
+                for (row in data["categoria"]) {
+                    $('.categoria').append(`<input type="checkbox" value="${data["categoria"][row].id_categoria}" id="categoria${data["categoria"][row].id_categoria}" class="filter_categoria"> ${data["categoria"][row].nom_categoria}</br>`);
                 }
 
                 // Rellenar filtros ciudad
-                for (ciudad in data[1][0]) {
-                    $('.filter_ciudad').append(`<option value="${data[1][0][ciudad].id_ciudad}">${data[1][0][ciudad].nom_ciudad}</option>`);
+                for (row in data["ciudad"]) {
+                    $('.filter_ciudad').append(`<option value="${data["ciudad"][row].id_ciudad}">${data["ciudad"][row].nom_ciudad}</option>`);
                 }
                 
                 // Rellenar filtros estado
-                for (estado in data[2][0]) {
-                    $('.estado').append(`<input type="radio" name="filter_estado" value="${data[2][0][estado].id_estado}" id="estado${data[2][0][estado].id_estado}" class="filter_estado"> ${data[2][0][estado].nom_estado}</br>`);                          
+                for (row in data["estado"]) {
+                    $('.estado').append(`<input type="radio" name="filter_estado" value="${data["estado"][row].id_estado}" id="estado${data["estado"][row].id_estado}" class="filter_estado"> ${data["estado"][row].nom_estado}</br>`);                          
                 }
                 
                 // Rellenar filtros marca filter_marca
-                for (marca in data[3][0]) {
-                    $('.marca').append(`<input type="radio" name="filter_marca" value="${data[3][0][marca].id_marca}" id="marca${data[3][0][marca].id_marca}" class="filter_marca"> ${data[3][0][marca].nom_marca}</br>`);
+                for (row in data["marca"]) {
+                    $('.marca').append(`<input type="radio" name="filter_marca" value="${data["marca"][row].id_marca}" id="marca${data["marca"][row].id_marca}" class="filter_marca"> ${data["marca"][row].nom_marca}</br>`);
                                         
                 }
 
                 // Rellenar filtros tipo_consola
-                for (tipo_consola in data[4][0]) {
-                    $('.filter_tipo_consola').append(`<option value="${data[4][0][tipo_consola].id_tipo_consola}">${data[4][0][tipo_consola].nom_tipo_consola}</option>`);
+                for (row in data["tipo_consola"]) {
+                    $('.filter_tipo_consola').append(`<option value="${data["tipo_consola"][row].id_tipo_consola}">${data["tipo_consola"][row].nom_tipo_consola}</option>`);
                 }
 
                 // Rellenar filtros modelo_consola
-                for (modelo_consola in data[5][0]) {
-                    $('.filter_modelo_consola').append(`<option value="${data[5][0][modelo_consola].id_modelo_consola}">${data[5][0][modelo_consola].nom_modelo_consola}</option>`);
+                for (row in data["modelo_consola"]) {
+                    $('.filter_modelo_consola').append(`<option value="${data["modelo_consola"][row].id_modelo_consola}">${data["modelo_consola"][row].nom_modelo_consola}</option>`);
                 }
 
                 // Rellenar filtros tipo_accesorio
-                for (tipo_accesorio in data[6][0]) {
-                    $('.filter_tipo_accesorio').append(`<option value="${data[6][0][tipo_accesorio].id_tipo_accesorio}">${data[6][0][tipo_accesorio].nom_tipo_accesorio}</option>`);
+                for (row in data["tipo_accesorio"]) {
+                    $('.filter_tipo_accesorio').append(`<option value="${data["tipo_accesorio"][row].id_tipo_accesorio}">${data["tipo_accesorio"][row].nom_tipo_accesorio}</option>`);
                 }
 
                 // Rellenar filtros tipo_merchandising
-                for (tipo_merchandising in data[7][0]) {
-                    $('.filter_tipo_merchandising').append(`<option value="${data[7][0][tipo_merchandising].id_tipo_merchandising}">${data[7][0][tipo_merchandising].nom_tipo_merchandising}</option>`);
+                for (row in data["tipo_merchandising"]) {
+                    $('.filter_tipo_merchandising').append(`<option value="${data["tipo_merchandising"][row].id_tipo_merchandising}">${data["tipo_merchandising"][row].nom_tipo_merchandising}</option>`);
                 }
 
                 // Rellenar filtros tipo_venta
-                for (tipo_venta in data[8][0]) {
-                    $('.tipo_venta').append(`<input type="checkbox" value="${data[8][0][tipo_venta].id_tipo_venta}" id="tipo_venta${data[8][0][tipo_venta].id_tipo_venta}" class="filter_tipo_venta"> ${data[8][0][tipo_venta].nom_tipo_venta}</br>`);                          
+                for (row in data["tipo_venta"]) {
+                    $('.tipo_venta').append(`<input type="checkbox" value="${data["tipo_venta"][row].id_tipo_venta}" id="tipo_venta${data["tipo_venta"][row].id_tipo_venta}" class="filter_tipo_venta"> ${data["tipo_venta"][row].nom_tipo_venta}</br>`);                          
                 }
 
                 //SLIDER FILTRO PRECIO
@@ -256,7 +255,7 @@ function load_filters() {
                 var filterPrecioMin = document.getElementById('filter_precio_min');
                 var filterPrecioMax = document.getElementById('filter_precio_max');
 
-                var precio_max = parseInt(data[9][0][0]['precio_max']);
+                var precio_max = parseInt(data["precio_max"][0]["precio"]);
 
                 noUiSlider.create(priceSlider, {
                     start: [0, precio_max], //Rango del filtro
@@ -1345,18 +1344,18 @@ $(document).ready(function () {
     load_map_shop();
     loadProducts();
     clicks();
-    // load_filters().then(function() {
-    //     modal_filters();
-    //     highlight_filters();
-    //     highlight_search();
-    //     highlight_orderby();
-    //     update_count_products();
+    load_filters().then(function() {
+        modal_filters();
+        highlight_filters();
+        highlight_search();
+        highlight_orderby();
+        update_count_products();
         count_products();
-    //     radar_filter_update();
-    //     ocultar_elementos();
+        radar_filter_update();
+        ocultar_elementos();
         start_pagination();
-    // }).catch(function(error) {
-    //     console.error("Error:", error);
-    // });
+    }).catch(function(error) {
+        console.error("Error:", error);
+    });
     console.log("Bienvenido al Catálogo");
 });

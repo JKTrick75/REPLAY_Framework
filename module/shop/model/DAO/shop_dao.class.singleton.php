@@ -12,6 +12,7 @@
             return self::$_instance;
         }
 
+        //SHOP-LIST
         public function select_get_all_products($db, $total_prod, $items_page, $orderby) {
             //Recogemos orderby
 			$orderby = isset($_POST['orderby'][0]['orderby']) ? $_POST['orderby'][0]['orderby'] : false;
@@ -338,7 +339,7 @@
             return $db->listar($stmt);
         }
 
-        public function select_pagination_all_products($db, $filter) {
+        public function select_pagination_all_products($db) {
 
             $sql= "SELECT COUNT(DISTINCT p.id_producto) as cantidad
 					FROM producto p 
@@ -410,6 +411,62 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
+
+        //FILTERS
+        public function select_get_filters($db) {
+
+             //Montamos configuración de filtros
+            $filters = [
+                'categoria'           => ['table' => 'categoria',           'column' => 'id_categoria, nom_categoria',                      'orderBy' => '1'],
+                'ciudad'              => ['table' => 'ciudad',              'column' => 'id_ciudad, nom_ciudad',                            'orderBy' => '1'],
+                'estado'              => ['table' => 'estado',              'column' => 'id_estado, nom_estado',                            'orderBy' => '1'],
+                'marca'               => ['table' => 'marca',               'column' => 'id_marca, nom_marca',                              'orderBy' => '1'],
+                'tipo_consola'        => ['table' => 'tipo_consola',        'column' => 'id_tipo_consola, nom_tipo_consola',                'orderBy' => '1'],
+                'modelo_consola'      => ['table' => 'modelo_consola',      'column' => 'id_modelo_consola, nom_modelo_consola',            'orderBy' => '1'],
+                'tipo_accesorio'      => ['table' => 'tipo_accesorio',      'column' => 'id_tipo_accesorio, nom_tipo_accesorio',            'orderBy' => '1'],
+                'tipo_merchandising'  => ['table' => 'tipo_merchandising',  'column' => 'id_tipo_merchandising, nom_tipo_merchandising',    'orderBy' => '1'],
+                'tipo_venta'          => ['table' => 'tipo_venta',          'column' => 'id_tipo_venta, nom_tipo_venta',                    'orderBy' => '1'],
+                'precio_max'          => ['table' => 'producto',            'column' => 'id_producto, MAX(precio) AS precio',               'orderBy' => null],
+            ];
+
+            $result = [];
+
+            foreach ($filters as $key => $info) {
+                // Montamos la consulta genérica
+                $column = $info['column'];
+                $table  = $info['table'];
+                $order  = $info['orderBy'] ? " ORDER BY {$info['orderBy']}" : '';
+
+                $sql = "SELECT DISTINCT {$column} FROM {$table}{$order}";
+                // error_log($sql);
+
+                //Ejecutamos query y guardamos el resultado en el array
+                $rows = $db->ejecutar($sql);
+                $result_row = $db->listar($rows);
+
+                $result[$key] = $result_row;
+            }
+
+            return $result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

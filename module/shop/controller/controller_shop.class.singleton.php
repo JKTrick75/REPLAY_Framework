@@ -61,12 +61,18 @@
         function pagination_all_products() {
             // echo json_encode($_POST['filter']);
             // exit;
-            echo json_encode(common::load_model('shop_model', 'pagination_all_products', $_POST['filter']));
+            echo json_encode(common::load_model('shop_model', 'pagination_all_products'));
         }
 
         function count_products() {
             echo json_encode(common::load_model('shop_model', 'count_products', $_POST['filter']));
         }
+
+        //FILTERS
+        function get_filters() {
+            echo json_encode(common::load_model('shop_model', 'get_filters'));
+        }
+
 
 
 

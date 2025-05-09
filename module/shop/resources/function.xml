@@ -47,6 +47,10 @@
         <name>count_products</name>
         <uri>count_products</uri>
     </function>
+    <function>
+        <name>get_filters</name>
+        <uri>get_filters</uri>
+    </function>
 
 
 
