@@ -2,9 +2,7 @@
     class controller_login {
 
         function view() {
-            echo json_encode('Hola controller_login view :D');
-            exit;
-            // common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
+            common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
         }
 
         function recover_view() {

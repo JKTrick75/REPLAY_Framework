@@ -17,10 +17,13 @@
     //Search
     include($path . "module/search/model/BLL/search_bll.class.singleton.php");
     include($path . "module/search/model/DAO/search_dao.class.singleton.php");
+    //Auth
+    include($path . "module/auth/model/BLL/auth_bll.class.singleton.php");
+    include($path . "module/auth/model/DAO/auth_dao.class.singleton.php");
     
 
     // ob_start();
-    // session_start();
+    session_start();
 
     class router {
         private $uriModule;
@@ -64,10 +67,7 @@
                 $modules = simplexml_load_file('resources/modules.xml');
                 foreach ($modules as $row) {
                     if (in_array($this -> uriModule, (Array) $row -> uri)) {
-                        $path = MODULES_PATH . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.singleton.php'; //EN OBRAS
-
-                        // echo json_encode($path);
-                        // exit;
+                        $path = MODULES_PATH . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.singleton.php';
 
                         if (file_exists($path)) {
                             require_once($path);
@@ -77,7 +77,7 @@
                             // echo json_encode($this -> nameModule);
                             // exit;
 
-                            return $controllerName::getInstance(); //EN OBRAS, CAMBIAR A ::GETINSTANCE return $controllerName::getInstance();
+                            return $controllerName::getInstance();
                         }
                     }
                 }

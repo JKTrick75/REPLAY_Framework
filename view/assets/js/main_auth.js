@@ -55,7 +55,7 @@ function logout(){
 function auth_clicks() {
     //================ Click-Identificarse ================
     $('.click_login').on('click', function () {
-        window.location.href = 'index.php?page=controller_auth&op=list';
+        window.location.href = '?module=auth&op=view';
         $('.register_auth').hide();
     });
 
@@ -82,4 +82,5 @@ function auth_clicks() {
 $(document).ready(function () {
     load_auth_button();
     auth_clicks();
+    // console.log("Holaaa main_auth!");
 });

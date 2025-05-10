@@ -1,15 +1,30 @@
 <?php
     class controller_auth {
+        static $_instance;
+
+		function __construct() {
+
+		}
+
+		public static function getInstance() {
+            // echo json_encode('Hola getInstance auth :D');
+            // exit;
+
+			if (!(self::$_instance instanceof self)) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
 
         function view() {
-            echo json_encode('Hola controller_auth view :D');
-            exit;
-            // common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
+            // echo json_encode('Hola controller_auth view :D');
+            // exit;
+            common::load_view('top_page_auth.html', VIEW_PATH_AUTH . 'auth.html');
         }
 
-        function recover_view() {
-            common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
-        }
+        // function recover_view() {
+        //     common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
+        // }
     
         function login() {
             echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));

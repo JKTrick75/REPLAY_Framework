@@ -225,8 +225,8 @@ function ocultar_elementos(){
 }
 
 $(document).ready(function () {
-    clicks_login();
-    clicks_register();
+    // clicks_login();
+    // clicks_register();
     clicks_auth();
     ocultar_elementos();
     // console.log("Bienvenido al Auth");
