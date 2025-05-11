@@ -39,7 +39,9 @@
         }
 
         function register() {
-            echo json_encode(common::load_model('auth_model', 'register', [$_POST['username_reg'], $_POST['pass_reg'], $_POST['email_reg']]));
+            // echo json_encode([$_POST['username_reg'], $_POST['passwd1_reg'], $_POST['email_reg']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'register', [$_POST['username_reg'], $_POST['passwd1_reg'], $_POST['email_reg']]));
         }
 
 

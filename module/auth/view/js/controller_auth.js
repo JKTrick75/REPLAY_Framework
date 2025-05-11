@@ -155,22 +155,20 @@ function validate_register() {
 function register() {
     if (validate_register() != 0) {
         var data = $('#register__form').serialize();
-        console.log(data);
+        // console.log(data);
 
         ajaxPromise(friendlyURL('?module=auth&op=register'), 'POST', 'JSON', data)
             .then(function(result) {
                 // console.log(result);
-                if (result == "error_email") {
-                    document.getElementById('error_email_reg').innerHTML = "Ya existe un usuario con este correo, intentalo con otro"
-                } else if (result == "error_username") {
-                    document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este correo, intentalo con otro"
-                } else if (result == "error_registro") {
-                    Swal.fire("Ha ocurrido un error en el registro, inténtelo de nuevo", "", "info");
+                if (result == "error_username") {
+                    document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este nombre, inténtalo con otro."
+                }else if (result == "error_email"){
+                    document.getElementById('error_email_reg').innerHTML = "Ya existe un usuario con este correo, inténtalo con otro."
                 } else {
                     //Registro completado, redirigimos al login
                     Swal.fire("Se ha registrado correctamente!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
-                            window.location.href = 'index.php?page=controller_auth&op=list';
+                            window.location.href = '?module=auth&op=view';
                             $('.register_auth').hide();
                         }
                     });
@@ -227,7 +225,7 @@ function ocultar_elementos(){
 
 $(document).ready(function () {
     clicks_login();
-    // clicks_register();
+    clicks_register();
     clicks_auth();
     ocultar_elementos();
     console.log("Bienvenido al Auth");

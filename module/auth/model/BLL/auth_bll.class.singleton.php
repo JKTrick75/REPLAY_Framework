@@ -64,41 +64,40 @@
 			}
 		}
 
+		public function register_BLL($args) {
+			//Recibimos datos del formulario de registro
+			$username = $args[0];
+			$password = $args[1];
+			$email = $args[2];
+			//Generamos datos para el registro
+			$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+			$hashavatar = md5(strtolower(trim($username))); 
+			$avatar = "https://api.dicebear.com/9.x/pixel-art/svg?seed=$hashavatar";
+			//Futures millores registre //EN OBRAS
+			// $token_email = common::generate_Token_secure(20);
+			// $id = common::generate_Token_secure(6);
 
-	// case 'login':
-    //     try {
-    //         $daoLog = new DAOAuth();
-    //         $rdo = $daoLog->search_user();
+			//Comprobamos si existe el usuario
+			if (!empty($this -> dao -> select_user($this->db, $username, $email))) {
+				$resultado = $this -> dao -> select_user($this->db, $username, $email);
 
-    //         if ($rdo == "error_user") {
-    //             echo json_encode("error_user");
-    //             exit;
-    //         } else {
-    //             if (password_verify($_POST['passwd_log'], $rdo['password'])) {
-    //                 //Creamos access_token y refresh_token con el usuario
-    //                 $access_token= create_accesstoken($rdo['username']);
-    //                 $refresh_token= create_refreshtoken($rdo['username']);
-
-    //                 //Guardamos refresh_token en BBDD
-    //                 $daoLog->save_refresh_token($rdo['username'],$refresh_token);
-
-    //                 //Creamos cookies (usuario y el timestamp)
-    //                 $_SESSION['username'] = $rdo['username'];
-    //                 $_SESSION['timestamp'] = time();
-                    
-    //                 //Devolvemos solamente el access_token para guardarlo en localStorage
-    //                 echo json_encode($access_token);
-    //                 exit;
-    //             } else {
-    //                 echo json_encode("error_passwd");
-    //                 exit;
-    //             }
-    //         }
-    //     } catch (Exception $e) {
-    //         echo json_encode("error");
-    //         exit;
-    //     }
-    //     break;
+				if ($resultado[0]['username'] == $username) {
+					return 'error_username';
+				} else {
+					return 'error_email';
+				}
+            } else {
+				$this -> dao -> insert_user($this->db, $username, $hashed_pass, $email, $avatar);
+				return 'Registro completado';
+				// $message = [ 'type' => 'validate', 
+				// 				'token' => $token_email, 
+				// 				'toEmail' =>  $args[0]];
+				// $email = json_decode(mail::send_email($message), true);
+				// if (!empty($email)) {
+				// 	return;  
+				// }   
+			}
+		}
 
 
 

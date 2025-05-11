@@ -29,9 +29,10 @@ class auth_model {
         return $this -> bll -> login_BLL($args);
     }
 
-    // public function register($args) {
-    //     return $this -> bll -> register_BLL($args);
-    // }
+    public function register($args) {
+        // return "Hola registerrrr";
+        return $this -> bll -> register_BLL($args);
+    }
 
 
 
