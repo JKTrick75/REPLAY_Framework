@@ -5,6 +5,20 @@
         <uri>view</uri>
     </function>
     <function>
+        <name>data_user</name>
+        <uri>data_user</uri>
+    </function>
+    <function>
+        <name>logout</name>
+        <uri>logout</uri>
+    </function>
+
+
+
+
+
+
+    <function>
         <name>recover_view</name>
         <uri>recover_view</uri>
     </function>

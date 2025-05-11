@@ -22,6 +22,25 @@
             common::load_view('top_page_auth.html', VIEW_PATH_AUTH . 'auth.html');
         }
 
+        function data_user() {
+            echo json_encode(common::load_model('auth_model', 'data_user', $_POST['token']));
+        }
+
+        function logout() {
+            echo json_encode(common::load_model('auth_model', 'logout'));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         // function recover_view() {
         //     common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
         // }
@@ -55,13 +74,13 @@
             echo json_encode(common::load_model('login_model', 'get_new_password', [$_POST['token_email'], $_POST['password']]));
         }  
     
-        function logout() {
-            echo json_encode('Done');
-        } 
+        // function logout() {
+        //     echo json_encode('Done');
+        // } 
 
-        function data_user() {
-            echo json_encode(common::load_model('login_model', 'get_data_user', $_POST['token']));
-        }
+        // function data_user() {
+        //     echo json_encode(common::load_model('login_model', 'get_data_user', $_POST['token']));
+        // }
 
         function activity() {
             echo json_encode(common::load_model('login_model', 'get_activity'));

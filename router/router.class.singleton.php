@@ -7,6 +7,8 @@
     //include($path . "utils/mail.inc.php");
     include($path . "paths.php");
     include($path . "model/db.class.singleton.php");
+    //JWT
+    include($path . "model/jwt.class.php");
 
     //Home
     include($path . "module/home/model/BLL/home_bll.class.singleton.php");

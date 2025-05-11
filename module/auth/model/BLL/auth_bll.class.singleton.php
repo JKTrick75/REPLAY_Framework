@@ -16,6 +16,47 @@
 			return self::$_instance;
 		}
 
+		public function data_user_BLL($args) {
+			$token = middleware::decode_token($args);
+			return $this -> dao -> select_data_user($this->db, $token['username']);
+		}
+
+		public function logout_BLL() {
+			//Borramos refresh_token en BBDD
+			if (isset($_SESSION['username'])) {
+				$this -> dao -> delete_refresh_token($this->db, $_SESSION['username']);
+			}
+
+			//Borramos cookies (usuario y el timestamp)
+			unset($_SESSION['username']);
+			unset($_SESSION['timestamp']);
+			session_destroy();
+
+			return 'Logout complete';
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		public function get_register_BLL($args) {
 			$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT);
 			$hashavatar = md5(strtolower(trim($args[2]))); 

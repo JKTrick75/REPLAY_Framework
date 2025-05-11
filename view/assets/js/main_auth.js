@@ -8,7 +8,7 @@ function load_auth_button() {
     $('.user-dropdown').remove();
     
     if (token) {
-        ajaxPromise('module/auth/controller/controller_auth.php?op=data_user', 'POST', 'JSON', { 'token': token })
+        ajaxPromise(friendlyURL('?module=auth&op=data_user'), 'POST', 'JSON', { 'token': token })
             .then(function(data) {
                 // console.log(data); //Datos login debug
                 //Añadimos classe click_dropdown, y añadimos avatar + username
@@ -41,11 +41,11 @@ function load_auth_button() {
 }
 
 function logout(){
-    ajaxPromise('module/auth/controller/controller_auth.php?op=logout', 'POST', 'JSON')
+    ajaxPromise(friendlyURL('?module=auth&op=logout'), 'POST', 'JSON')
         .then(function(data) {
             localStorage.removeItem('access_token');
             Swal.fire("Has cerrado sesión!").then(() => {
-                window.location.href = 'index.php?page=controller_home&op=list';
+                window.location.href = '?module=home&op=view';
             });
         }).catch(function() {
             console.log('Error al cerrar sesión!');

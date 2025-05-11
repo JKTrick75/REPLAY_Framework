@@ -12,6 +12,38 @@
             return self::$_instance;
         }
 
+        public function select_data_user($db, $username){
+
+			$sql = "SELECT * FROM users WHERE username='$username'";
+            
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function delete_refresh_token($db, $username){
+
+			$sql = "UPDATE users SET refresh_token=NULL WHERE username='$username'";
+            
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public function insert_user($db, $id, $username_reg, $hashed_pass, $email_reg, $avatar, $token_email) {
 
             $sql = "INSERT INTO users (id, username, password, email, user_type, avatar, token_email, activate)
@@ -84,13 +116,13 @@
 
 
 
-        public function select_data_user($db, $username){
+        // public function select_data_user($db, $username){
 
-			$sql = "SELECT id, username, password, email, user_type, avatar, token_email, activate FROM users WHERE username = '$username'";
+		// 	$sql = "SELECT id, username, password, email, user_type, avatar, token_email, activate FROM users WHERE username = '$username'";
             
-            $stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
+        //     $stmt = $db->ejecutar($sql);
+        //     return $db->listar($stmt);
+        // }
 
     }
 

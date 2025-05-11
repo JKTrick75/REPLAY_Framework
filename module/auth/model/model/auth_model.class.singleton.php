@@ -14,6 +14,23 @@ class auth_model {
         return self::$_instance;
     }
 
+    public function data_user($args) {
+        return $this -> bll -> data_user_BLL($args);
+    }
+
+    public function logout() {
+        return $this -> bll -> logout_BLL();
+    }
+
+
+
+
+
+
+
+
+
+
     public function get_register($args) {
         $res = $this -> bll -> get_register_BLL($args);
     }
