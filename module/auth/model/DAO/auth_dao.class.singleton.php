@@ -22,10 +22,32 @@
 
         public function delete_refresh_token($db, $username){
 
-			$sql = "UPDATE users SET refresh_token=NULL WHERE username='$username'";
+            //Borramos refresh_token del usuario
+			// $sql = "UPDATE users SET refresh_token=NULL WHERE username='$username'";
+            $sql = "UPDATE users SET refresh_token=NULL";
+            
+            $stmt = $db->ejecutar($sql);
+            return "update";
+        }
+
+        public function search_user($db, $username, $email){
+
+			//Buscamos ese usuario
+			$sql = "SELECT * FROM users WHERE username='$username' or email='$email'";
             
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
+        }
+
+        public function save_refresh_token($db, $username, $refresh_token){
+
+			//Guardamos refresh_token en el usuario
+			$sql = "UPDATE users SET refresh_token='$refresh_token' WHERE username='$username'";
+
+            error_log($sql);
+            
+            $stmt = $db->ejecutar($sql);
+            return "update";
         }
 
 

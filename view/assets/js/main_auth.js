@@ -15,8 +15,8 @@ function load_auth_button() {
                 $('#auth_btn')
                 .addClass("click_dropdown")
                 .append(
-                    $('<img></img>').attr({ src: data.avatar, alt: "Robot" }),
-                    $('<span></span>').text(data.username),
+                    $('<img></img>').attr({ src: data[0].avatar, alt: "Robot" }),
+                    $('<span></span>').text(data[0].username),
                     $('<span class="caret">◂</span>')
                 );
             }).catch(function() {   

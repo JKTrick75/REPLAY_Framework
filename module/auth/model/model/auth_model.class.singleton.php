@@ -8,6 +8,8 @@ class auth_model {
     }
 
     public static function getInstance() {
+        // echo json_encode('Hola getInstance aaaaaauth :D');
+        // exit;
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
         }
@@ -15,6 +17,7 @@ class auth_model {
     }
 
     public function data_user($args) {
+        // return "Hola data_user";
         return $this -> bll -> data_user_BLL($args);
     }
 
@@ -22,22 +25,32 @@ class auth_model {
         return $this -> bll -> logout_BLL();
     }
 
-
-
-
-
-
-
-
-
-
-    public function get_register($args) {
-        $res = $this -> bll -> get_register_BLL($args);
+    public function login($args) {
+        return $this -> bll -> login_BLL($args);
     }
 
-    public function get_login($args) {
-        return $this -> bll -> get_login_BLL($args);
-    }
+    // public function register($args) {
+    //     return $this -> bll -> register_BLL($args);
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function get_register($args) {
+    //     $res = $this -> bll -> get_register_BLL($args);
+    // }
+
+    // public function get_login($args) {
+    //     return $this -> bll -> get_login_BLL($args);
+    // }
 
     public function get_social_login($args) {
         return $this -> bll -> get_social_login_BLL($args);

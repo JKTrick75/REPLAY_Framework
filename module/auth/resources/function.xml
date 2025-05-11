@@ -12,6 +12,14 @@
         <name>logout</name>
         <uri>logout</uri>
     </function>
+    <function>
+        <name>login</name>
+        <uri>login</uri>
+    </function>
+    <function>
+        <name>register</name>
+        <uri>register</uri>
+    </function>
 
 
 
@@ -22,22 +30,22 @@
         <name>recover_view</name>
         <uri>recover_view</uri>
     </function>
-    <function>
+    <!-- <function>
         <name>login</name>
         <uri>login</uri>
     </function>
     <function>
         <name>register</name>
         <uri>register</uri>
-    </function>
+    </function> -->
     <function>
         <name>social_login</name>
         <uri>social_login</uri>
     </function>
-    <function>
+    <!-- <function>
         <name>logout</name>
         <uri>logout</uri>
-    </function>
+    </function> -->
     <function>
         <name>verify_email</name>
         <uri>verify_email</uri>
@@ -54,10 +62,10 @@
         <name>new_password</name>
         <uri>new_password</uri>
     </function>
-    <function>
+    <!-- <function>
         <name>data_user</name>
         <uri>data_user</uri>
-    </function>
+    </function> -->
     <function>
         <name>activity</name>
         <uri>activity</uri>

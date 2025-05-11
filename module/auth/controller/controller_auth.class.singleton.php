@@ -23,11 +23,23 @@
         }
 
         function data_user() {
+            // echo json_encode('Hola data_user auth');
+            // exit;
             echo json_encode(common::load_model('auth_model', 'data_user', $_POST['token']));
         }
 
         function logout() {
             echo json_encode(common::load_model('auth_model', 'logout'));
+        }
+
+        function login() {
+            // echo json_encode([$_POST['user_log'], $_POST['passwd_log']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'login', [$_POST['user_log'], $_POST['passwd_log']]));
+        }
+
+        function register() {
+            echo json_encode(common::load_model('auth_model', 'register', [$_POST['username_reg'], $_POST['pass_reg'], $_POST['email_reg']]));
         }
 
 
@@ -45,13 +57,13 @@
         //     common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
         // }
     
-        function login() {
-            echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));
-        }
+        // function login() {
+        //     echo json_encode(common::load_model('login_model', 'get_login', [$_POST['username'], $_POST['password']]));
+        // }
 
-        function register() {
-            echo json_encode(common::load_model('login_model', 'get_register', [$_POST['username_reg'], $_POST['pass_reg'], $_POST['email_reg']]));
-        }
+        // function register() {
+        //     echo json_encode(common::load_model('login_model', 'get_register', [$_POST['username_reg'], $_POST['pass_reg'], $_POST['email_reg']]));
+        // }
 
         function social_login() {
             echo json_encode(common::load_model('login_model', 'get_social_login', [$_POST['id'], $_POST['username'], $_POST['email'], $_POST['avatar']]));

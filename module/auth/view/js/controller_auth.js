@@ -34,8 +34,9 @@ function login() {
         var data = $('#login__form').serialize();
         // console.log(data);
 
-        ajaxPromise('module/auth/controller/controller_auth.php?op=login', 'POST', 'JSON', data)
+        ajaxPromise(friendlyURL('?module=auth&op=login'), 'POST', 'JSON', data)
             .then(function(result) {
+                // console.log(result);
                 if (result == "error_user") {
                     document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente"
                 } else if (result == "error_passwd") {
@@ -49,9 +50,9 @@ function login() {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             //Comprobamos si veníamos de redirect o login normal
                             if (localStorage.getItem('redirect_like')) { //Si ha hecho login por like
-                                window.location.href = 'index.php?page=controller_shop&op=list';
+                                window.location.href = '?module=shop&op=view';
                             } else { //Si ha hecho login normal
-                                window.location.href = 'index.php?page=controller_home&op=list';
+                                window.location.href = '?module=home&op=view';
                             }
                         }
                     });
@@ -156,7 +157,7 @@ function register() {
         var data = $('#register__form').serialize();
         console.log(data);
 
-        ajaxPromise('module/auth/controller/controller_auth.php?op=register', 'POST', 'JSON', data)
+        ajaxPromise(friendlyURL('?module=auth&op=register'), 'POST', 'JSON', data)
             .then(function(result) {
                 // console.log(result);
                 if (result == "error_email") {
@@ -225,9 +226,9 @@ function ocultar_elementos(){
 }
 
 $(document).ready(function () {
-    // clicks_login();
+    clicks_login();
     // clicks_register();
     clicks_auth();
     ocultar_elementos();
-    // console.log("Bienvenido al Auth");
+    console.log("Bienvenido al Auth");
 });

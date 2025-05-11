@@ -17,7 +17,9 @@
 		}
 
 		public function data_user_BLL($args) {
+			// return $args;
 			$token = middleware::decode_token($args);
+			// return $args;
 			return $this -> dao -> select_data_user($this->db, $token['username']);
 		}
 
@@ -34,6 +36,69 @@
 
 			return 'Logout complete';
 		}
+
+		public function login_BLL($args) {
+			if (!empty($this -> dao -> search_user($this->db, $args[0], $args[0]))) {
+				$user = $this -> dao -> search_user($this->db, $args[0], $args[0]);
+
+				if (password_verify($args[1], $user[0]['password'])) {
+
+					//Creamos access_token y refresh_token con el usuario
+                    $access_token= middleware::create_accesstoken($user[0]['username']);
+                    $refresh_token= middleware::create_refreshtoken($user[0]['username']);
+
+					//Guardamos refresh_token en BBDD
+                    $this -> dao -> save_refresh_token($this->db, $user[0]['username'],$refresh_token);
+
+					//Creamos cookies (usuario y el timestamp)
+                    $_SESSION['username'] = $user[0]['username'];
+                    $_SESSION['timestamp'] = time();
+
+					//Devolvemos solamente el access_token para guardarlo en localStorage
+					return $access_token;
+				} else {
+					return 'error_passwd';
+				}
+            } else {
+				return "error_user";
+			}
+		}
+
+
+	// case 'login':
+    //     try {
+    //         $daoLog = new DAOAuth();
+    //         $rdo = $daoLog->search_user();
+
+    //         if ($rdo == "error_user") {
+    //             echo json_encode("error_user");
+    //             exit;
+    //         } else {
+    //             if (password_verify($_POST['passwd_log'], $rdo['password'])) {
+    //                 //Creamos access_token y refresh_token con el usuario
+    //                 $access_token= create_accesstoken($rdo['username']);
+    //                 $refresh_token= create_refreshtoken($rdo['username']);
+
+    //                 //Guardamos refresh_token en BBDD
+    //                 $daoLog->save_refresh_token($rdo['username'],$refresh_token);
+
+    //                 //Creamos cookies (usuario y el timestamp)
+    //                 $_SESSION['username'] = $rdo['username'];
+    //                 $_SESSION['timestamp'] = time();
+                    
+    //                 //Devolvemos solamente el access_token para guardarlo en localStorage
+    //                 echo json_encode($access_token);
+    //                 exit;
+    //             } else {
+    //                 echo json_encode("error_passwd");
+    //                 exit;
+    //             }
+    //         }
+    //     } catch (Exception $e) {
+    //         echo json_encode("error");
+    //         exit;
+    //     }
+    //     break;
 
 
 
