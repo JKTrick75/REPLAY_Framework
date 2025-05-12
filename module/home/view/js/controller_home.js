@@ -242,7 +242,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     }); 
 
@@ -259,7 +259,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     });
     
@@ -276,7 +276,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     });   
 
@@ -293,7 +293,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     }); 
 
@@ -310,7 +310,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     });
 
@@ -327,7 +327,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     }); 
 
@@ -344,7 +344,7 @@ function clicks(){
         localStorage.setItem('filter_home', JSON.stringify(filters)); 
         setTimeout(function(){ 
             // window.location.href = friendlyURL('?module=shop&op=view');
-            window.location.href = "?module=shop&op=view";
+            window.location.href = friendlyURL('?module=shop');
         }, 200);  
     });
 }

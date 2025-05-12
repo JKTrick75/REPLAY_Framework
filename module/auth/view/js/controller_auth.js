@@ -50,9 +50,9 @@ function login() {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             //Comprobamos si veníamos de redirect o login normal
                             if (localStorage.getItem('redirect_like')) { //Si ha hecho login por like
-                                window.location.href = '?module=shop&op=view';
+                                window.location.href = friendlyURL('?module=shop');
                             } else { //Si ha hecho login normal
-                                window.location.href = '?module=home&op=view';
+                                window.location.href = friendlyURL('?module=home');
                             }
                         }
                     });
@@ -168,7 +168,8 @@ function register() {
                     //Registro completado, redirigimos al login
                     Swal.fire("Se ha registrado correctamente!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
-                            window.location.href = '?module=auth&op=view';
+                            window.location.href = friendlyURL('?module=auth');
+                            
                             $('.register_auth').hide();
                         }
                     });

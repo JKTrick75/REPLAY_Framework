@@ -150,7 +150,7 @@ function click_search() {
             localStorage.setItem('filter_search', JSON.stringify(filter));
         }
 
-        window.location.href = '?module=shop&op=view';
+        window.location.href = friendlyURL('?module=shop');
 
     });
 }

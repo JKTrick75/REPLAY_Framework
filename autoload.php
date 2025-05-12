@@ -25,5 +25,8 @@
         }else if (file_exists(SITE_ROOT . 'utils/' . $className . '.inc.php')) {
             set_include_path(SITE_ROOT . 'utils/');
             spl_autoload($className);
+        }else if (file_exists(SITE_ROOT . 'utils/' . $className . '.php')) {
+            set_include_path(SITE_ROOT . 'utils/');
+            spl_autoload($className);
         }
     }

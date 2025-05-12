@@ -1228,7 +1228,7 @@ function click_like(id_producto, lugar) {
 
         Swal.fire("Inicia sesión antes de dar like!").then((result) => {
             if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
-                window.location.href = 'index.php?page=controller_auth&op=list';
+                window.location.href = friendlyURL('?module=auth');
             }
         });
     }
@@ -1308,7 +1308,7 @@ function clicks() {
 
     $(document).on("click", ".back_list", function () {
         // console.log("Volvemos al list");
-        window.location.href = "index.php?module=shop&op=view";
+        window.location.href = friendlyURL('?module=shop');
     });
 
     $(document).on('click', '.filter_button', function () {

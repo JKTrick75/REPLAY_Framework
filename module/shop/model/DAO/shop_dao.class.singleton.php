@@ -266,22 +266,6 @@
             return $result;
         }
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public function select_count_popularity($db, $id) {
 
             $sql = "UPDATE producto
