@@ -79,7 +79,7 @@ function ajaxForSearch(url, total_prod, items_page, filter = undefined, orderby)
                 load_markers(data[row]);
             }
             //Cargamos los likes
-            // highlight_likes_user();
+            highlight_likes_user();
     }).catch(function () {
         console.log('Error en el ajaxPromise de listar productos / No hay productos para estos filtros');
         $(".content_shop_products").empty();
@@ -94,7 +94,6 @@ function ajaxForSearch(url, total_prod, items_page, filter = undefined, orderby)
 
 //CONTROLADOR FILTROS
 function loadProducts(total_prod = 0, items_page = 4) {
-    // console.log("Hola loadProducts");
     //Filtros
     var filter_shop = JSON.parse(localStorage.getItem('filter_shop')) || false;
     var filter_home = JSON.parse(localStorage.getItem('filter_home')) || false;
@@ -106,10 +105,9 @@ function loadProducts(total_prod = 0, items_page = 4) {
 
     window.scrollTo(0, 0); //Mover la pantalla arriba del todo
 
-    // if(redirect_like != false){
-    //     redirect_login_like();
-    // }else 
-    if(filter_search){
+    if(redirect_like != false){
+        redirect_login_like();
+    }else if(filter_search){
         ajaxForSearch(friendlyURL('?module=shop&op=filter_search'), total_prod, items_page, filter_search, orderby);
     }else if(filter_home){
         ajaxForSearch(friendlyURL('?module=shop&op=filter_home'), total_prod, items_page, filter_home, orderby);
@@ -1137,8 +1135,8 @@ function loadDetails(id_producto) {
                             data[0][0].modelo_consola,
                             data[0][0].ciudad);
 
-            // //Cargamos los likes
-            // highlight_likes_user();
+            //Cargamos los likes
+            highlight_likes_user();
 
         }).catch(function (data) {
             console.log('Error en el ajaxPromise de detalles producto');
@@ -1212,9 +1210,9 @@ function countPopularity(id_producto){
 function click_like(id_producto, lugar) {
     var token = localStorage.getItem('access_token');
     if (token) { //Si está logeado -> Añadir/Quitar like
-        ajaxPromise(friendlyURL('?module=shop&op=controller_likes'), 'POST', 'JSON', { 'id_producto': id_producto, 'token': token })
+        ajaxPromise(friendlyURL('?module=shop&op=controller_likes'), 'POST', 'JSON', { 'id_producto': id_producto, 'token': token, 'redirect': false })
             .then(function(data) {
-                console.log(data);
+                // console.log(data);
                 $("#" + id_producto + ".fa-heart").toggleClass('like_red');
             }).catch(function() {
                 console.log("Error click like");

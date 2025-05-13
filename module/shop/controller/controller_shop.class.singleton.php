@@ -87,6 +87,29 @@
             echo json_encode(common::load_model('shop_model', 'get_filters'));
         }
 
+        //LIKES
+        function highlight_likes_user() {
+            // echo json_encode($_POST['token']);
+            // exit;
+            echo json_encode(common::load_model('shop_model', 'highlight_likes_user', $_POST['token']));
+        }
+
+        function controller_likes() {
+            // echo json_encode($_POST['id_producto']);
+            // echo json_encode($_POST['token']);
+            // exit;
+            echo json_encode(common::load_model('shop_model', 'controller_likes', [$_POST['id_producto'], $_POST['token'], $_POST['redirect']]));
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 

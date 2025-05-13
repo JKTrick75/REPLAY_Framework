@@ -78,6 +78,15 @@
             return $this -> bll -> get_filters_BLL();
         }
 
+        //LIKES
+        public function highlight_likes_user($args) {
+            return $this -> bll -> highlight_likes_user_BLL($args);
+        }
+
+        public function controller_likes($args) {
+            return $this -> bll -> controller_likes_BLL($args);
+        }
+
 
 
 

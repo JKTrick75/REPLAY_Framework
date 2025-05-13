@@ -664,6 +664,47 @@
             return $result;
         }
 
+		//LIKES
+		public function search_user_likes($db, $username) {
+
+            $sql = "SELECT l.id_producto 
+					FROM likes l 
+					WHERE l.id_user = (SELECT u.id_user FROM users u WHERE u.username = '$username')";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+		public function select_likes($db, $id_producto, $username) {
+
+            $sql = "SELECT l.id_producto 
+					FROM likes l
+					WHERE l.id_user = (SELECT u.id_user FROM users u WHERE u.username = '$username')
+					AND l.id_producto = '$id_producto'";
+
+            $stmt = $db->ejecutar($sql);
+			if ($stmt === false) {
+				return false;
+			}
+            return $db->listar($stmt);
+        }
+
+		public function like($db, $id_producto, $username) {
+
+            $sql = "INSERT INTO likes (id_user, id_producto) VALUES ((SELECT u.id_user FROM users u WHERE u.username= '$username') ,'$id_producto');";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+		public function dislike($db, $id_producto, $username) {
+
+            $sql = "DELETE FROM likes WHERE id_producto='$id_producto' AND id_user=(SELECT  u.id_user FROM users u WHERE u.username= '$username')";
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
+
+
 
 
 
@@ -853,13 +894,13 @@
             return $db->listar($stmt);
         }
 
-        public function select_likes($db, $id, $username){
+        // public function select_likes($db, $id, $username){
 
-            $sql = "SELECT username, id_car FROM likes WHERE username='$username' AND id_car='$id'";
+        //     $sql = "SELECT username, id_car FROM likes WHERE username='$username' AND id_car='$id'";
 
-            $stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
+        //     $stmt = $db->ejecutar($sql);
+        //     return $db->listar($stmt);
+        // }
 
         public function insert_likes($db, $id, $username){
 

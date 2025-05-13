@@ -64,6 +64,15 @@
         <name>get_filters</name>
         <uri>get_filters</uri>
     </function>
+    <!-- LIKES -->
+    <function>
+        <name>highlight_likes_user</name>
+        <uri>highlight_likes_user</uri>
+    </function>
+    <function>
+        <name>controller_likes</name>
+        <uri>controller_likes</uri>
+    </function>
 
 
 

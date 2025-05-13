@@ -76,6 +76,40 @@
 			return $this -> dao -> select_get_filters($this->db);
 		}
 
+		//LIKES
+		public function highlight_likes_user_BLL($args) {
+			// return $args;
+			$token = middleware::decode_token($args);
+			// return $args;
+			return $this -> dao -> search_user_likes($this->db, $token['username']);
+		}
+
+		public function controller_likes_BLL($args) {
+			// return $args;
+			$token = middleware::decode_token($args[1]);
+			// return $token;
+			$rdo = $this -> dao -> select_likes($this->db, $args[0], $token['username']);
+
+			if ($rdo === false) {
+				echo json_encode("error");
+				exit;
+			}
+
+			if (count($rdo) === 0) { //Si no tiene like en ese producto, lo añadimos a la tabla likes
+				$rdo = $this -> dao -> like($this->db, $args[0], $token['username']);
+				echo json_encode("0");
+				exit;
+			} else { //Si ya tenía puesto like en ese producto, lo borramos de la tabla likes (SOLO si no venía del redirect, ya que el usuario quería añadirlo, no borrarlo)
+				if ($args[2] == "false"){
+					$rdo = $this -> dao -> dislike($this->db, $args[0], $token['username']);
+				}
+				echo json_encode("1");
+				exit;
+			}
+		}
+
+
+
 
 
 
