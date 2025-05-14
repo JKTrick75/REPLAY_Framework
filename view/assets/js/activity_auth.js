@@ -3,7 +3,7 @@ function control_activity() {
     var token = localStorage.getItem('access_token');
     //Si logeado -> comprobamos tiempo inactividad:
     if (token) {
-        ajaxPromise('module/auth/controller/controller_auth.php?op=check_actividad', 'POST', 'JSON')
+        ajaxPromise(friendlyURL('?module=auth&op=check_actividad'), 'POST', 'JSON')
             .then(function(data) {
                 if (data == "inactivo") {
                     console.log("Usuario INACTIVO");
@@ -23,8 +23,9 @@ function control_user() {
     if (!token) {
         console.log("control_user1 -> Sesión no iniciada");
     } else {
-        ajaxPromise('module/auth/controller/controller_auth.php?op=controluser', 'POST', 'JSON', { 'token': token })
+        ajaxPromise(friendlyURL('?module=auth&op=controluser'), 'POST', 'JSON', { 'token': token })
         .then(function(data) {
+            // console.log(data);
             if (data == "Correct_User") {
                 console.log("control_user -> CORRECTO: El usuario coincide con la session");
             } else if (data == "Wrong_User") {
@@ -44,8 +45,9 @@ function control_token_vigency() {
     if (!token) {
         console.log("control_timer1 -> Sesión no iniciada");
     }else{
-        ajaxPromise('module/auth/controller/controller_auth.php?op=controltimer', 'POST', 'JSON', { 'token': token })
+        ajaxPromise(friendlyURL('?module=auth&op=controltimer'), 'POST', 'JSON', { 'token': token })
         .then(function(data) {
+            // console.log(data);
             if (data == "Correct_Timer") {
                 console.log("control_token -> CORRECTO Access_token vigente");
             } else if (data == "Wrong_Timer") {
@@ -64,7 +66,7 @@ function control_token_vigency() {
 }
 
 function refresh_cookie() {
-    ajaxPromise('module/auth/controller/controller_auth.php?op=refresh_cookie', 'POST', 'JSON')
+    ajaxPromise(friendlyURL('?module=auth&op=refresh_cookie'), 'POST', 'JSON')
         .then(function(data) {
             console.log("Refresh cookie correctly");
         });
@@ -72,7 +74,7 @@ function refresh_cookie() {
 
 $(document).ready(function() {
     //Control inactividad
-    setInterval(function() { control_activity() }, 600000); //600000=10min | 60000=1min
+    setInterval(function() { control_activity() }, 60000); //600000=10min | 60000=1min
     //Control seguridad usuario
     control_user();
     //Control seguridad vigencia tokens
@@ -80,4 +82,5 @@ $(document).ready(function() {
     setInterval(function() { control_token_vigency() }, 59000); // 59000=59sec
     //Refresh cookies login user
     setInterval(function() { refresh_cookie() }, 600000);
+    console.log("Bienvenido al activity!");
 });

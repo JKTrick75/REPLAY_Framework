@@ -67,6 +67,15 @@
             return $stmt = $db->ejecutar($sql);
         }
 
+        //ACTIVITY
+        public function select_refresh_token($db, $username){
+
+			$sql = "SELECT refresh_token FROM users WHERE username='$username'";
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
 
 
 

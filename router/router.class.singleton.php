@@ -36,6 +36,11 @@
     
         function routingStart() {
             try {
+                //Recargamos la actividad del usuario cuando realice una acción
+                if (isset($_SESSION["tiempo"])) {  
+                    $_SESSION["tiempo"] = time(); //Devuelve la fecha actual
+                }
+                
                 call_user_func(array($this -> loadModule(), $this -> loadFunction()));
             }catch(Exception $e) {
                 common::load_error();

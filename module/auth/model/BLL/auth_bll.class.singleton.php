@@ -99,6 +99,64 @@
 			}
 		}
 
+		//ACTIVITY
+		public function check_actividad_BLL() {
+			if (!isset($_SESSION["timestamp"])) {
+				return "inactivo";
+			} else { //Si está logeado e inactivo más de 30 minutos:
+				if ((time() - $_SESSION["timestamp"]) >= 300) { //1800s=30min | 300=5min
+					return "inactivo";
+				} else {
+					return "activo";
+				}
+			}
+		}
+
+		public function controluser_BLL($args) {
+			//Decodificamos access_token
+			$acc_token_decoded = middleware::decode_token($args);
+			//Comprobamos que sean iguales username cookies y username access_token
+			if (isset($_SESSION['username']) && ($_SESSION['username']) == $acc_token_decoded['username']) {
+				return "Correct_User";
+			} else {
+				return "Wrong_User";
+			};
+		}
+
+		public function controltimer_BLL($args) {
+			//Decodificamos access_token
+			$acc_token_decoded = middleware::decode_token($args);
+			//Comprobamos el tiempo de expiración del access token
+			if ($acc_token_decoded['exp'] < time()) {
+				//Obtenemos refresh_token de bbdd
+				$rdo = $this -> dao -> select_refresh_token($this->db, $acc_token_decoded['username']);
+
+				//Decodificamos refresh_token
+				$ref_token_decoded = middleware::decode_token($rdo);
+
+				if (!$ref_token_decoded || $ref_token_decoded['exp'] < time()) { //Refresh_token expirado, cerramos sesión
+					return "Wrong_Timer"; 
+				} else { //Refresh_token vigente, regeneramos access_token
+					$new_token = middleware::create_accesstoken($acc_token_decoded['username']);
+					return json_encode($new_token); 
+				}
+			} else {
+				return "Correct_Timer"; //Access_token vigente
+			}
+		}
+
+		public function refresh_cookie_BLL() {
+			session_regenerate_id();
+			return "Done";
+		}
+
+
+
+
+
+
+
+
 
 
 

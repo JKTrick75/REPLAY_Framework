@@ -34,6 +34,23 @@ class auth_model {
         return $this -> bll -> register_BLL($args);
     }
 
+    //ACTIVITY
+    public function check_actividad() {
+        return $this -> bll -> check_actividad_BLL();
+    }
+
+    public function controluser($args) {
+        return $this -> bll -> controluser_BLL($args);
+    }
+
+    public function controltimer($args) {
+        return $this -> bll -> controltimer_BLL($args);
+    }
+
+    public function refresh_cookie() {
+        return $this -> bll -> refresh_cookie_BLL();
+    }
+
 
 
 
