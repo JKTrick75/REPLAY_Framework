@@ -34,6 +34,10 @@ class auth_model {
         return $this -> bll -> register_BLL($args);
     }
 
+    public function social_login($args) {
+        return $this -> bll -> social_login_BLL($args);
+    }
+
     //ACTIVITY
     public function check_actividad() {
         return $this -> bll -> check_actividad_BLL();
@@ -62,13 +66,7 @@ class auth_model {
 
 
 
-    // public function get_register($args) {
-    //     $res = $this -> bll -> get_register_BLL($args);
-    // }
 
-    // public function get_login($args) {
-    //     return $this -> bll -> get_login_BLL($args);
-    // }
 
     public function get_social_login($args) {
         return $this -> bll -> get_social_login_BLL($args);
@@ -94,19 +92,4 @@ class auth_model {
         return $this -> bll -> get_data_user_BLL($args);
     }
 
-    public function get_activity() {
-        return $this -> bll -> get_activity_BLL();
-    }
-
-    public function get_controluser($args) {
-        return $this -> bll -> get_controluser_BLL($args);
-    }
-
-    public function get_refresh_token($args) {
-        return $this -> bll -> get_refresh_token_BLL($args);
-    }
-
-    public function get_token_expires($args) {
-        return $this -> bll -> get_token_expires_BLL($args);
-    }
 }

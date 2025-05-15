@@ -192,3 +192,120 @@
     padding: 0 1rem;
     color: #999999;
   }
+
+/* -------------------------------------------------------------------- */
+/* ========================= SOCIAL LOGIN  ============================ */
+/* -------------------------------------------------------------------- */
+.social_login {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.google_login, 
+.github_login {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #dddddd;
+    color: white !important; /* Aseguramos texto blanco */
+}
+
+/* Texto específicamente en los títulos */
+.social_login h4 {
+    color: white !important;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Iconos también en blanco */
+.social_login i {
+    color: white !important;
+    font-size: 1.2rem;
+}
+
+.google_login {
+    background: #DB4437;
+    border-color: #DB4437;
+}
+
+.github_login {
+    background: #333333;
+    border-color: #333333;
+}
+
+.google_login:hover {
+    background: #C23325;
+    transform: translateY(-1px);
+}
+
+.github_login:hover {
+    background: #242424;
+    transform: translateY(-1px);
+}
+
+.google_login:active, 
+.github_login:active {
+    transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------- */
+/* ========================== RECOVER_PASS  =========================== */
+/* -------------------------------------------------------------------- */
+.recover_auth {
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.recover_auth h1 {
+    color: #444444;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.recover_auth .group {
+    margin-bottom: 1.5rem;
+}
+
+.recover_auth .button {
+    width: 100%;
+    padding: 14px;
+    background: #e96b56;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.recover_auth .button:hover {
+    background: #d45a46;
+}
+
+/* Ajustes adicionales para estructura específica del recuperar contraseña */
+.forget {
+    margin: 1.5rem 0;
+}
+
+.email_recover {
+    margin-bottom: 1.5rem;
+}
+
+.button_forget {
+    margin-top: 1.5rem;
+}

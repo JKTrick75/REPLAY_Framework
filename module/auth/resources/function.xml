@@ -36,19 +36,19 @@
         <name>refresh_cookie</name>
         <uri>refresh_cookie</uri>
     </function>
-
-
-
-
-
-
-    <function>
-        <name>recover_view</name>
-        <uri>recover_view</uri>
-    </function>
     <function>
         <name>social_login</name>
         <uri>social_login</uri>
+    </function>
+
+
+
+
+
+
+    <!-- <function>
+        <name>recover_view</name>
+        <uri>recover_view</uri>
     </function>
     <function>
         <name>verify_email</name>
@@ -65,5 +65,5 @@
     <function>
         <name>new_password</name>
         <uri>new_password</uri>
-    </function>
+    </function> -->
 </functions>

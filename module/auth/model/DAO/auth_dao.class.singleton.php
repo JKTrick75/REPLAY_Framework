@@ -67,6 +67,16 @@
             return $stmt = $db->ejecutar($sql);
         }
 
+        public function insert_social_login($db, $uid, $username, $email, $avatar){
+
+            $sql ="INSERT INTO users (uid, username, password, email, type_user, avatar, token_email, is_active)     
+                VALUES ('$uid', '$username', '', '$email', 'client', '$avatar', '', 1)";
+
+            // error_log($sql);
+
+            return $stmt = $db->ejecutar($sql);
+        }
+
         //ACTIVITY
         public function select_refresh_token($db, $username){
 
@@ -108,21 +118,21 @@
         //     return $db->listar($stmt);
         // }
 
-        public function select_social_login($db, $id){
+        // public function select_social_login($db, $id){
 
-			$sql = "SELECT * FROM users WHERE id='$id'";
-            $stmt = $db->ejecutar($sql);
+		// 	$sql = "SELECT * FROM users WHERE id='$id'";
 
-            return $db->listar($stmt);
-        }
+        //     $stmt = $db->ejecutar($sql);
+        //     return $db->listar($stmt);
+        // }
 
-        public function insert_social_login($db, $id, $username, $email, $avatar){
+        // public function insert_social_login($db, $id, $username, $email, $avatar){
 
-            $sql ="INSERT INTO users (id, username, password, email, user_type, avatar, token_email, activate)     
-                VALUES ('$id', '$username', '', '$email', 'client', '$avatar', '', 1)";
+        //     $sql ="INSERT INTO users (id, username, password, email, user_type, avatar, token_email, activate)     
+        //         VALUES ('$id', '$username', '', '$email', 'client', '$avatar', '', 1)";
 
-            return $stmt = $db->ejecutar($sql);
-        }
+        //     return $stmt = $db->ejecutar($sql);
+        // }
 
         public function select_verify_email($db, $token_email){
 

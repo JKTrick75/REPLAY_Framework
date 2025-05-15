@@ -45,7 +45,7 @@ function login() {
                     //Guardamos el access_token en localStorage
                     localStorage.setItem("access_token", result);
                     
-                    //Registro completado
+                    //Inicio sesión completado
                     Swal.fire("Has iniciado sesión!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             //Comprobamos si veníamos de redirect o login normal
@@ -77,6 +77,74 @@ function clicks_login(){
         e.preventDefault();
         login();
     });
+}
+
+/* ============================================================================================ */
+/*                                       SOCIAL LOGIN                                           */
+/* ============================================================================================ */
+
+function social_login(param){
+    authService = firebase_config();
+    authService.signInWithPopup(provider_config(param))
+    .then(function(result) {
+        // console.log('Hemos autenticado al usuario ', result.user);
+        email_name = result.user.email;
+        let username = email_name.split('@');
+
+        social_user = {uid: result.user.uid, username: username[0], email: result.user.email, avatar: result.user.photoURL};
+        // console.log(social_user);
+        if (result) {
+            ajaxPromise(friendlyURL("?module=auth&op=social_login"), 'POST', 'JSON', social_user)
+                .then(function(result) {
+                    // console.log(result);
+                    //Guardamos el access_token en localStorage
+                    localStorage.setItem("access_token", result);
+                    //Inicio sesión completado
+                    Swal.fire("Has iniciado sesión!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            //Comprobamos si veníamos de redirect o login normal
+                            if (localStorage.getItem('redirect_like')) { //Si ha hecho login por like
+                                window.location.href = friendlyURL('?module=shop');
+                            } else { //Si ha hecho login normal
+                                window.location.href = friendlyURL('?module=home');
+                            }
+                        }
+                    });
+                })
+                .catch(function() {
+                    console.log('Error: Social login error');
+                });
+        }
+    })
+    .catch(function(error) {
+        var errorCode = error.code;
+        console.log(errorCode);
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        var email = error.email;
+        console.log(email);
+        var credential = error.credential;
+        console.log(credential);
+    });
+}
+
+function firebase_config(){
+    if(!firebase.apps.length){
+        firebase.initializeApp(config);
+    }else{
+        firebase.app();
+    }
+    return authService = firebase.auth();
+}
+
+function provider_config(param){
+    if(param === 'google'){
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('email');
+        return provider;
+    }else if(param === 'github'){
+        return provider = new firebase.auth.GithubAuthProvider();
+    }
 }
 
 /* ============================================================================================ */
@@ -203,25 +271,54 @@ function clicks_register(){
 
 function clicks_auth() {
     $('.toggle_auth_login').on('click', function () {
-        //Limpiar formulario
+        //Limpiar formulario login
         $('#login__form')[0].reset();
         $('.login_auth .error').text('');
+        //Limpiar formulario recover
+        $('#recover__form')[0].reset();
+        $('#recover__form .error').text('');
         //Alternar formularios
         $('.login_auth').hide();
+        $('.recover_auth').hide();
         $('.register_auth').show();
     });
     $('.toggle_auth_register').on('click', function () {
-        //Limpiar formulario
+        //Limpiar formulario register
+        $('#register__form')[0].reset();
+        $('.register_auth .error').text('');
+        //Limpiar formulario recover
+        $('#recover__form')[0].reset();
+        $('#recover__form .error').text('');
+        //Alternar formularios
+        $('.register_auth').hide();
+        $('.recover_auth').hide();
+        $('.login_auth').show();
+    });
+    $('#recover_pass').on('click', function(e) {
+        //Limpiar formulario login
+        $('#login__form')[0].reset();
+        $('.login_auth .error').text('');
+        //Limpiar formulario register
         $('#register__form')[0].reset();
         $('.register_auth .error').text('');
         //Alternar formularios
+        $('.login_auth').hide();
         $('.register_auth').hide();
-        $('.login_auth').show();
+        $('.recover_auth').show();
+    });
+
+    $('#google').on('click', function(e) {
+        social_login('google');
+    });
+
+    $('#github').on('click', function(e) {
+        social_login('github');
     });
 }
 
 function ocultar_elementos(){
     $('.register_auth').hide();
+    $('.recover_auth').hide();
 }
 
 $(document).ready(function () {
@@ -229,5 +326,5 @@ $(document).ready(function () {
     clicks_register();
     clicks_auth();
     ocultar_elementos();
-    console.log("Bienvenido al Auth");
+    // console.log("Bienvenido al Auth");
 });

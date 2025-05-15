@@ -74,13 +74,13 @@ function refresh_cookie() {
 
 $(document).ready(function() {
     //Control inactividad
-    setInterval(function() { control_activity() }, 60000); //600000=10min | 60000=1min
+    setInterval(function() { control_activity() }, 600000); //600000=10min | 60000=1min
     //Control seguridad usuario
     control_user();
     //Control seguridad vigencia tokens
     control_token_vigency();
-    setInterval(function() { control_token_vigency() }, 59000); // 59000=59sec
+    setInterval(function() { control_token_vigency() }, 590000); // 59000=59sec
     //Refresh cookies login user
     setInterval(function() { refresh_cookie() }, 600000);
-    console.log("Bienvenido al activity!");
+    // console.log("Bienvenido al activity!");
 });

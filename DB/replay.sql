@@ -497,21 +497,24 @@ INSERT INTO `tipo_venta_producto` (`id_tipo_venta`, `id_producto`) VALUES
 
 CREATE TABLE `users` (
   `id_user` int NOT NULL,
+  `uid` varchar(50) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `type_user` varchar(50) DEFAULT NULL,
   `avatar` varchar(100) DEFAULT NULL,
-  `refresh_token` varchar(300) DEFAULT NULL
+  `refresh_token` varchar(300) DEFAULT NULL,
+  `token_email` varchar(50) DEFAULT NULL,
+  `is_active` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `type_user`, `avatar`, `refresh_token`) VALUES
-(1, 'prueba', '$2y$12$vM5kakwVC8emd8VDjpFTZOuECuV3JxAK3EPk8raIzLZelgqHHaEbW', 'prueba@gmail.com', 'client', 'https://api.dicebear.com/9.x/pixel-art/svg?seed=c893bad68927b457dbed39460e6afd62','');
-              -- `Prueba123?`
+INSERT INTO `users` (`id_user`, `uid`, `username`, `password`, `email`, `type_user`, `avatar`, `refresh_token`, `token_email`, `is_active`) VALUES
+(1, '12345A', 'prueba', '$2y$12$vM5kakwVC8emd8VDjpFTZOuECuV3JxAK3EPk8raIzLZelgqHHaEbW', 'prueba@gmail.com', 'client', 'https://api.dicebear.com/9.x/pixel-art/svg?seed=c893bad68927b457dbed39460e6afd62','', '', 1);
+                        -- `Prueba123?`
 --
 -- Indices de la tabla `users`
 --

@@ -48,7 +48,7 @@
                     $refresh_token= middleware::create_refreshtoken($user[0]['username']);
 
 					//Guardamos refresh_token en BBDD
-                    $this -> dao -> save_refresh_token($this->db, $user[0]['username'],$refresh_token);
+                    $this -> dao -> save_refresh_token($this->db, $user[0]['username'], $refresh_token);
 
 					//Creamos cookies (usuario y el timestamp)
                     $_SESSION['username'] = $user[0]['username'];
@@ -96,6 +96,49 @@
 				// if (!empty($email)) {
 				// 	return;  
 				// }   
+			}
+		}
+
+		public function social_login_BLL($args) {
+			if (!empty($this -> dao -> select_user($this->db, $args[1], $args[2]))) { //SI YA ESTABA REGISTRADO
+				//Buscamos usuario en bbdd
+				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
+
+				//Creamos access_token y refresh_token con el usuario
+				$access_token= middleware::create_accesstoken($user[0]['username']);
+				$refresh_token= middleware::create_refreshtoken($user[0]['username']);
+
+				//Guardamos refresh_token en BBDD
+				$this -> dao -> save_refresh_token($this->db, $user[0]['username'], $refresh_token);
+
+				//Creamos cookies (usuario y el timestamp)
+				$_SESSION['username'] = $user[0]['username'];
+				$_SESSION['timestamp'] = time();
+
+				//Devolvemos solamente el access_token para guardarlo en localStorage
+				return $access_token;
+            } else { //SI ES LA PRIMERA VEZ QUE INICIA SESIÓN CON SOCIAL_LOGIN
+				//Generamos avatar
+				$hashavatar = md5(strtolower(trim($args[1]))); 
+				$avatar = "https://api.dicebear.com/9.x/pixel-art/svg?seed=$hashavatar";
+				//Insertamos usuario en bbdd
+				$this -> dao -> insert_social_login($this->db, $args[0], $args[1], $args[2], $avatar);
+				//Buscamos usuario en bbdd
+				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
+
+				//Creamos access_token y refresh_token con el usuario
+				$access_token= middleware::create_accesstoken($user[0]['username']);
+				$refresh_token= middleware::create_refreshtoken($user[0]['username']);
+
+				//Guardamos refresh_token en BBDD
+				$this -> dao -> save_refresh_token($this->db, $user[0]['username'], $refresh_token);
+
+				//Creamos cookies (usuario y el timestamp)
+				$_SESSION['username'] = $user[0]['username'];
+				$_SESSION['timestamp'] = time();
+
+				//Devolvemos solamente el access_token para guardarlo en localStorage
+				return $access_token;
 			}
 		}
 

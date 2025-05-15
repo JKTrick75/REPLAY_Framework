@@ -44,6 +44,12 @@
             echo json_encode(common::load_model('auth_model', 'register', [$_POST['username_reg'], $_POST['passwd1_reg'], $_POST['email_reg']]));
         }
 
+        function social_login() {
+            // echo json_encode([$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['avatar']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'social_login', [$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['avatar']]));
+        }
+
         //ACTIVITY
         function check_actividad() {
             // echo json_encode("Hola check_actividad auth");
@@ -79,9 +85,9 @@
             common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
         }
 
-        function social_login() {
-            echo json_encode(common::load_model('auth_model', 'get_social_login', [$_POST['id'], $_POST['username'], $_POST['email'], $_POST['avatar']]));
-        } 
+        // function social_login() {
+        //     echo json_encode(common::load_model('auth_model', 'get_social_login', [$_POST['id'], $_POST['username'], $_POST['email'], $_POST['avatar']]));
+        // } 
     
         function verify_email() {
             $verify = json_encode(common::load_model('auth_model', 'get_verify_email', $_POST['token_email']));
