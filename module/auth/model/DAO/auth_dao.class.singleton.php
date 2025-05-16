@@ -34,6 +34,8 @@
 
 			//Buscamos ese usuario
 			$sql = "SELECT * FROM users WHERE username='$username' or email='$email'";
+
+            // error_log($sql);
             
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
@@ -59,12 +61,32 @@
             return $db->listar($stmt);
         }
 
-        public function insert_user($db, $username, $hashed_pass, $email, $avatar) {
+        public function insert_user($db, $uid, $username, $hashed_pass, $email, $avatar, $token_email) {
 
-            $sql ="   INSERT INTO `users`(`username`, `password`, `email`, `type_user`, `avatar`) 
-            VALUES ('$username','$hashed_pass','$email','client','$avatar')";
+            $sql ="   INSERT INTO `users`(`uid`, `username`, `password`, `email`, `type_user`, `avatar`, `token_email`, `is_active`) 
+            VALUES ('$uid','$username','$hashed_pass','$email','client','$avatar','$token_email','0')";
 
             return $stmt = $db->ejecutar($sql);
+        }
+
+        public function select_verify_email($db, $token_email){
+
+			$sql = "SELECT token_email FROM users WHERE token_email = '$token_email'";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        } 
+
+        public function update_verify_email($db, $token_email){
+
+            $sql = "UPDATE users SET is_active = '1', token_email= '' WHERE token_email = '$token_email'";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "update";
         }
 
         public function insert_social_login($db, $uid, $username, $email, $avatar){
@@ -134,29 +156,11 @@
         //     return $stmt = $db->ejecutar($sql);
         // }
 
-        public function select_verify_email($db, $token_email){
-
-			$sql = "SELECT token_email FROM users WHERE token_email = '$token_email'";
-
-            $stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        } 
-
-        public function update_verify_email($db, $token_email){
-
-            $sql = "UPDATE users SET activate = 1, token_email= '' WHERE token_email = '$token_email'";
-
-            $stmt = $db->ejecutar($sql);
-            return "update";
-        }
-
         public function select_recover_password($db, $email){
 			$sql = "SELECT `email` FROM `users` WHERE email = '$email' AND password NOT LIKE ('')";
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
-
-        
 
 
         public function update_recover_password($db, $email, $token_email){

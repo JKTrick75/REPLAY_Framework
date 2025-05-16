@@ -29,13 +29,17 @@ class auth_model {
         return $this -> bll -> login_BLL($args);
     }
 
+    public function social_login($args) {
+        return $this -> bll -> social_login_BLL($args);
+    }
+
     public function register($args) {
         // return "Hola registerrrr";
         return $this -> bll -> register_BLL($args);
     }
 
-    public function social_login($args) {
-        return $this -> bll -> social_login_BLL($args);
+    public function verify_email($args) {
+        return $this -> bll -> verify_email_BLL($args);
     }
 
     //ACTIVITY
@@ -68,13 +72,7 @@ class auth_model {
 
 
 
-    public function get_social_login($args) {
-        return $this -> bll -> get_social_login_BLL($args);
-    }
-    
-    public function get_verify_email($args) {
-        return $this -> bll -> get_verify_email_BLL($args);
-    }
+
 
     public function get_recover_email($args) {
         return $this -> bll -> get_recover_email_BBL($args);

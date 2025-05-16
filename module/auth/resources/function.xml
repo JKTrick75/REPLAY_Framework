@@ -40,6 +40,10 @@
         <name>social_login</name>
         <uri>social_login</uri>
     </function>
+    <function>
+        <name>verify_email</name>
+        <uri>verify_email</uri>
+    </function>
 
 
 
@@ -49,10 +53,6 @@
     <!-- <function>
         <name>recover_view</name>
         <uri>recover_view</uri>
-    </function>
-    <function>
-        <name>verify_email</name>
-        <uri>verify_email</uri>
     </function>
      <function>
         <name>send_recover_email</name>

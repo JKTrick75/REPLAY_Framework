@@ -36,11 +36,18 @@ function login() {
 
         ajaxPromise(friendlyURL('?module=auth&op=login'), 'POST', 'JSON', data)
             .then(function(result) {
-                // console.log(result);
+                console.log(result);
                 if (result == "error_user") {
-                    document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente"
+                    document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente";
                 } else if (result == "error_passwd") {
-                    document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta"
+                    document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta";
+                } else if (result == "error_activate") {
+                    //Cuenta no activada
+                    Swal.fire("Tienes que activar tu cuenta para poder iniciar sesión!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
                 } else {
                     //Guardamos el access_token en localStorage
                     localStorage.setItem("access_token", result);
@@ -161,8 +168,8 @@ function validate_register() {
         document.getElementById('error_username_reg').innerHTML = "Escribe un nombre de usuario";
         error = true;
     } else {
-        if (document.getElementById('username_reg').value.length < 5) {
-            document.getElementById('error_username_reg').innerHTML = "El username tiene que tener 5 caracteres como mínimo";
+        if (document.getElementById('username_reg').value.length < 6) {
+            document.getElementById('error_username_reg').innerHTML = "El username tiene que tener 6 caracteres como mínimo";
             error = true;
         } else {
             if (!username_regex.test(document.getElementById('username_reg').value)) {
@@ -227,18 +234,16 @@ function register() {
 
         ajaxPromise(friendlyURL('?module=auth&op=register'), 'POST', 'JSON', data)
             .then(function(result) {
-                // console.log(result);
+                console.log(result);
                 if (result == "error_username") {
                     document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este nombre, inténtalo con otro."
                 }else if (result == "error_email"){
                     document.getElementById('error_email_reg').innerHTML = "Ya existe un usuario con este correo, inténtalo con otro."
                 } else {
                     //Registro completado, redirigimos al login
-                    Swal.fire("Se ha registrado correctamente!").then((result) => {
+                    Swal.fire("Se ha enviado un correo de verificación, accede a él para activar tu cuenta!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             window.location.href = friendlyURL('?module=auth');
-                            
-                            $('.register_auth').hide();
                         }
                     });
                 }

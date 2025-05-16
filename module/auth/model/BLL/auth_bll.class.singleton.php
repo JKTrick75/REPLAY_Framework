@@ -41,8 +41,7 @@
 			if (!empty($this -> dao -> search_user($this->db, $args[0], $args[0]))) {
 				$user = $this -> dao -> search_user($this->db, $args[0], $args[0]);
 
-				if (password_verify($args[1], $user[0]['password'])) {
-
+				if (password_verify($args[1], $user[0]['password']) && $user[0]['is_active'] == 1) {
 					//Creamos access_token y refresh_token con el usuario
                     $access_token= middleware::create_accesstoken($user[0]['username']);
                     $refresh_token= middleware::create_refreshtoken($user[0]['username']);
@@ -56,46 +55,13 @@
 
 					//Devolvemos solamente el access_token para guardarlo en localStorage
 					return $access_token;
+				} else if (password_verify($args[1], $user[0]['password']) && $user[0]['is_active'] == 0) {
+					return 'error_activate';
 				} else {
 					return 'error_passwd';
 				}
             } else {
 				return "error_user";
-			}
-		}
-
-		public function register_BLL($args) {
-			//Recibimos datos del formulario de registro
-			$username = $args[0];
-			$password = $args[1];
-			$email = $args[2];
-			//Generamos datos para el registro
-			$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
-			$hashavatar = md5(strtolower(trim($username))); 
-			$avatar = "https://api.dicebear.com/9.x/pixel-art/svg?seed=$hashavatar";
-			//Futures millores registre //EN OBRAS
-			// $token_email = common::generate_Token_secure(20);
-			// $id = common::generate_Token_secure(6);
-
-			//Comprobamos si existe el usuario
-			if (!empty($this -> dao -> select_user($this->db, $username, $email))) {
-				$resultado = $this -> dao -> select_user($this->db, $username, $email);
-
-				if ($resultado[0]['username'] == $username) {
-					return 'error_username';
-				} else {
-					return 'error_email';
-				}
-            } else {
-				$this -> dao -> insert_user($this->db, $username, $hashed_pass, $email, $avatar);
-				return 'Registro completado';
-				// $message = [ 'type' => 'validate', 
-				// 				'token' => $token_email, 
-				// 				'toEmail' =>  $args[0]];
-				// $email = json_decode(mail::send_email($message), true);
-				// if (!empty($email)) {
-				// 	return;  
-				// }   
 			}
 		}
 
@@ -141,6 +107,53 @@
 				return $access_token;
 			}
 		}
+
+		public function register_BLL($args) {
+			//Recibimos datos del formulario de registro
+			$username = $args[0];
+			$password = $args[1];
+			$email = $args[2];
+			//Generamos datos para el registro
+			$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+			$hashavatar = md5(strtolower(trim($username))); 
+			$avatar = "https://api.dicebear.com/9.x/pixel-art/svg?seed=$hashavatar";
+			$token_email = common::generate_Token_secure(20);
+			$uid = common::generate_Token_secure(6);
+
+			//Comprobamos si existe el usuario
+			if (!empty($this -> dao -> select_user($this->db, $username, $email))) {
+				$resultado = $this -> dao -> select_user($this->db, $username, $email);
+
+				if ($resultado[0]['username'] == $username) {
+					return 'error_username';
+				} else {
+					return 'error_email';
+				}
+            } else {
+				$this -> dao -> insert_user($this->db, $uid, $username, $hashed_pass, $email, $avatar, $token_email);
+				$message = ['type' => 'register', 
+							'token' => $token_email, 
+							'toEmail' =>  $email];
+				$email_result = mail::send_email($message);
+
+				if ($email_result === 'success') {
+					return json_encode("success");
+				} else {
+					return json_encode("error_sending_email");
+				}
+			}
+		}
+
+		public function verify_email_BLL($args) {
+			if($this -> dao -> select_verify_email($this->db, $args)){
+				$this -> dao -> update_verify_email($this->db, $args);
+				return 'verify';
+			} else {
+				return 'fail';
+			}
+		}
+
+
 
 		//ACTIVITY
 		public function check_actividad_BLL() {
@@ -222,67 +235,16 @@
 
 
 
-		public function get_register_BLL($args) {
-			$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT);
-			$hashavatar = md5(strtolower(trim($args[2]))); 
-			$avatar = "https://robohash.org/$hashavatar";
-			$token_email = common::generate_Token_secure(20);
-			$id = common::generate_Token_secure(6);
 
-			if (!empty($this -> dao -> select_user($this->db, $args[0], $args[2]))) {
-				return 'error';
-            } else {
-				$this -> dao -> insert_user($this->db, $id, $args[0], $hashed_pass, $args[2], $avatar, $token_email);
-				$message = [ 'type' => 'validate', 
-								'token' => $token_email, 
-								'toEmail' =>  $args[0]];
-				$email = json_decode(mail::send_email($message), true);
-				if (!empty($email)) {
-					return;  
-				}   
-			}
-		}
 
-		public function get_login_BLL($args) {
-			if (!empty($this -> dao -> select_user($this->db, $args[0], $args[0]))) {
-				$user = $this -> dao -> select_user($this->db, $args[0], $args[0]);
-				if (password_verify($args[1], $user[0]['password']) && $user[0]['activate'] == 1) {
-					$jwt = jwt_process::encode($user[0]['username']);
-					$_SESSION['username'] = $user[0]['username'];
-					$_SESSION['tiempo'] = time();
-                    session_regenerate_id();
-					return json_encode($jwt);
-				} else if (password_verify($args[1], $user[0]['password']) && $user[0]['activate'] == 0) {
-					return 'activate error';
-				} else {
-					return 'error';
-				}
-            } else {
-				return 'user error';
-			}
-		}
-
-		public function get_social_login_BLL($args) {
-			if (!empty($this -> dao -> select_user($this->db, $args[1], $args[2]))) {
-				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
-				$jwt = jwt_process::encode($user[0]['username']);
-				return json_encode($jwt);
-            } else {
-				$this -> dao -> insert_social_login($this->db, $args[0], $args[1], $args[2], $args[3]);
-				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
-				$jwt = jwt_process::encode($user[0]['username']);
-				return json_encode($jwt);
-			}
-		}
-
-		public function get_verify_email_BLL($args) {
-			if($this -> dao -> select_verify_email($this->db, $args)){
-				$this -> dao -> update_verify_email($this->db, $args);
-				return 'verify';
-			} else {
-				return 'fail';
-			}
-		}
+		// public function get_verify_email_BLL($args) {
+		// 	if($this -> dao -> select_verify_email($this->db, $args)){
+		// 		$this -> dao -> update_verify_email($this->db, $args);
+		// 		return 'verify';
+		// 	} else {
+		// 		return 'fail';
+		// 	}
+		// }
 
 		public function get_recover_email_BBL($args) {
 			$user = $this -> dao -> select_recover_password($this->db, $args);

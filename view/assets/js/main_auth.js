@@ -1,4 +1,72 @@
-/* LOAD MENU */
+// ------------------- LOAD CONTENT ------------------------ //
+function load_content() {
+    let path = window.location.pathname.split('/');
+
+    // console.log(path);
+    
+    if(path[4] === 'recover'){
+        // window.location.href = friendlyURL("?module=auth&op=recover_view");
+        // localStorage.setItem("token_email", path[6]);
+    }else if (path[4] === 'verify_email') {
+        //Mostramos Loader
+        showLoader();
+        // console.log(path[5]);
+        ajaxPromise(friendlyURL("index.php?module=auth&op=verify_email"), 'POST', 'JSON', { 'token_email': path[5] })
+            .then(function(data) {
+                Swal.fire("Se ha activado tu cuenta!").then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                        // hideLoader();
+                        window.location.href = friendlyURL('?module=auth');
+                    }
+                });
+            })
+            .catch(function() {
+            hideLoader();
+            console.log('Error: verify email error');
+            });
+    }else if (path[4] === 'view') {
+        $(".login-wrap").show();
+        $(".forget_html").hide();
+    }else if (path[3] === 'recover_view') {
+        load_form_new_password();
+    }
+}
+
+
+// Creamos el overlay y lo mostramos
+function showLoader() {
+  if (document.getElementById('loader-overlay')) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'loader-overlay';
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    // baja el z-index para que Swal.fire() pueda situarse por encima
+    zIndex: 900,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  });
+
+  const img = document.createElement('img');
+  img.src = '/REPLAY_Framework/view/assets/img/icegif-555.gif';
+  img.alt = 'Cargando…';
+  img.style.width = '100%';
+  img.style.height = '100%';
+
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+
+// Ocultamos y eliminamos el overlay
+function hideLoader() {
+  const ov = document.getElementById('loader-overlay');
+  if (ov) ov.remove();
+}
+
+// ------------------- LOAD MENU ------------------------ //
 function load_menu() {
     // Menu navbar
     $('<div></div>').attr('class', 'container').appendTo('#navmenu')
@@ -21,6 +89,7 @@ function load_menu() {
     )
 }
 
+// ------------------- AUTH BUTTON ------------------------ //
 function load_auth_button() {
     // var sesion = JSON.parse(localStorage.getItem('sesion'));
     var token = localStorage.getItem('access_token');
@@ -105,6 +174,7 @@ function auth_clicks() {
 }
 
 $(document).ready(function () {
+    load_content();
     load_menu();
     load_auth_button();
     auth_clicks();
