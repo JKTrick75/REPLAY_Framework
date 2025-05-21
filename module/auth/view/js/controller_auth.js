@@ -36,7 +36,7 @@ function login() {
 
         ajaxPromise(friendlyURL('?module=auth&op=login'), 'POST', 'JSON', data)
             .then(function(result) {
-                console.log(result);
+                // console.log(result);
                 if (result == "error_user") {
                     document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente";
                 } else if (result == "error_passwd") {
@@ -234,7 +234,7 @@ function register() {
 
         ajaxPromise(friendlyURL('?module=auth&op=register'), 'POST', 'JSON', data)
             .then(function(result) {
-                console.log(result);
+                // console.log(result);
                 if (result == "error_username") {
                     document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este nombre, inténtalo con otro."
                 }else if (result == "error_email"){
@@ -268,6 +268,155 @@ function clicks_register(){
         register();
         // console.log('hola register');
     });
+}
+
+/* ============================================================================================ */
+/*                                            RECOVER                                           */
+/* ============================================================================================ */
+
+function clicks_recover(){
+    $("#recover__form").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+        	e.preventDefault();
+            send_recover_password();
+        }
+    });
+
+    $('#button_recover').on('click', function(e) {
+        e.preventDefault();
+        send_recover_password();
+    }); 
+}
+
+function validate_recover_password(){
+    var mail_exp = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
+    var error = false;
+
+    if(document.getElementById('email_forg').value.length === 0){
+		document.getElementById('error_email_forg').innerHTML = "Tienes que escribir un correo";
+		error = true;
+	}else{
+        if(!mail_exp.test(document.getElementById('email_forg').value)){
+            document.getElementById('error_email_forg').innerHTML = "El formato del mail es invalido"; 
+            error = true;
+        }else{
+            document.getElementById('error_email_forg').innerHTML = "";
+        }
+    }
+	
+    if(error == true){
+        return 0;
+    }
+}
+
+function send_recover_password(){
+    if(validate_recover_password() != 0){
+        var data = $('#recover__form').serialize();
+        // console.log(data);
+        ajaxPromise(friendlyURL('?module=auth&op=send_recover_email'), 'POST', 'JSON', data)
+            .then(function(result) {
+                // console.log(result);
+                if(result == "error"){		
+                    $("#error_email_forg").html("No existe una cuenta asociada a este correo!");
+                } else{
+                    Swal.fire("Se te ha enviado un correo, accede a él para recuperar tu contraseña!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
+                }
+            }).catch(function(textStatus) {
+                console.log('Error: Recover password error');
+            });
+    }
+}
+
+function load_form_new_password(){
+    token_email = localStorage.getItem('token_email');
+    ajaxPromise(friendlyURL('?module=auth&op=verify_token'), 'POST', 'JSON', {'token_email': token_email})
+        .then(function(result) {
+            // console.log(result);
+            if(result == "verify"){
+                click_new_password(token_email); 
+            }else {
+                console.log("error");
+            }
+        }).catch(function(textStatus) {
+            console.log('Error: Verify token error');
+        });
+}
+
+function click_new_password(token_email){
+    $(".recover_html").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+        	e.preventDefault();
+            send_new_password(token_email);
+            // console.log('confirmar contraseña');
+        }
+    });
+
+    $('#button_set_pass').on('click', function(e) {
+        e.preventDefault();
+        send_new_password(token_email);
+        // console.log('confirmar contraseña');
+    }); 
+}
+
+function validate_new_password(){
+    var error = false;
+
+    if(document.getElementById('pass_rec').value.length === 0){
+		document.getElementById('error_password_rec').innerHTML = "Escribe una contraseña";
+		error = true;
+	}else{
+        if(document.getElementById('pass_rec').value.length < 8){
+            document.getElementById('error_password_rec').innerHTML = "La contraseña tiene que ocupar más de 8 carácteres";
+            error = true;
+        }else{
+            document.getElementById('error_password_rec').innerHTML = "";
+        }
+    }
+
+    if(document.getElementById('pass_rec_2').value != document.getElementById('pass_rec').value){
+		document.getElementById('error_password_rec_2').innerHTML = "Las contraseñas no coinciden";
+		error = true;
+	}else{
+        document.getElementById('error_password_rec_2').innerHTML = "";
+    }
+
+    if(error == true){
+        return 0;
+    }
+}
+
+function send_new_password(token_email){
+    if(validate_new_password() != 0){
+        var data = {token_email: token_email, password : $('#pass_rec').val()};
+        // console.log(data);
+
+        ajaxPromise(friendlyURL('?module=auth&op=new_password'), 'POST', 'JSON', data)
+            .then(function(result) {
+                // console.log(result);
+                if(result == "done"){
+                    localStorage.removeItem('token_email');
+                    Swal.fire("Contraseña cambiada correctamente!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
+                } else {
+                    Swal.fire("Ha ocurrido un error al intentar cambiar la contraseña, inténtelo de nuevo más tarde!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
+                }
+            }).catch(function(textStatus) {
+                console.log('Error: New password error');
+            });
+    }
 }
 
 /* ============================================================================================ */
@@ -330,6 +479,7 @@ $(document).ready(function () {
     clicks_login();
     clicks_register();
     clicks_auth();
+    clicks_recover();
     ocultar_elementos();
     // console.log("Bienvenido al Auth");
 });

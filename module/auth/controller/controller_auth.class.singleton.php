@@ -56,6 +56,26 @@
             echo json_encode(common::load_model('auth_model', 'verify_email', $_POST['token_email']));
         }
 
+        //RECOVER
+        function recover_view() {
+            common::load_view('top_page_auth.html', VIEW_PATH_AUTH . 'recover_pass.html');
+        }
+
+        function send_recover_email() {
+            echo json_encode(common::load_model('auth_model', 'send_recover_email', $_POST['email_forg']));
+        }
+
+        function verify_token() {
+            // echo json_encode($_POST['token_email']);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'verify_token', $_POST['token_email']));
+        }
+
+        function new_password() {
+            echo json_encode(common::load_model('auth_model', 'new_password', [$_POST['token_email'], $_POST['password']]));
+        }
+
+
         //ACTIVITY
         function check_actividad() {
             // echo json_encode("Hola check_actividad auth");
@@ -73,34 +93,6 @@
 
         function refresh_cookie() {
             echo json_encode(common::load_model('auth_model', 'refresh_cookie'));
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        function recover_view() {
-            common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'recover_pass.html');
-        }
-
-        function send_recover_email() {
-            echo json_encode(common::load_model('auth_model', 'get_recover_email', $_POST['email_forg']));
-        }
-
-        function verify_token() {
-            echo json_encode(common::load_model('auth_model', 'get_verify_token', $_POST['token_email']));
-        }
-
-        function new_password() {
-            echo json_encode(common::load_model('auth_model', 'get_new_password', [$_POST['token_email'], $_POST['password']]));
         }
     
     }

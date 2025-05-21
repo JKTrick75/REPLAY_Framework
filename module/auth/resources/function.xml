@@ -44,19 +44,13 @@
         <name>verify_email</name>
         <uri>verify_email</uri>
     </function>
-
-
-
-
-
-
-    <!-- <function>
-        <name>recover_view</name>
-        <uri>recover_view</uri>
-    </function>
-     <function>
+    <function>
         <name>send_recover_email</name>
         <uri>send_recover_email</uri>
+    </function>
+    <function>
+        <name>recover_view</name>
+        <uri>recover_view</uri>
     </function>
     <function>
         <name>verify_token</name>
@@ -65,5 +59,6 @@
     <function>
         <name>new_password</name>
         <uri>new_password</uri>
-    </function> -->
+    </function>
+
 </functions>

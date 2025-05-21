@@ -1,33 +1,32 @@
 // ------------------- LOAD CONTENT ------------------------ //
 function load_content() {
     let path = window.location.pathname.split('/');
-
-    // console.log(path);
+    console.log(path);
     
     if(path[4] === 'recover'){
-        // window.location.href = friendlyURL("?module=auth&op=recover_view");
-        // localStorage.setItem("token_email", path[6]);
+        localStorage.setItem("token_email", path[5]);
+        // window.location.href = friendlyURL("index.php?module=auth&op=view");
+        window.location.href = friendlyURL('index.php?module=auth&op=recover_view');
     }else if (path[4] === 'verify_email') {
-        //Mostramos Loader
+        //Mostramos Loader GIF
         showLoader();
         // console.log(path[5]);
         ajaxPromise(friendlyURL("index.php?module=auth&op=verify_email"), 'POST', 'JSON', { 'token_email': path[5] })
             .then(function(data) {
                 Swal.fire("Se ha activado tu cuenta!").then((result) => {
                     if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
-                        // hideLoader();
                         window.location.href = friendlyURL('?module=auth');
                     }
                 });
             })
             .catch(function() {
-            hideLoader();
             console.log('Error: verify email error');
             });
     }else if (path[4] === 'view') {
         $(".login-wrap").show();
         $(".forget_html").hide();
     }else if (path[3] === 'recover_view') {
+        // console.log('HOLA RECOVER VIEW');
         load_form_new_password();
     }
 }
@@ -35,35 +34,28 @@ function load_content() {
 
 // Creamos el overlay y lo mostramos
 function showLoader() {
-  if (document.getElementById('loader-overlay')) return;
+    if (document.getElementById('loader-overlay')) return;
 
-  const overlay = document.createElement('div');
-  overlay.id = 'loader-overlay';
-  Object.assign(overlay.style, {
-    position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    // baja el z-index para que Swal.fire() pueda situarse por encima
-    zIndex: 900,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  });
+    const overlay = document.createElement('div');
+        overlay.id = 'loader-overlay';
+        Object.assign(overlay.style, {
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(255,255,255,0.9)',
+        zIndex: 900,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    });
 
-  const img = document.createElement('img');
-  img.src = '/REPLAY_Framework/view/assets/img/icegif-555.gif';
-  img.alt = 'Cargando…';
-  img.style.width = '100%';
-  img.style.height = '100%';
+    const img = document.createElement('img');
+    img.src = '/REPLAY_Framework/view/assets/img/icegif-555.gif';
+    img.alt = 'Cargando…';
+    img.style.width = '100%';
+    img.style.height = '100%';
 
-  overlay.appendChild(img);
-  document.body.appendChild(overlay);
-}
-
-// Ocultamos y eliminamos el overlay
-function hideLoader() {
-  const ov = document.getElementById('loader-overlay');
-  if (ov) ov.remove();
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
 }
 
 // ------------------- LOAD MENU ------------------------ //

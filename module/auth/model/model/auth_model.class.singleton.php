@@ -42,6 +42,19 @@ class auth_model {
         return $this -> bll -> verify_email_BLL($args);
     }
 
+    //RECOVER
+    public function send_recover_email($args) {
+        return $this -> bll -> send_recover_email_BBL($args);
+    }
+
+    public function verify_token($args) {
+        return $this -> bll -> verify_token_BLL($args);
+    }
+
+    public function new_password($args) {
+        return $this -> bll -> new_password_BLL($args);
+    }
+
     //ACTIVITY
     public function check_actividad() {
         return $this -> bll -> check_actividad_BLL();
@@ -57,37 +70,6 @@ class auth_model {
 
     public function refresh_cookie() {
         return $this -> bll -> refresh_cookie_BLL();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function get_recover_email($args) {
-        return $this -> bll -> get_recover_email_BBL($args);
-    }
-
-    public function get_verify_token($args) {
-        return $this -> bll -> get_verify_token_BLL($args);
-    }
-
-    public function get_new_password($args) {
-        return $this -> bll -> get_new_password_BLL($args);
-    }
-
-    public function get_data_user($args) {
-        return $this -> bll -> get_data_user_BLL($args);
     }
 
 }
