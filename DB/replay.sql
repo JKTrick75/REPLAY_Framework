@@ -505,23 +505,24 @@ CREATE TABLE `users` (
   `avatar` varchar(100) DEFAULT NULL,
   `refresh_token` varchar(300) DEFAULT NULL,
   `token_email` varchar(50) DEFAULT NULL,
-  `is_active` varchar(50) DEFAULT NULL
+  `is_active` varchar(50) DEFAULT NULL,
+  `provider` varchar(50) DEFAULT NULL,
+  `login_attempts` int DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `uid`, `username`, `password`, `email`, `type_user`, `avatar`, `refresh_token`, `token_email`, `is_active`) VALUES
-(1, '12345A', 'prueba', '$2y$12$vM5kakwVC8emd8VDjpFTZOuECuV3JxAK3EPk8raIzLZelgqHHaEbW', 'prueba@gmail.com', 'client', 'https://api.dicebear.com/9.x/pixel-art/svg?seed=c893bad68927b457dbed39460e6afd62','', '', 1);
+INSERT INTO `users` (`id_user`, `uid`, `username`, `password`, `email`, `type_user`, `avatar`, `refresh_token`, `token_email`, `is_active`, `provider`, `login_attempts`) VALUES
+(1, '12345A', 'prueba', '$2y$12$vM5kakwVC8emd8VDjpFTZOuECuV3JxAK3EPk8raIzLZelgqHHaEbW', 'prueba@gmail.com', 'client', 'https://api.dicebear.com/9.x/pixel-art/svg?seed=c893bad68927b457dbed39460e6afd62','', '', 1, 'local', 0);
                         -- `Prueba123?`
 --
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT de la tabla `users`

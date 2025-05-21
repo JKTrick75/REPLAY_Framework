@@ -22,9 +22,9 @@ function load_content() {
             .catch(function() {
             console.log('Error: verify email error');
             });
-    }else if (path[4] === 'view') {
-        $(".login-wrap").show();
-        $(".forget_html").hide();
+    // }else if (path[4] === 'view') {
+    //     $(".login-wrap").show();
+    //     $(".forget_html").hide();
     }else if (path[3] === 'recover_view') {
         // console.log('HOLA RECOVER VIEW');
         load_form_new_password();

@@ -33,7 +33,7 @@
         public function search_user($db, $username, $email){
 
 			//Buscamos ese usuario
-			$sql = "SELECT * FROM users WHERE username='$username' or email='$email'";
+			$sql = "SELECT * FROM users WHERE (username='$username' or email='$email') AND provider='local'";
 
             // error_log($sql);
             
@@ -46,7 +46,7 @@
 			//Guardamos refresh_token en el usuario
 			$sql = "UPDATE users SET refresh_token='$refresh_token' WHERE username='$username'";
 
-            error_log($sql);
+            // error_log($sql);
             
             $stmt = $db->ejecutar($sql);
             return "update";
@@ -55,16 +55,26 @@
         //REGISTER
         public function select_user($db, $username, $email){
 
-			$sql = "SELECT username, email FROM users WHERE username = '$username' OR email = '$email'";
+			$sql = "SELECT username, email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'local' ";
 
+            // error_log($sql);
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function select_user_social($db, $username, $email){
+
+			$sql = "SELECT username, email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'social' ";
+
+            // error_log($sql);
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
 
         public function insert_user($db, $uid, $username, $hashed_pass, $email, $avatar, $token_email) {
 
-            $sql ="   INSERT INTO `users`(`uid`, `username`, `password`, `email`, `type_user`, `avatar`, `token_email`, `is_active`) 
-            VALUES ('$uid','$username','$hashed_pass','$email','client','$avatar','$token_email','0')";
+            $sql ="   INSERT INTO `users`(`uid`, `username`, `password`, `email`, `type_user`, `avatar`, `token_email`, `is_active`, `provider`) 
+            VALUES ('$uid','$username','$hashed_pass','$email','client','$avatar','$token_email','0','local')";
 
             return $stmt = $db->ejecutar($sql);
         }
@@ -91,8 +101,8 @@
 
         public function insert_social_login($db, $uid, $username, $email, $avatar){
 
-            $sql ="INSERT INTO users (uid, username, password, email, type_user, avatar, token_email, is_active)     
-                VALUES ('$uid', '$username', '', '$email', 'client', '$avatar', '', 1)";
+            $sql ="INSERT INTO users (uid, username, password, email, type_user, avatar, token_email, is_active, provider)     
+                VALUES ('$uid', '$username', '', '$email', 'client', '$avatar', '', '1', 'social')";
 
             // error_log($sql);
 
@@ -101,7 +111,7 @@
 
         //RECOVER
         public function select_email_recover($db, $email){
-			$sql = "SELECT `email` FROM `users` WHERE email = '$email' AND password NOT LIKE ('')";
+			$sql = "SELECT `email` FROM `users` WHERE email = '$email' AND provider ='local'"; //Solamente cuentas locales, no social login
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
@@ -115,7 +125,7 @@
         public function update_new_passwoord($db, $token_email, $password){
             $sql = "UPDATE users SET password= '$password', token_email= '', is_active='1' WHERE token_email = '$token_email'";
             $stmt = $db->ejecutar($sql);
-            error_log($sql);
+            // error_log($sql);
             return "ok";
         }
 

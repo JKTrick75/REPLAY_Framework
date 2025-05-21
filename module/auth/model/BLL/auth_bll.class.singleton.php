@@ -66,9 +66,9 @@
 		}
 
 		public function social_login_BLL($args) {
-			if (!empty($this -> dao -> select_user($this->db, $args[1], $args[2]))) { //SI YA ESTABA REGISTRADO
+			if (!empty($this -> dao -> select_user_social($this->db, $args[1], $args[2]))) { //SI YA ESTABA REGISTRADO
 				//Buscamos usuario en bbdd
-				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
+				$user = $this -> dao -> select_user_social($this->db, $args[1], $args[2]);
 
 				//Creamos access_token y refresh_token con el usuario
 				$access_token= middleware::create_accesstoken($user[0]['username']);
@@ -90,7 +90,7 @@
 				//Insertamos usuario en bbdd
 				$this -> dao -> insert_social_login($this->db, $args[0], $args[1], $args[2], $avatar);
 				//Buscamos usuario en bbdd
-				$user = $this -> dao -> select_user($this->db, $args[1], $args[2]);
+				$user = $this -> dao -> select_user_social($this->db, $args[1], $args[2]);
 
 				//Creamos access_token y refresh_token con el usuario
 				$access_token= middleware::create_accesstoken($user[0]['username']);

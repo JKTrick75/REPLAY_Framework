@@ -37,7 +37,7 @@ function login() {
         ajaxPromise(friendlyURL('?module=auth&op=login'), 'POST', 'JSON', data)
             .then(function(result) {
                 // console.log(result);
-                if (result == "error_user") {
+                if (result == "error_user") { //Si da error, aumentamos en 1 el número de intentos
                     document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente";
                 } else if (result == "error_passwd") {
                     document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta";
@@ -48,7 +48,7 @@ function login() {
                             window.location.href = friendlyURL('?module=auth');
                         }
                     });
-                } else {
+                } else { //Cuando hagamos login, reseteamos contador de intentos a 0
                     //Guardamos el access_token en localStorage
                     localStorage.setItem("access_token", result);
                     
@@ -234,7 +234,7 @@ function register() {
 
         ajaxPromise(friendlyURL('?module=auth&op=register'), 'POST', 'JSON', data)
             .then(function(result) {
-                // console.log(result);
+                console.log(result);
                 if (result == "error_username") {
                     document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este nombre, inténtalo con otro."
                 }else if (result == "error_email"){
@@ -298,7 +298,7 @@ function validate_recover_password(){
 		error = true;
 	}else{
         if(!mail_exp.test(document.getElementById('email_forg').value)){
-            document.getElementById('error_email_forg').innerHTML = "El formato del mail es invalido"; 
+            document.getElementById('error_email_forg').innerHTML = "El formato del email es invalido"; 
             error = true;
         }else{
             document.getElementById('error_email_forg').innerHTML = "";
@@ -318,7 +318,7 @@ function send_recover_password(){
             .then(function(result) {
                 // console.log(result);
                 if(result == "error"){		
-                    $("#error_email_forg").html("No existe una cuenta asociada a este correo!");
+                    $("#error_email_forg").html("No existe una cuenta asociada a este correo! <br>(Las cuentas asociadas a login de tipo social no tienen permitido cambiar de contraseña)");
                 } else{
                     Swal.fire("Se te ha enviado un correo, accede a él para recuperar tu contraseña!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {

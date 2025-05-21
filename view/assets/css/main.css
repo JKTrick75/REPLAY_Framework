@@ -76,6 +76,7 @@ body {
   color: var(--default-color);
   background-color: var(--background-color);
   font-family: var(--default-font);
+  margin-top: 80px;
 }
 
 a {
