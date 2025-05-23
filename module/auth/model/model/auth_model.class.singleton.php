@@ -21,18 +21,29 @@ class auth_model {
         return $this -> bll -> data_user_BLL($args);
     }
 
+    //LOGOUT
     public function logout() {
         return $this -> bll -> logout_BLL();
     }
 
+    //LOGIN
     public function login($args) {
         return $this -> bll -> login_BLL($args);
+    }
+
+    public function controller_attempts($args) {
+        return $this -> bll -> controller_attempts_BLL($args);
+    }
+
+    public function reset_attempts($args) {
+        return $this -> bll -> reset_attempts_BLL($args);
     }
 
     public function social_login($args) {
         return $this -> bll -> social_login_BLL($args);
     }
 
+    //REGISTER
     public function register($args) {
         // return "Hola registerrrr";
         return $this -> bll -> register_BLL($args);

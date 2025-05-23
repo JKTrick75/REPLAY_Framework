@@ -28,14 +28,28 @@
             echo json_encode(common::load_model('auth_model', 'data_user', $_POST['token']));
         }
 
+        //LOGOUT
         function logout() {
             echo json_encode(common::load_model('auth_model', 'logout'));
         }
 
+        //LOGIN
         function login() {
             // echo json_encode([$_POST['user_log'], $_POST['passwd_log']]);
             // exit;
             echo json_encode(common::load_model('auth_model', 'login', [$_POST['user_log'], $_POST['passwd_log']]));
+        }
+
+        function controller_attempts() {
+            // echo json_encode([$_POST['user_log'], $_POST['passwd_log']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'controller_attempts', $_POST['user_log']));
+        }
+
+        function reset_attempts() {
+            // echo json_encode([$_POST['user_log'], $_POST['passwd_log']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'reset_attempts', $_POST['user_log']));
         }
 
         function social_login() {

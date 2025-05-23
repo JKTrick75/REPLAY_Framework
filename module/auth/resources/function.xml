@@ -60,5 +60,12 @@
         <name>new_password</name>
         <uri>new_password</uri>
     </function>
-
+    <function>
+        <name>controller_attempts</name>
+        <uri>controller_attempts</uri>
+    </function>
+    <function>
+        <name>reset_attempts</name>
+        <uri>reset_attempts</uri>
+    </function>
 </functions>

@@ -37,9 +37,11 @@ function login() {
         ajaxPromise(friendlyURL('?module=auth&op=login'), 'POST', 'JSON', data)
             .then(function(result) {
                 // console.log(result);
-                if (result == "error_user") { //Si da error, aumentamos en 1 el número de intentos
+                if (result == "error_user") {
                     document.getElementById('error_user_log').innerHTML = "El username o correo no existe, asegúrate de que lo has escrito correctamente";
                 } else if (result == "error_passwd") {
+                    //+1 login_attempt
+                    controller_attempts("attempt_plus",data); 
                     document.getElementById('error_passwd_log').innerHTML = "La contraseña es incorrecta";
                 } else if (result == "error_activate") {
                     //Cuenta no activada
@@ -48,7 +50,10 @@ function login() {
                             window.location.href = friendlyURL('?module=auth');
                         }
                     });
-                } else { //Cuando hagamos login, reseteamos contador de intentos a 0
+                } else {
+                    //Reseteamos login_attempt
+                    controller_attempts("attempt_reset", data); 
+
                     //Guardamos el access_token en localStorage
                     localStorage.setItem("access_token", result);
                     
@@ -84,6 +89,88 @@ function clicks_login(){
         e.preventDefault();
         login();
     });
+}
+
+function controller_attempts(mode, data){
+    // console.log(data);
+    // console.log(mode);
+    if(mode == "attempt_plus"){
+        ajaxPromise(friendlyURL('?module=auth&op=controller_attempts'), 'POST', 'JSON', data)
+        .then(function(result) {
+            console.log(result);
+
+            if (result == 'mensaje_enviado') {
+                Swal.fire({
+                    title: "Cuenta inhabilitada por seguridad",
+                    html: "Hemos enviado un código de recuperación a tu WhatsApp.",
+                    input: "text",
+                    inputPlaceholder: "Introduce el código de 6 carácteres",
+                    inputAttributes: {
+                        autocapitalize: "off",
+                        maxlength: 6
+                    },
+                    showCancelButton: false,  // No necesitas cancelar en este flujo
+                    confirmButtonText: "Confirmar",
+                    showLoaderOnConfirm: true,
+                    preConfirm: async (codigo) => {
+                        try {
+                            // 1. Hacer petición a TU endpoint
+                            const response = await fetch('/tu-endpoint-validacion', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    codigo: codigo,
+                                    usuario: "ID_USUARIO"  // Necesitas obtenerlo de tu sistema
+                                })
+                            });
+                            
+                            // 2. Manejar respuesta
+                            if (!response.ok) {
+                                const errorData = await response.json();
+                                throw new Error(errorData.message || "Código inválido");
+                            }
+                            
+                            return await response.json();
+                            
+                        } catch (error) {
+                            Swal.showValidationMessage(
+                                `Error: ${error.message}`
+                            );
+                            return false;
+                        }
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed && result.value) { 
+                        // 3. Si todo sale bien
+                        Swal.fire({
+                            title: "¡Cuenta recuperada!",
+                            text: "Tu cuenta ha sido habilitada nuevamente, vuelve a iniciar sesión, o recupera tu contraseña.",
+                            icon: "success"
+                        }).then(() => {
+                            window.location.href = friendlyURL('?module=auth');
+                        });
+                    }
+                });
+            }
+
+        }).catch(function(textStatus) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+            }
+        });
+    }else if(mode == "attempt_reset"){
+        // console.log('RESETEAMOS');
+        ajaxPromise(friendlyURL('?module=auth&op=reset_attempts'), 'POST', 'JSON', data)
+        .then(function(result) {
+            // console.log(result);
+        }).catch(function(textStatus) {
+            console.log("Error reseteo de intentos");
+        });
+    }
+    
 }
 
 /* ============================================================================================ */

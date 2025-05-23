@@ -117,7 +117,7 @@
         }
 
         public function update_token_recover($db, $email, $token_email){
-			$sql = "UPDATE users SET token_email= '$token_email', is_active='0' WHERE email = '$email'";
+			$sql = "UPDATE users SET token_email= '$token_email', is_active='0' WHERE email = '$email' AND provider='local'"; //Solamente cuentas locales, no social login
             $stmt = $db->ejecutar($sql);
             return "ok";
         }
@@ -126,6 +126,46 @@
             $sql = "UPDATE users SET password= '$password', token_email= '', is_active='1' WHERE token_email = '$token_email'";
             $stmt = $db->ejecutar($sql);
             // error_log($sql);
+            return "ok";
+        }
+
+        public function update_user_attempts($db, $username, $email){
+
+            $sql = "UPDATE users SET login_attempts=login_attempts+1 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
+        }
+
+        public function select_user_attempts($db, $username, $email){
+
+			$sql = "SELECT login_attempts, email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function inactive_user_attempts($db, $username, $email, $otp_token){
+
+            $sql = "UPDATE users SET is_active='0', token_email='$otp_token' WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
+        }
+
+        public function reset_user_attempts($db, $username, $email){
+
+            $sql = "UPDATE users SET login_attempts=0 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
             return "ok";
         }
 

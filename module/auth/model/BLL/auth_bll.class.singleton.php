@@ -65,6 +65,41 @@
 			}
 		}
 
+		public function controller_attempts_BLL($args) {
+			//AUMENTAR EN 1 LOS ATTEMPTS
+			$this -> dao -> update_user_attempts($this->db, $args, $args);
+
+			//CONTROLAR SI EL USUARIO HA LLEGADO A 3
+			$attempts = $this -> dao -> select_user_attempts($this->db, $args, $args);
+
+				//SI HA LLEGADO A 3, IS_ACTIVE A 0, GENERAMOS OTP Y ENVIAMOS WHATSAPP
+				if($attempts[0]['login_attempts'] >= 3){
+					$otp_token = common::generate_Token_secure(6);
+					$this -> dao -> inactive_user_attempts($this->db, $args, $args, $otp_token);
+
+					$message = ['type' => 'inactive', 
+								'token' => $otp_token];
+					$message_result = message::send_message($message);
+
+					if ($message_result === 'success') {
+						return json_encode('mensaje_enviado');
+					} else {
+						return json_encode('error_sending_message');
+					}
+				}
+
+			return 'active';
+				
+		}
+
+		public function reset_attempts_BLL($args) {
+			//RESETEAR A 0 LOS ATTEMPTS
+			$this -> dao -> reset_user_attempts($this->db, $args, $args);
+
+			return 'ok';
+				
+		}
+
 		public function social_login_BLL($args) {
 			if (!empty($this -> dao -> select_user_social($this->db, $args[1], $args[2]))) { //SI YA ESTABA REGISTRADO
 				//Buscamos usuario en bbdd
