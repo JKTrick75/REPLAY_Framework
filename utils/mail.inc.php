@@ -2,13 +2,6 @@
     class mail {
         public static function send_email($email) {
             switch ($email['type']) {
-                // case 'contact';
-                //     $email['toEmail'] = '13salmu@gmail.com';
-                //     $email['fromEmail'] = 'secondchanceonti@gmail.com';
-                //     $email['inputEmail'] = 'secondchanceonti@gmail.com';
-                //     $email['inputMatter'] = 'Email verification';
-                //     $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/Ejercicios/Framework_PHP_OO_MVC/index.php?module=contact&op=view'>Click here for verify your email.</a>";
-                //     break;
                 case 'register';
                     $email['fromEmail'] = 'Replay <onboarding@resend.dev>';
                     $email['inputEmail'] = 'proyecto.david75@gmail.com';

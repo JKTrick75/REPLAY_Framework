@@ -20,6 +20,7 @@
             return $db->listar($stmt);
         }
 
+        //LOGOUT
         public function delete_refresh_token($db, $username){
 
             //Borramos refresh_token del usuario
@@ -30,6 +31,7 @@
             return "update";
         }
 
+        //LOGIN
         public function search_user($db, $username, $email){
 
 			//Buscamos ese usuario
@@ -50,6 +52,66 @@
             
             $stmt = $db->ejecutar($sql);
             return "update";
+        }
+
+        public function update_user_attempts($db, $username, $email){
+
+            $sql = "UPDATE users SET login_attempts=login_attempts+1 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
+        }
+
+        public function select_user_attempts($db, $username, $email){
+
+			$sql = "SELECT login_attempts, email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function inactive_user_attempts($db, $username, $email, $otp_token){
+
+            $sql = "UPDATE users SET is_active='0', token_email='$otp_token' WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            // error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
+        }
+
+        public function reset_user_attempts($db, $username, $email){
+
+            $sql = "UPDATE users SET login_attempts=0 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
+        }
+
+        public function select_verify_message($db, $username, $email){
+
+			$sql = "SELECT token_email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'local' ";
+
+            error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+
+        public function verify_user_account($db, $username, $email){
+
+            $sql = "UPDATE users SET login_attempts=0, is_active='1', token_email='' WHERE (username = '$username' OR email = '$email') AND provider='local' ";
+
+            error_log($sql);
+
+            $stmt = $db->ejecutar($sql);
+            return "ok";
         }
 
         //REGISTER
@@ -126,46 +188,6 @@
             $sql = "UPDATE users SET password= '$password', token_email= '', is_active='1' WHERE token_email = '$token_email'";
             $stmt = $db->ejecutar($sql);
             // error_log($sql);
-            return "ok";
-        }
-
-        public function update_user_attempts($db, $username, $email){
-
-            $sql = "UPDATE users SET login_attempts=login_attempts+1 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
-
-            // error_log($sql);
-
-            $stmt = $db->ejecutar($sql);
-            return "ok";
-        }
-
-        public function select_user_attempts($db, $username, $email){
-
-			$sql = "SELECT login_attempts, email FROM users WHERE (username = '$username' OR email = '$email') AND provider = 'local' ";
-
-            // error_log($sql);
-
-            $stmt = $db->ejecutar($sql);
-            return $db->listar($stmt);
-        }
-
-        public function inactive_user_attempts($db, $username, $email, $otp_token){
-
-            $sql = "UPDATE users SET is_active='0', token_email='$otp_token' WHERE (username = '$username' OR email = '$email') AND provider='local' ";
-
-            // error_log($sql);
-
-            $stmt = $db->ejecutar($sql);
-            return "ok";
-        }
-
-        public function reset_user_attempts($db, $username, $email){
-
-            $sql = "UPDATE users SET login_attempts=0 WHERE (username = '$username' OR email = '$email') AND provider='local' ";
-
-            error_log($sql);
-
-            $stmt = $db->ejecutar($sql);
             return "ok";
         }
 

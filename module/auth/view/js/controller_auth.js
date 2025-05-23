@@ -92,14 +92,18 @@ function clicks_login(){
 }
 
 function controller_attempts(mode, data){
-    // console.log(data);
+    console.log(data);
     // console.log(mode);
+    //Obtenemos el usuario:
+    var params = new URLSearchParams(data);
+    var usuario = params.get('user_log');
+
     if(mode == "attempt_plus"){
         ajaxPromise(friendlyURL('?module=auth&op=controller_attempts'), 'POST', 'JSON', data)
         .then(function(result) {
             console.log(result);
 
-            if (result == 'mensaje_enviado') {
+            if (result == '"mensaje_enviado"') {
                 Swal.fire({
                     title: "Cuenta inhabilitada por seguridad",
                     html: "Hemos enviado un código de recuperación a tu WhatsApp.",
@@ -109,42 +113,33 @@ function controller_attempts(mode, data){
                         autocapitalize: "off",
                         maxlength: 6
                     },
-                    showCancelButton: false,  // No necesitas cancelar en este flujo
+                    showCancelButton: false,
                     confirmButtonText: "Confirmar",
                     showLoaderOnConfirm: true,
                     preConfirm: async (codigo) => {
                         try {
-                            // 1. Hacer petición a TU endpoint
-                            const response = await fetch('/tu-endpoint-validacion', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    codigo: codigo,
-                                    usuario: "ID_USUARIO"  // Necesitas obtenerlo de tu sistema
-                                })
-                            });
+                            console.log(codigo);
+                            console.log(usuario);
                             
-                            // 2. Manejar respuesta
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.message || "Código inválido");
+                            var response = await ajaxPromise(friendlyURL('?module=auth&op=verify_message'), 'POST', 'JSON', { 'codigo': codigo, 'username': usuario });
+                            
+                            console.log(response);
+
+                            if (response !== 'success') {
+                                throw new Error("Código inválido");
                             }
                             
-                            return await response.json();
+                            return response;
                             
                         } catch (error) {
-                            Swal.showValidationMessage(
-                                `Error: ${error.message}`
-                            );
+                            Swal.showValidationMessage(`Error: ${error.message}`);
+                            Swal.getInput().value = ""; //Limpiamos campo texto
                             return false;
                         }
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
-                    if (result.isConfirmed && result.value) { 
-                        // 3. Si todo sale bien
+                    if (result.isConfirmed && result.value) {
                         Swal.fire({
                             title: "¡Cuenta recuperada!",
                             text: "Tu cuenta ha sido habilitada nuevamente, vuelve a iniciar sesión, o recupera tu contraseña.",

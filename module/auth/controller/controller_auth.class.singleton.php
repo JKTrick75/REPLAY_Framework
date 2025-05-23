@@ -52,6 +52,12 @@
             echo json_encode(common::load_model('auth_model', 'reset_attempts', $_POST['user_log']));
         }
 
+        function verify_message() {
+            // echo json_encode([$_POST['codigo'], $_POST['user']]);
+            // exit;
+            echo json_encode(common::load_model('auth_model', 'verify_message', [$_POST['codigo'], $_POST['username']]));
+        }
+
         function social_login() {
             // echo json_encode([$_POST['uid'], $_POST['username'], $_POST['email'], $_POST['avatar']]);
             // exit;

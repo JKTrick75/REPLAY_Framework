@@ -100,6 +100,19 @@
 				
 		}
 
+		public function verify_message_BLL($args) {
+			//COMPROBAMOS SI EL CODIGO COINCIDE
+			$verify = $this -> dao -> select_verify_message($this->db, $args[1], $args[1]);
+
+			if (!empty($verify) && $verify[0]['token_email'] == $args[0]) {
+				//Volvemos a habilitar la cuenta
+				$this -> dao -> verify_user_account($this->db, $args[1], $args[1]);
+				return 'success';
+			}
+			return 'error';
+				
+		}
+
 		public function social_login_BLL($args) {
 			if (!empty($this -> dao -> select_user_social($this->db, $args[1], $args[2]))) { //SI YA ESTABA REGISTRADO
 				//Buscamos usuario en bbdd

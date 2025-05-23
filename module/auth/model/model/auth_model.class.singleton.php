@@ -39,6 +39,11 @@ class auth_model {
         return $this -> bll -> reset_attempts_BLL($args);
     }
 
+    public function verify_message($args) {
+        return $this -> bll -> verify_message_BLL($args);
+    }
+
+    //SOCIAL_LOGIN
     public function social_login($args) {
         return $this -> bll -> social_login_BLL($args);
     }
