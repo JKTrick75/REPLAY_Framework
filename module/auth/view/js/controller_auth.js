@@ -398,11 +398,14 @@ function send_recover_password(){
         // console.log(data);
         ajaxPromise(friendlyURL('?module=auth&op=send_recover_email'), 'POST', 'JSON', data)
             .then(function(result) {
-                // console.log(result);
+                console.log(result);
                 if(result == "error"){		
                     $("#error_email_forg").html("No existe una cuenta asociada a este correo! <br>(Las cuentas asociadas a login de tipo social no tienen permitido cambiar de contraseña)");
                 } else{
-                    Swal.fire("Se te ha enviado un correo, accede a él para recuperar tu contraseña!").then((result) => {
+                    //Guardamos recover_token en localStorage
+                    localStorage.setItem("recover_token", result);
+                    //Enviamos alerta de que hemos enviado un correo
+                    Swal.fire("Se te ha enviado un correo, accede a él para recuperar tu contraseña! (Solo tiene validez durante 1 hora)").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             window.location.href = friendlyURL('?module=auth');
                         }
@@ -416,13 +419,18 @@ function send_recover_password(){
 
 function load_form_new_password(){
     token_email = localStorage.getItem('token_email');
-    ajaxPromise(friendlyURL('?module=auth&op=verify_token'), 'POST', 'JSON', {'token_email': token_email})
+    recover_token = localStorage.getItem('recover_token');
+    ajaxPromise(friendlyURL('?module=auth&op=verify_token'), 'POST', 'JSON', {'token_email': token_email, 'recover_token': recover_token})
         .then(function(result) {
-            // console.log(result);
+            console.log(result);
             if(result == "verify"){
                 click_new_password(token_email); 
             }else {
-                console.log("error");
+                Swal.fire("Ha ocurrido un error, es posible que haya expirado el tiempo para poder cambiar la contraseña. Vuelve a intentarlo.").then((result) => {
+                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                        window.location.href = friendlyURL('?module=auth');
+                    }
+                });
             }
         }).catch(function(textStatus) {
             console.log('Error: Verify token error');
@@ -482,7 +490,9 @@ function send_new_password(token_email){
             .then(function(result) {
                 // console.log(result);
                 if(result == "done"){
+                    //Borramos tokens localStorage y mostramos mensaje
                     localStorage.removeItem('token_email');
+                    localStorage.removeItem('recover_token');
                     Swal.fire("Contraseña cambiada correctamente!").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             window.location.href = friendlyURL('?module=auth');

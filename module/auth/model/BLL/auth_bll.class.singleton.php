@@ -205,6 +205,7 @@
 		public function send_recover_email_BBL($args) {
 			$user = $this -> dao -> select_email_recover($this->db, $args);
 			$token = common::generate_Token_secure(20);
+			$jwt = middleware::create_recovertoken($args);
 
 			if (!empty($user)) {
 				$this -> dao -> update_token_recover($this->db, $args, $token);
@@ -213,7 +214,7 @@
                             'toEmail' => $args];
                 $email = mail::send_email($message);
 				if (!empty($email)) {
-					return;  
+					return $jwt;  
 				}
             }else{
                 return 'error';
@@ -221,8 +222,14 @@
 		}
 
 		public function verify_token_BLL($args) {
-			if($this -> dao -> select_verify_email($this->db, $args)){
-				return 'verify';
+			//decodificar recover_token
+			$recover_token_decoded = middleware::decode_token($args[1]);
+			
+			//Comprobamos el tiempo de expiración del recover_token
+			if ($recover_token_decoded['exp'] > time()) {
+				if($this -> dao -> select_verify_email($this->db, $args[0])){
+					return 'verify';
+				}
 			}
 			return 'fail';
 		}

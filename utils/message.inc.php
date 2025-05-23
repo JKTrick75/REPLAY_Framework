@@ -3,7 +3,7 @@
         public static function send_message($message) {
             switch ($message['type']) {
                 case 'inactive';
-                    $message['bodyMessage'] = "Tu cuenta de Resent se ha inhabilitado temporalmente debido a los reiterados intentos de inicio de sesión.".
+                    $message['bodyMessage'] = "Tu cuenta de Replay se ha inhabilitado temporalmente debido a los reiterados intentos de inicio de sesión.".
                                                 "Aquí tienes tu código para volver a activar la cuenta:".
                                                 "$message[token]";
                     break;

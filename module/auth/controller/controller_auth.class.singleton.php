@@ -88,13 +88,12 @@
         function verify_token() {
             // echo json_encode($_POST['token_email']);
             // exit;
-            echo json_encode(common::load_model('auth_model', 'verify_token', $_POST['token_email']));
+            echo json_encode(common::load_model('auth_model', 'verify_token', [$_POST['token_email'], $_POST['recover_token']]));
         }
 
         function new_password() {
             echo json_encode(common::load_model('auth_model', 'new_password', [$_POST['token_email'], $_POST['password']]));
         }
-
 
         //ACTIVITY
         function check_actividad() {

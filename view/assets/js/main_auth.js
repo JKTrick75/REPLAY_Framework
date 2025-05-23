@@ -5,7 +5,6 @@ function load_content() {
     
     if(path[4] === 'recover'){
         localStorage.setItem("token_email", path[5]);
-        // window.location.href = friendlyURL("index.php?module=auth&op=view");
         window.location.href = friendlyURL('index.php?module=auth&op=recover_view');
     }else if (path[4] === 'verify_email') {
         //Mostramos Loader GIF
@@ -22,9 +21,6 @@ function load_content() {
             .catch(function() {
             console.log('Error: verify email error');
             });
-    // }else if (path[4] === 'view') {
-    //     $(".login-wrap").show();
-    //     $(".forget_html").hide();
     }else if (path[3] === 'recover_view') {
         // console.log('HOLA RECOVER VIEW');
         load_form_new_password();
