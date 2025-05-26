@@ -73,7 +73,7 @@
         function verify_email() {
             // echo json_encode($_POST['token_email']);
             // exit;
-            echo json_encode(common::load_model('auth_model', 'verify_email', $_POST['token_email']));
+            echo json_encode(common::load_model('auth_model', 'verify_email', [$_POST['token_email'], $_POST['register_token']]));
         }
 
         //RECOVER

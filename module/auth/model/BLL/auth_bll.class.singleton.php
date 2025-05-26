@@ -178,6 +178,9 @@
 					return 'error_email';
 				}
             } else {
+				//Creamos jwt para controlar el timer para activar la cuenta
+				$jwt = middleware::create_registertoken($args[0]);
+				//Insertamos usuario no activo y mandamos correo para la activación
 				$this -> dao -> insert_user($this->db, $uid, $username, $hashed_pass, $email, $avatar, $token_email);
 				$message = ['type' => 'register', 
 							'token' => $token_email, 
@@ -185,20 +188,26 @@
 				$email_result = mail::send_email($message);
 
 				if ($email_result === 'success') {
-					return json_encode("success");
+					return $jwt;
 				} else {
-					return json_encode("error_sending_email");
+					return "error_sending_email";
 				}
 			}
 		}
 
 		public function verify_email_BLL($args) {
-			if($this -> dao -> select_verify_email($this->db, $args)){
-				$this -> dao -> update_verify_email($this->db, $args);
-				return 'verify';
-			} else {
-				return 'fail';
+			//decodificar recover_token
+			$register_token_decoded = middleware::decode_token($args[1]);
+
+			//Comprobamos el tiempo de expiración del recover_token
+			if ($register_token_decoded['exp'] > time()) {
+				if($this -> dao -> select_verify_email($this->db, $args[0])){
+					$this -> dao -> update_verify_email($this->db, $args[0]);
+					return 'verify';
+				}
 			}
+			return 'fail';
+
 		}
 
 		//RECOVER
@@ -224,7 +233,7 @@
 		public function verify_token_BLL($args) {
 			//decodificar recover_token
 			$recover_token_decoded = middleware::decode_token($args[1]);
-			
+
 			//Comprobamos el tiempo de expiración del recover_token
 			if ($recover_token_decoded['exp'] > time()) {
 				if($this -> dao -> select_verify_email($this->db, $args[0])){

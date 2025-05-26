@@ -76,6 +76,20 @@ class middleware{
         return $token;
     }
 
+    public static function create_registertoken($username){
+        $jwt = parse_ini_file(UTILS . "jwt.ini");
+        $header = $jwt['JWT_HEADER'];
+        $secret = $jwt['JWT_SECRET'];
+        $timer_token = $jwt['JWT_REGISTER_TOKEN_TIMER'];
+        // error_log('----------------Timer----------------');
+        // error_log($timer_token);
+        $payload = '{"iat":"' . time() . '","exp":"' . time() + ($timer_token) . '","username":"' . $username . '"}';
+
+        $JWT = new jwt;
+        $token = $JWT->encode($header, $payload, $secret);
+        return $token;
+    }
+
     public static function create_recovertoken($username){
         $jwt = parse_ini_file(UTILS . "jwt.ini");
         $header = $jwt['JWT_HEADER'];

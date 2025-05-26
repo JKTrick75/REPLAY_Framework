@@ -10,16 +10,29 @@ function load_content() {
         //Mostramos Loader GIF
         showLoader();
         // console.log(path[5]);
-        ajaxPromise(friendlyURL("index.php?module=auth&op=verify_email"), 'POST', 'JSON', { 'token_email': path[5] })
+        register_token = localStorage.getItem('register_token');
+        ajaxPromise(friendlyURL("index.php?module=auth&op=verify_email"), 'POST', 'JSON', { 'token_email': path[5], 'register_token': register_token })
             .then(function(data) {
-                Swal.fire("Se ha activado tu cuenta!").then((result) => {
-                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
-                        window.location.href = friendlyURL('?module=auth');
-                    }
-                });
+                console.log(data);
+                if (data=='verify'){
+                    localStorage.removeItem('token_email');
+                    localStorage.removeItem('register_token');
+                    
+                    Swal.fire("Se ha activado tu cuenta!").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
+                }else{
+                    Swal.fire("Ha ocurrido un error durante la verificación, es posible que haya expirado el tiempo, vuelve a intentarlo más tarde.").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
+                }
             })
             .catch(function() {
-            console.log('Error: verify email error');
+                console.log('Error: verify email error');
             });
     }else if (path[3] === 'recover_view') {
         // console.log('HOLA RECOVER VIEW');

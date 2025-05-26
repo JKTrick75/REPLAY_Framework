@@ -321,9 +321,17 @@ function register() {
                     document.getElementById('error_username_reg').innerHTML = "Ya existe un usuario con este nombre, inténtalo con otro."
                 }else if (result == "error_email"){
                     document.getElementById('error_email_reg').innerHTML = "Ya existe un usuario con este correo, inténtalo con otro."
+                }else if (result == "error_sending_email"){
+                    Swal.fire("Ha ocurrido un error durante el registro, inténtalo de nuevo.").then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
+                            window.location.href = friendlyURL('?module=auth');
+                        }
+                    });
                 } else {
+                    //Guardamos register_token en localStorage
+                    localStorage.setItem("register_token", result);
                     //Registro completado, redirigimos al login
-                    Swal.fire("Se ha enviado un correo de verificación, accede a él para activar tu cuenta!").then((result) => {
+                    Swal.fire("Se ha enviado un correo de verificación, accede a él para activar tu cuenta! (Solo tiene validez durante 1 hora)").then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.backdrop) {
                             window.location.href = friendlyURL('?module=auth');
                         }
