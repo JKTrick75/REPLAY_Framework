@@ -7,9 +7,9 @@ Replay es un proyecto web sobre compra-venta de consolas, accesorios y merchandi
 
 - <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" width="30" height="30"> PHP: Lenguaje de programación usado para la parte de backend/servidor.
 
-- <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" width="30" height="30"> JavaScript: Lenguaje de programación usado para la parte frontend/cliente.
-
 - <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/MySQL_textlogo.svg" width="30" height="30"> MySQL: Sistema de gestión de bases de datos.
+
+- <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" width="30" height="30"> JavaScript: Lenguaje de programación usado para la parte frontend/cliente.
 
 - <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" width="30" height="30"> HTML / 
   <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" width="30" height="30"> CSS: Lenguajes de marcado usados para darle aspecto visual a la web.
