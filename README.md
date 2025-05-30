@@ -22,7 +22,7 @@ Replay es un proyecto web sobre compra-venta de consolas, accesorios y merchandi
 
 - `Search` - Situado en el header y cargado continuamente, permite buscar directamente desde cualquier sitio de la web. Tiene dos desplegables dinámicos, que cambian según lo seleccionado en el anterior, y una caja de texto que autocompleta la ubicación buscada.
 
-- `Auth`- Es el módulo encargado de todo lo relacionado con el inicio de sesión y registro de los usuarios. Permite iniciar sesión tanto en usuario local como con usuario social (Google/Github). Aparte, también tiene una sección dedicada a la seguridad, que controla el tiempo de expiración de sesión por inactividad, y por medio de la tecnología jwt usando access_token y refresh_token.
+- `Auth`- Es el módulo encargado de todo lo relacionado con el inicio de sesión y registro de los usuarios. Permite iniciar sesión tanto en usuario local como con usuario social (Google/Github). Aparte, también tiene una sección dedicada a la seguridad, que controla el tiempo de expiración de sesión por inactividad, por medio de la tecnología jwt usando access_token y refresh_token.
 
 ## 📞 Contacto
 
