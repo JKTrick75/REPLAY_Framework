@@ -1,7 +1,7 @@
 # REPLAY_Framework
 
 ## 📖 Descripción del proyecto
-Replay es un proyecto web sobre compra-venta de consolas, accesorios y merchandising, de segunda mano, sobre las principales marcas del mercado.
+Replay es un proyecto web sobre compra-venta de consolas, accesorios y merchandising de segunda mano, sobre las principales marcas del mercado.
 
 ## Tecnologías
 
@@ -17,7 +17,7 @@ Replay es un proyecto web sobre compra-venta de consolas, accesorios y merchandi
 
 ## 🗂️ Módulos
 
-- `Home` - La página principal, contiene una visión general de todas las categorías, marcas y tipos de productos que se pueden encontrar en la web. Consta de una serie de carruseles y secciones con cards, que permiten ver lo que ofrece la web, mediante ellos, puedes filtrar e ir directamente al apartado de la tienda y ver directamente lo que te interesa.
+- `Home` - La página principal, contiene una visión general de todas las categorías, marcas y tipos de productos que se pueden encontrar en la web. Consta de una serie de carruseles y secciones con tarjetas, que permiten ver lo que ofrece la web, mediante ellos, puedes filtrar e ir directamente al apartado de la tienda y ver directamente lo que te interesa.
 
 - `Shop` - Contiene todo el apartado de la compra de productos. Consta de un listado de productos con un estilo de tarjetas y un mapa indicando la ubicación de los mismos. Aparte, hay un menú desplegable con una variedad de filtros para poder encontrar fácilmente lo que se está buscando.
 
